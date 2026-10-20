@@ -31,10 +31,10 @@
   };
   D.call("leaderboard", null, "GET").then((d) => {
     const n = d.totals ? Number(d.totals.roasts) : NaN;
-    // One site, one spot: dedupe, and never show a site in both halls (split at 70, same as the server).
+    // One site, one spot: dedupe, and never show a site in both halls (Fame = 70+, Flame = lowest of the rest, same as the server).
     const fame = dedupe(d.fame).filter((r) => Number(r.score) >= FAME_MIN);
     const inFame = new Set(fame.map(key));
-    const flame = dedupe(d.flame).filter((r) => Number(r.score) < FAME_MIN && !inFame.has(key(r)));
+    const flame = dedupe(d.flame).filter((r) => !inFame.has(key(r))); // lowest entries not in Fame (server picks them)
     $("fame").innerHTML = list(fame, "fame", n);
     $("flame").innerHTML = list(flame, "flame", n);
     ticker(dedupe(d.latest));
