@@ -24,6 +24,16 @@
        <p><button type="button" class="btn btn-sm" id="gl-copy">Copy card link</button> <a class="btn btn-sm btn-line" target="_blank" rel="noopener" href="https://x.com/intent/post?text=${encodeURIComponent(`went from ${g ? g.fromLevel : "cooked"} to ${g ? g.toLevel : last.level} on @deployvet`)}&url=${encodeURIComponent(x.share_url)}">Post it</a></p>
        <p class='small'>The card shows your domain and scores, nothing else. Anyone with the link can see it.</p>`;
     extra.prepend(sec);
+    const F = (window.DEPLOYVET_CONFIG || {}).FEATURES || {};
+    if (F.pushReroast && x.push_webhook) {
+      const w = x.push_webhook, ps = document.createElement("section"); ps.className = "box no-print"; ps.id = "push";
+      ps.innerHTML = "<h2>Re-roast on every deploy</h2><p class='small'>In your GitHub repo: <b>Settings → Webhooks → Add webhook</b>. Paste these, choose <b>Just the push event</b>, save. We re-roast about 90 seconds after each push to your default branch and email you right away if something new and serious shows up.</p>" +
+        "<p><label>Payload URL</label><code class='wrap'>" + esc(w.url) + "</code></p><p><label>Content type</label><code>application/json</code></p>" +
+        "<p><label>Secret</label><code class='wrap' id='push-secret'>••••••••</code> <button type='button' class='btn btn-sm btn-line' id='push-show'>Show</button></p>" +
+        "<p class='small'>Keep the secret private. It proves pushes really come from your repo. We never get write access from this.</p>";
+      sec.after(ps);
+      document.getElementById("push-show").addEventListener("click", () => { document.getElementById("push-secret").textContent = w.secret; });
+    }
     document.getElementById("gl-copy").addEventListener("click", async (e) => { await navigator.clipboard.writeText(x.share_url); e.target.textContent = "Copied ✓"; });
   });
 })();
