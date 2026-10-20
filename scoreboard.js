@@ -7,13 +7,13 @@
   const rank = (rows) => { let prev = null, rk = 0; return rows.map((r, i) => { if (r.score !== prev) { rk = i + 1; prev = r.score; } return { ...r, rank: rk }; }); };
   const roasts = (n) => Number.isFinite(n) ? `${n.toLocaleString()} app${n === 1 ? " has" : "s have"} been roasted` : "Apps are getting roasted";
   const EMPTY = {
-    fame: (n) => `<div class="empty"><p class="em-big">This trophy shelf is empty.</p><p>${esc(roasts(n))}, and not one owner was confident enough to claim a spot. Think your app can take it? Prove it.</p><a class="btn btn-sm btn-y" href="/#check">Roast my app</a></div>`,
-    flame: (n) => `<div class="empty"><p class="em-big">Nobody's brave enough to burn in public. Yet.</p><p>${esc(roasts(n))}. Everyone's hiding their score. Be the first owner with the guts, and a domain you own.</p><a class="btn btn-sm" href="/#check">Roast my app</a></div>`,
+    fame: (n) => `<div class="empty"><p class="em-big">the trophy shelf is empty. be so for real.</p><p>${esc(roasts(n))}, and not one owner was confident enough to claim a spot. think your app can take it? prove it.</p><a class="btn btn-sm btn-y" href="/#check">Roast my app</a></div>`,
+    flame: (n) => `<div class="empty"><p class="em-big">nobody: <br>literally nobody: <br>this board:</p><p>${esc(roasts(n))} and every owner is hiding their score. be the first one with the guts (and a domain you own).</p><a class="btn btn-sm" href="/#check">Roast my app</a></div>`,
   };
   const list = (rows, kind, n) => {
     if (!Array.isArray(rows) || !rows.length) return EMPTY[kind](n);
     return `<ol>${rank(rows).map((r) => `<li><span class="rk">#${esc(r.rank)}</span>
-      <span><span class="nm">${esc(r.display_name || r.domain)}</span>${r.display_name ? `<span class="dm">${esc(r.domain)}</span>` : ""}<span class="ln">${esc(D.roastLine(r.grade))}</span></span>
+      <span><span class="nm">${esc(r.display_name || r.domain)}</span>${r.display_name ? `<span class="dm">${esc(r.domain)}</span>` : ""}<span class="ln">${esc(D.roastLine(r.grade, r))}</span></span>
       <span class="sc">${esc(r.score)}<span class="gr">${esc(r.grade)}</span></span></li>`).join("")}</ol>`;
   };
   D.call("leaderboard", null, "GET").then((d) => {

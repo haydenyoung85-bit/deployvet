@@ -33,68 +33,157 @@
 
   // ---- Free roast ----
   // Roast lines: [headline, subline] per spice level and grade band. Roast the APP, never the person. No crude stuff.
+  // ---- Roast copy ----
+  // Voice: lowercase, deadpan, internet-native. Built from the REAL scan data (c = ctx below).
+  // Roast the app and the AI-builder habits. Never the person's identity, looks or smarts. No puns.
+  // c = { host, path, score, total, crit, high, title, worst }
+  const S = (n, w) => `${n} ${w}${n === 1 ? "" : "s"}`;
   const ROASTS = {
-    // Mild = the old Spicy. Roast the APP and the AI-builder habits, never the person.
     mild: {
-      A: [["We tried. We really tried.", "Your app gave us nothing to roast. Rude, honestly."], ["Survived the roast.", "Locked doors, hidden keys. Who raised this app so well?"], ["Main character energy, but secure.", "Hackers took one look and went somewhere easier."]],
-      B: [["So close it hurts.", "Your app has one button undone and it's doing its best."], ["Good vibes, one side quest.", "Your app is 90% fine and 10% 'oh, about that.'"], ["B for 'barely leaking'.", "One small leak. Patch it before launch day."]],
-      C: [["Mid. Very mid.", "Your app has the security of a phone with no lock screen."], ["It's giving 'ship now, patch later'.", "Later is here. Good news: the list is short."], ["C for 'could be worse'.", "And it could be a lot better. Let's go."]],
-      D: [["Your app is out here trusting strangers.", "Like a golden retriever. Sweet, but no."], ["D for 'doors open'.", "The welcome mat is out and so is your data."], ["Your AI was very confident.", "The code was less sure."]],
-      F: [["Your app is open for business. All of it.", "Front door, back door, the database. Good thing you checked first."], ["F for 'free real estate'.", "Your app is sharing more than a group chat at 2am."], ["The vibes were coded. The locks were not.", "Totally fixable. Start below."]],
+      A: [(c) => [`ok ${c.host} actually ate.`, `${c.score}/100. we came here to roast and found nothing. kind of rude of you.`],
+          (c) => [`not ${c.host} being secure.`, `we looked everywhere. the app just stared back. respect, unfortunately.`],
+          (c) => [`the way ${c.host} gave us nothing.`, `${c.score}/100. our roast writers are bored. that's a compliment.`]],
+      B: [(c) => [`${c.host} is so close it hurts.`, `${c.score}/100. one loose thread. pull it before someone else does.`],
+          (c) => [`giving "almost done".`, `${c.host} did the homework and skipped the last page.`],
+          (c) => [`${c.score}/100, the "one small thing" score.`, `${c.host} is mostly locked. mostly.`]],
+      C: [(c) => [`${c.host} is giving mid.`, `${c.score}/100. some doors locked, some doors vibes.`],
+          (c) => [`it's the "it works on my preview" for me.`, `${c.host} works. it's just not locked. ${S(c.total, "thing")} to fix.`],
+          (c) => [`${c.host} said "ship now, patch later".`, `later is here. the list is short, at least.`]],
+      D: [(c) => [`${c.host} trusts strangers a little too much.`, `${c.score}/100. sweet, but no.`],
+          (c) => [`the AI was confident. the code was not.`, `${S(c.total, "finding")} on ${c.host}. fixable, promise.`],
+          (c) => [`${c.host} left the welcome mat out.`, `and the data's sitting right next to it.`]],
+      F: [(c) => [`${c.host} is open for business. all of it.`, `${c.score}/100. good news: you checked before someone else did.`],
+          (c) => [`the vibes were coded. the locks were not.`, `${S(c.total, "finding")} on ${c.host}. start with the worst one below.`],
+          (c) => [`${c.host} is sharing more than a group chat at 2am.`, `${c.score}/100. totally fixable. go.`]],
     },
     spicy: {
-      A: [["Ugh. Fine. It's secure.", "We sharpened every joke we had and your app just sat there being competent. Disgusting."], ["No roast for you.", "Your app is locked tighter than a startup's Figma file. We hate it here."], ["Did a human review this?", "Because this is NOT how 'the AI handled auth' usually ends."]],
-      B: [["One leak away from greatness.", "Your app is a nice house with one window open and a sign that says 'probably fine'."], ["So close. So annoying.", "Your app did 90% of the work, then shipped at 3am and called it a night."], ["B for 'brief panic'.", "One issue. The kind you find right after you post the launch tweet."]],
-      C: [["It works on my preview.", "Your app passed every test. The test was 'does the page load?'"], ["Security by vibes.", "Half of this app is locked. The other half is a prayer."], ["C for 'Claude said it was fine'.", "Claude also says please and thank you. It's not a security review."]],
-      D: [["Your app is a lost wallet with the ID still in it.", "It's not hacked yet. It's just extremely findable."], ["The AI handled auth. Allegedly.", "We checked. The AI handled 'auth-shaped' and moved on."], ["47 'fix bug' commits and this is the result.", "The bugs stayed. They brought friends."]],
-      F: [["This isn't an app. It's an open house.", "Keys, data, files. Snacks are in the kitchen. Help yourself, internet."], ["F for 'found everything'.", "We didn't hack your app. We just walked in. The door wasn't even closed."], ["Shipped at 3am. It shows.", "Your app went live with the confidence of a prompt and the locks of a tent."]],
+      A: [(c) => [`${c.score}/100?? be so for real.`, `${c.host} is locked down and honestly we're upset about it. nothing to roast. go touch grass.`],
+          (c) => [`not ${c.host} actually reading the docs.`, `this is not how "the AI handled auth" usually ends. who raised this app.`],
+          (c) => [`nobody: \n${c.host}: "i have security headers"`, `${c.score}/100. insufferable. we love it.`]],
+      B: [(c) => [`${c.host} was SO close.`, `${c.score}/100. one issue. the kind you find right after the launch tweet.`],
+          (c) => [`the way ${c.host} locked the front door and left one window open.`, `"${c.worst}". that's the window.`],
+          (c) => [`${c.score}/100 is the "i'll fix it after launch" score.`, `you won't. fix it now. ${c.host} is one change from clean.`]],
+      C: [(c) => [`${c.host} works on your preview and that's the whole security plan.`, `${c.score}/100. ${S(c.total, "finding")}. production did not get the memo.`],
+          (c) => [`"claude said it was secure" energy.`, `${c.host} has ${S(c.total, "issue")} that claude did not mention.`],
+          (c) => [`${c.host} is giving 47 "fix bug" commits.`, `${c.score}/100. the bugs stayed. they brought friends.`]],
+      D: [(c) => [`${c.host} said "the AI handled auth" and the AI said "no i didn't".`, `${c.score}/100. ${S(c.total, "finding")}. half your doors are vibes.`],
+          (c) => [`not ${c.host} trusting the entire internet.`, `${S(c.high + c.crit, "serious issue")}. this is a lost wallet with the ID still in it.`],
+          (c) => [`the way ${c.host} shipped at 3am and it shows.`, `${c.score}/100. sleep is a security feature.`]],
+      F: [(c) => [`${c.host} isn't an app. it's an open house.`, `${c.score}/100. ${S(c.total, "finding")}. snacks are in the kitchen, internet. help yourself.`],
+          (c) => [`${c.score}/100 is crazy. be so for real.`, `we didn't hack ${c.host}. we just walked in. the door was open.`],
+          (c) => [`nobody: \n${c.host}: "here's everything"`, `${`${c.crit} critical`} and ${c.high} high. this isn't a to-do list, it's a crime scene.`]],
     },
     nuclear: {
-      A: [["We brought a flamethrower and found a fire station.", "Your app is so locked down we're filing a complaint. Respect, sadly."], ["Fireproof. Unbearably.", "We searched every corner. Your app stared back like a bank vault with a superiority complex."], ["Roast cancelled due to lack of crimes.", "Somewhere a prompt engineer is furious this app actually reads its own security docs."]],
-      B: [["Ninety percent fortress, ten percent screen door.", "You built a castle and left the drawbridge down for one guy. We are that guy."], ["So close it's tragic.", "Your app ran the whole marathon and tripped on the finish line's shoelace."], ["One hole. We found it. We always find it.", "Your app was one fix from untouchable. Now it's one fix from untouchable and roasted on the internet."]],
-      C: [["Your app's security plan is 'nobody will look'.", "We looked. It took one request."], ["It works on my preview, part two.", "Production called. It wants its locks back."], ["This app runs on hope and a free tier.", "Hope is not a security header. We checked. Twice."]],
-      D: [["Your app isn't vibe-coded. It's vibe-exposed.", "This is less 'ship fast' and more 'leak fast'."], ["Hackers would leave a five-star review.", "'Easy setup. Very welcoming. Would breach again.'"], ["'Claude said it was secure' is not a legal defense.", "Your app trusts strangers more than a toddler at a candy shop."]],
-      F: [["Your app isn't vibe-coded. It's a crime scene with a favicon.", "Keys, data, files, all of it, taped off and on display."], ["This app isn't leaking. It's a public fountain.", "Your secrets aren't secret. They're a guided tour with free parking."], ["Somewhere, a hacker just whispered 'thank you'.", "47 'fix bug' commits, zero fixed locks. Your app is the free sample at Costco, and everyone's lining up."]],
+      A: [(c) => [`${c.score}/100. we brought a flamethrower to a fire station.`, `${c.host} is so locked down it's annoying. we're filing a complaint. with who? unclear.`],
+          (c) => [`not ${c.host} making us look stupid.`, `we checked every path. nothing. you read the docs AND followed them. psychotic behavior honestly.`],
+          (c) => [`${c.host} said "no" to every request we sent.`, `${c.score}/100. go outside. you've earned it. we haven't.`]],
+      B: [(c) => [`${c.host} built a vault and left the side door open.`, `${c.score}/100. one hole. we found it in seconds. so will they.`],
+          (c) => [`the way ${c.host} did almost all the work and fumbled at the goal line.`, `"${c.worst}". so much effort. so close. so roasted.`],
+          (c) => [`${c.score}/100 is the most painful score possible.`, `${c.host} is one fix from untouchable and now it's on a roast card instead.`]],
+      C: [(c) => [`${c.host}'s security plan is "nobody will look".`, `we looked. ${S(c.total, "finding")}. it took less time than your build.`],
+          (c) => [`${c.host} runs on hope and a free tier.`, `${c.score}/100. hope is not a security header. we checked.`],
+          (c) => [`it's the "claude said it was secure" for me.`, `${c.host} has ${S(c.total, "issue")} and a lot of confidence it hasn't earned.`]],
+      D: [(c) => [`${c.host} isn't vibe-coded. it's vibe-exposed.`, `${c.score}/100. ${S(c.high + c.crit, "serious hole")}. hackers would leave a five-star review.`],
+          (c) => [`the way ${c.host} trusts strangers more than its own login page.`, `${S(c.total, "finding")}. this app would hold the door for a burglar.`],
+          (c) => [`${c.host} shipped at 3am and never looked back. we looked.`, `${c.score}/100. it's giving "deploy and pray". the prayer did not go through.`]],
+      F: [(c) => [`${c.host} isn't vibe-coded. it's a crime scene with a favicon.`, `${c.score}/100. ${S(c.total, "finding")}. we're just here taking photos for the file.`],
+          (c) => [`${c.score}/100. what the hell happened here.`, `${c.host} isn't leaking. it's a public fountain with a pricing page.`],
+          (c) => [`nobody: \n${c.host}: *hands the internet its secrets*`, `${`${c.crit} critical`}. hackers aren't breaking in, they're carpooling.`]],
     },
   };
-  // Burns per finding category (from scanner.ts). Specific ids override the category.
-  // Each entry: [mild, spicy, nuclear]; each level can be a list, one is picked at random.
-  const BURNS = {
-    secrets: [["Your secret key is in the JS bundle. Anyone can copy it, and the bill is yours."], ["Your secret key is in the JS bundle. That's not a key, that's a party invite.", "Your API key is more public than your landing page."], ["Your secret key is in the browser. Hackers don't need to hack, they just need to scroll.", "You didn't leak a key. You published it. With a launch post."]],
-    database: [["Your database is open to anyone who asks nicely. Or rudely."], ["Your database has no lock. It barely has a door.", "Your tables are open like a 24-hour diner. No ID needed."], ["Your database isn't open, it's a petting zoo. Everyone gets to touch everything.", "Your users trusted you with their data. Your database trusted everyone."]],
-    headers: [["No security headers at all. Bold choice."], ["Your headers are as empty as a hackathon fridge at 4am.", "Zero security headers. The AI said 'optional' and you believed it."], ["Your app wears no armor and calls it 'minimalist design'.", "Security headers missing. Your app is skydiving with a backpack full of snacks."]],
-    transport: [["Plain HTTP in this economy?"], ["Your app talks in plain text like it's 1999.", "No HTTPS. Your traffic is a postcard anyone can read."], ["Your app sends data like it's shouting across a crowded mall.", "Plain HTTP in this economy? Your app is basically a fax machine with a logo."]],
-    exposure: [["Your private stuff is one URL away from the whole internet."], ["Your app left its diary open on the bus.", "Private files, public URL. Big 'it works on my preview' energy."], ["Your private files are public. That's not a leak, that's a museum exhibit.", "Your app keeps secrets the way a group chat keeps secrets."]],
-    links: [["Links that go nowhere. Very mysterious. Very broken."], ["Your app has more dead ends than a corn maze.", "Broken links. Your users click and get ghosted."], ["Your app's links lead nowhere, like a 3am roadmap.", "Broken pages everywhere. Your app is a haunted house, minus the fun."]],
-    seo: [["Google can't find you. That's the one thing that should find you."], ["Your app is hiding from Google better than from hackers.", "Search engines can't read you. Hackers can. Wrong order."], ["Google can't find your app. Hackers found it in four seconds. Priorities.", "Your app is invisible to search and wide open to strangers. Impressive, backwards."]],
-    info: [["Your app overshares about its tech stack."], ["Your app announces its whole tech stack like a dating profile.", "Your server tells strangers what it runs. Nobody asked."], ["Your app hands out its tech stack like a business card at a hacker convention.", "Your server overshares like it's on a podcast."]],
-  };
+  // Burns per finding. Each: [mild[], spicy[], nuclear[]] of (c) => text. c.path = the real host + path.
+  const B = (m, s, n) => [m, s, n];
   const ID_BURNS = {
-    env_exposed: [["Your .env file is public. Every secret, one click away."], ["Your .env file is basically a press release.", "Your .env is downloadable. That's not a config file, that's a gift basket."], ["Your .env is public. You didn't get hacked, you got catered.", "Your .env file is open. Every secret you have, gift-wrapped, free shipping."]],
-    git_exposed: [["Your whole source code history is public. Every commit. Every regret."], ["Your .git folder is open. All 47 'fix bug' commits, live for the world.", "Your .git is public. Strangers can read your code and your commit messages. Both hurt."], ["Your .git folder is public. Your entire history, every 3am 'fix bug', streaming worldwide.", "Your .git is open. This is less open source and more open wound."]],
-    supabase_rls_readable: [["RLS is off. Your users' data is a public spreadsheet."], ["Your Supabase table is so open it should have a guestbook.", "RLS off. 'The AI handled auth.' The AI handled nothing."], ["RLS is off. Your users' data has the privacy of a billboard.", "Your Supabase table is open to the whole internet. Row Level Security was right there. Right there."]],
-    supabase_schema_exposed: [["Your database layout is public. It's like posting your house's floor plan."], ["Your Supabase schema is public. You handed strangers the map and the flashlight.", "Your schema is exposed. Now everyone knows where the good stuff is."], ["Your schema is public. Hackers don't need to guess, you drew them a treasure map.", "Your database's blueprint is public. You basically wrote the heist script."]],
-    admin_open: [["Your admin page has no bouncer."], ["Your admin panel is open to the public. Even the cat could get in.", "/admin loads with no login. 'It works on my preview.' It works for everyone else too."], ["Your admin panel is open. Strangers can be the boss now. Congrats on the promotion, internet.", "No login on /admin. Your app has a VIP room with no door and a neon sign."]],
-    api_open: [["Your API answers anyone, no login needed."], ["Your API takes requests from anyone. It's a vending machine with no coin slot.", "Open API route. 'The AI handled auth' strikes again."], ["Your API serves strangers like a waiter who doesn't check if you're a customer.", "Your API has no login. It's a buffet and everyone's invited."]],
-    stripe_live_secret: [["Your live Stripe key is public. That's your money, not a demo."], ["You put your Stripe live key in the browser. It's like taping your card to a lamppost.", "Your live Stripe key is public. Your bank account just went open source."], ["Your live Stripe key is in the browser. Your revenue is now a group project.", "Live Stripe key, public JS. You didn't launch a startup, you launched a giveaway."]],
-    missing_csp: [["No CSP. Any script can show up and run."], ["No CSP. Your page runs whatever script shows up, like a party with no guest list.", "No Content-Security-Policy. Your page trusts every script like it's family."], ["No CSP. Your app will run any script a stranger hands it. Candy from vans, but code.", "No CSP. Your page is an open mic and the hackers brought a set."]],
-    missing_xfo: [["Your page can be framed by other sites."], ["Anyone can put your app in a frame and trick your users. Clickjacking says hi.", "No framing protection. Your app is a picture anyone can hang on their wall."], ["Your app can be framed by any sketchy site. It's a hostage with a nice UI.", "No framing protection. Clickjackers can wear your app like a costume."]],
-    no_https: [["No HTTPS. Every password goes out in plain text."], ["No HTTPS. Your login form sends passwords on a postcard.", "No HTTPS in 2026. Your app is wearing a 'kick me' sign."], ["No HTTPS. Your users' passwords travel the internet naked.", "No HTTPS. Your login form is a megaphone."]],
-    no_https_redirect: [["The http:// version still loads. Some visitors skip the lock."], ["Your http:// site still works. Half your users take the unlocked back door.", "No HTTPS redirect. You built a lock and left a side entrance."], ["You have HTTPS and still serve plain HTTP. A vault with a doggy door.", "No redirect to HTTPS. You bought the lock and propped the door open."]],
-    mixed_content: [["Some files load over plain http on a secure page."], ["Mixed content. Your HTTPS page loads http files, like a seatbelt worn as a scarf.", "Your secure page pulls insecure files. Half a lock is no lock."], ["Mixed content. Your app has HTTPS, then loads files over HTTP like it wants to get caught.", "Secure page, insecure files. That's a bulletproof vest made of paper."]],
-    page_error: [["Your home page returns an error. Visitors see nothing."], ["Your home page is an error. Bold launch strategy.", "Your home page is broken. Your app's first impression is a shrug."], ["Your home page is an error page. You shipped a 404 with a domain name.", "Your homepage doesn't load. It's not a launch, it's a ghost town with SSL."]],
-    broken_links: [["Some links go nowhere."], ["Broken links everywhere. Your users click and get ghosted.", "Your links lead to nothing, like a prompt with no context."], ["Your app's links go nowhere. It's a choose-your-own-adventure where every choice is wrong.", "Broken links galore. Your nav menu is a list of dead ends."]],
-    backup_exposed: [["A backup file is public. Old secrets live there."], ["Your backup file is public. 'final_v2_REAL.zip' is now everyone's.", "Public backup. Your old secrets are still alive and accepting visitors."], ["Your backup is public. You didn't back up your app, you backed it up onto the sidewalk.", "Public backup file. Your past mistakes are now downloadable."]],
-    config_exposed: [["A config file is public. It shows how your app is wired."], ["Your config file is public. You posted the wiring diagram on the front door.", "Public config. Strangers now know your app better than you do."], ["Your config is public. That's the instruction manual for breaking in.", "Config file exposed. You left the keys to the server room taped to the server."]],
-    ds_store: [["A .DS_Store file is public. It lists your folder names."], ["Your .DS_Store is public. Your Mac is snitching on your folder names.", ".DS_Store exposed. Your file list is now public, thanks to your laptop."], ["Your .DS_Store is public. Your Mac is giving a guided tour of your folders.", ".DS_Store is live. Even your file system is leaking."]],
-    cors_wildcard_creds: [["Your CORS rules let other sites act as your users."], ["Your CORS says 'anyone, any site, with cookies'. That's a house key for every neighbor.", "CORS wide open with credentials. Other sites can borrow your users' logins."], ["Your CORS rules let any site use your users' sessions. That's not sharing, that's identity theft with extra steps.", "Wildcard CORS with credentials. Your API trusts the whole internet with your users' logins."]],
-    x_powered_by: [["Your server tells strangers what it runs."], ["Your server announces its tech stack like a dating profile.", "X-Powered-By header. Your server overshares like it's on a podcast."], ["Your server tells hackers its exact tech stack. You wrote them a shopping list.", "Your headers brag about your stack. Hackers love a bragger."]],
+    env_exposed: B([(c) => `${c.path} loads for anyone. every secret in it is public.`],
+      [(c) => `${c.path} returning 200 is crazy. you didn't get hacked bestie, you hosted an open house.`, (c) => `not ${c.path} just being downloadable. that file is the whole vault.`],
+      [(c) => `${c.path} is public. you didn't leak your secrets, you catered them.`, (c) => `the way ${c.path} hands out every key you own. hackers don't need skills, they need a browser.`]),
+    git_exposed: B([(c) => `${c.path} is public. your whole code history can be downloaded.`],
+      [(c) => `${c.path} is open. every commit, including all 47 "fix bug" ones, is public now.`, (c) => `not ${c.path} streaming your entire commit history to strangers.`],
+      [(c) => `${c.path} is open. your source code, your history, every 3am regret. on display.`, (c) => `${c.path} is public. this isn't open source, it's an open wound.`]),
+    supabase_rls_readable: B([(c) => `a Supabase table on ${c.host} can be read without a login.`],
+      [(c) => `RLS is off on ${c.host}. "the AI handled auth." the AI handled nothing.`, (c) => `the way your Supabase table just answers anyone who asks. giving public spreadsheet.`],
+      [(c) => `RLS off on ${c.host}. your users' data has the privacy of a billboard. RLS was right there. right there.`, (c) => `your Supabase table is open to the whole internet. your users trusted you. the table trusted everyone.`]),
+    supabase_schema_exposed: B([(c) => `${c.host}'s database layout is public.`],
+      [(c) => `your Supabase schema is public. you handed strangers the map.`, (c) => `not ${c.host} posting its database floor plan online.`],
+      [(c) => `your schema is public. you didn't just leave the door open, you drew the heist plan.`]),
+    admin_open: B([(c) => `${c.path} loads without a login.`],
+      [(c) => `${c.path} has no login. "it works on my preview." it works for everyone else too.`, (c) => `the way ${c.path} lets anyone in. no bouncer, no list, no nothing.`],
+      [(c) => `${c.path} has no login. congrats, the internet is the admin now.`, (c) => `${c.path} is open. your app has a VIP room with no door and a neon sign.`]),
+    api_open: B([(c) => `${c.path} answers anyone, no login needed.`],
+      [(c) => `${c.path} takes requests from literally anyone. "the AI handled auth" strikes again.`],
+      [(c) => `${c.path} serves strangers like a vending machine with no coin slot. free data, no line.`]),
+    stripe_live_secret: B([(c) => `a live Stripe secret key is in ${c.host}'s public code.`],
+      [(c) => `a live Stripe key in the browser on ${c.host}. not a test key. a LIVE one. be so for real.`],
+      [(c) => `your live Stripe secret key is public. your revenue is a group project now.`, (c) => `live Stripe key in the frontend. you didn't launch a startup, you launched a giveaway.`]),
+    missing_csp: B([(c) => `${c.host} has no Content-Security-Policy.`],
+      [(c) => `no CSP on ${c.host}. any script that shows up gets to run. party with no guest list.`],
+      [(c) => `no CSP. ${c.host} will run whatever script a stranger hands it, no questions asked.`]),
+    missing_xfo: B([(c) => `${c.host} can be put in a frame on someone else's site.`],
+      [(c) => `anyone can frame ${c.host} and trick your users into clicking. clickjacking says hi.`],
+      [(c) => `no framing protection. any sketchy site can wear ${c.host} like a costume.`]),
+    no_https: B([(c) => `${c.host} isn't on HTTPS. passwords go out in plain text.`],
+      [(c) => `no HTTPS on ${c.host}. your login form is sending passwords on a postcard.`],
+      [(c) => `no HTTPS in 2026. your users' passwords are crossing the internet with no clothes on.`]),
+    no_https_redirect: B([(c) => `http://${c.host} still loads without moving to HTTPS.`],
+      [(c) => `you bought the lock and left http://${c.host} wide open as a side entrance.`],
+      [(c) => `HTTPS exists and http://${c.host} still works. a vault with a doggy door.`]),
+    mixed_content: B([(c) => `${c.host} loads some files over plain http.`],
+      [(c) => `HTTPS page, http files. ${c.host} is wearing its seatbelt as a scarf.`],
+      [(c) => `${c.host} has HTTPS, then loads files over HTTP like it wants to get caught.`]),
+    page_error: B([(c) => `${c.host}'s home page returns an error.`],
+      [(c) => `${c.host}'s home page is an error. "${c.title}". bold launch strategy.`],
+      [(c) => `your home page is "${c.title}". you shipped an error page with a domain name.`]),
+    broken_links: B([(c) => `some links on ${c.host} go nowhere.`],
+      [(c) => `the links on ${c.host} lead nowhere. your users click and get ghosted.`],
+      [(c) => `${c.host}'s links go nowhere. a choose-your-own-adventure where every choice is wrong.`]),
+    backup_exposed: B([(c) => `${c.path} is public. old backups keep old secrets.`],
+      [(c) => `not ${c.path} just sitting there for anyone to download.`],
+      [(c) => `${c.path} is public. you didn't back up your app, you backed it up onto the sidewalk.`]),
+    config_exposed: B([(c) => `${c.path} is public. it shows how your app is wired.`],
+      [(c) => `${c.path} is public. you taped the wiring diagram to the front door.`],
+      [(c) => `${c.path} is public. that's the instruction manual for breaking in, and you published it.`]),
+    ds_store: B([(c) => `${c.path} is public. it lists your folder names.`],
+      [(c) => `${c.path} is public. your Mac is snitching on your folders.`],
+      [(c) => `${c.path} is live. even your laptop is leaking now.`]),
+    cors_wildcard_creds: B([(c) => `${c.host}'s CORS rules let other sites act as your users.`],
+      [(c) => `your CORS says "any site, with cookies." that's a house key for every neighbor.`],
+      [(c) => `wildcard CORS with credentials. any site on earth can borrow your users' sessions. damn.`]),
+    x_powered_by: B([(c) => `${c.host} tells strangers what server it runs.`],
+      [(c) => `${c.host} announces its tech stack like a dating profile. nobody asked.`],
+      [(c) => `${c.host} hands hackers its exact stack. you wrote them a shopping list.`]),
+  };
+  const BURNS = { // fallback by category
+    secrets: B([(c) => `a secret key is sitting in ${c.host}'s public JS.`], [(c) => `not the service_role key in the frontend on ${c.host}. anyone can copy it, and the bill is yours.`, (c) => `${c.host} shipped a secret key to every browser. that's not a key, that's a party invite.`], [(c) => `${c.host} put a secret key in the frontend. hackers don't need to hack, they need to scroll.`, (c) => `you didn't leak a key on ${c.host}. you published it. with a launch post.`]),
+    database: ID_BURNS.supabase_rls_readable, headers: ID_BURNS.missing_csp, transport: ID_BURNS.mixed_content,
+    exposure: B([(c) => `${c.path} is reachable by strangers.`], [(c) => `${c.path} is public. big "it works on my preview" energy.`], [(c) => `${c.path} is public. that's not a leak, that's a museum exhibit.`]),
+    links: ID_BURNS.broken_links, seo: B([(c) => `search engines can't read ${c.host} well.`], [(c) => `google can't find ${c.host}. hackers found it fine. wrong order.`], [(c) => `${c.host} is invisible to google and wide open to strangers. impressive, backwards.`]),
+    info: ID_BURNS.x_powered_by,
   };
   const COUNT_BURNS = {
-    critical: (n, s) => [[`${n} critical. This one's a fire, not a burn.`], [`${n} critical. Somewhere a hacker just got excited.`, `${n} critical. This isn't a to-do list, it's an emergency.`], [`${n} critical. Hackers are fighting over who gets your app first.`, `${n} critical. Your app is a crime scene and we just counted the evidence.`]][s],
-    high: (n, s) => [[`${n} high. That's ${n} open door${n > 1 ? "s" : ""}.`], [`${n} high. Your app is one tweet away from trending, for the wrong reason.`, `${n} high. ${n > 1 ? "Those are" : "That's"} not bugs, ${n > 1 ? "they're" : "it's"} invitations.`], [`${n} high. Your app has more open doors than a mall on Black Friday.`, `${n} high. Each one is a hacker's favorite bookmark.`]][s],
-    medium: (n, s) => [[`${n} medium. Not on fire, but warm.`], [`${n} medium. Smoldering. One bad day from flames.`, `${n} medium. The 'I'll fix it after launch' pile.`], [`${n} medium. Smoldering like a laptop left on a bed.`, `${n} medium. Small fires add up to a big one.`]][s],
-    low: (n, s) => [[`${n} low. Small stuff, but it adds up.`], [`${n} low. Paper cuts, but lots of them.`, `${n} low. Not scary. Just embarrassing.`], [`${n} low. Death by a thousand paper cuts, starting with these.`, `${n} low. Tiny holes. Hackers are tiny too.`]][s],
+    critical: (n, s) => [[`${`${n} critical`}. fix these first.`], [`${`${n} critical`}. somewhere a hacker just sat up straight.`, `${`${n} critical`}. not bugs. invitations.`], [`${`${n} critical`}. hackers are fighting over who gets in first.`, `${`${n} critical`}. we're just counting the evidence at this point.`]][s],
+    high: (n, s) => [[`${S(n, "high issue")} to look at.`], [`${n} high. that's ${S(n, "open door")}.`, `${n} high. one tweet away from trending for the wrong reason.`], [`${n} high. more open doors than a mall on black friday.`, `${n} high. each one is somebody's favorite bookmark.`]][s],
+    medium: (n, s) => [[`${n} medium. warm, not on fire.`], [`${n} medium. the "i'll fix it after launch" pile.`, `${n} medium. smoldering.`], [`${n} medium. smoldering like a laptop left on a bed.`, `${n} medium. small fires turn into big ones.`]][s],
+    low: (n, s) => [[`${n} low. small stuff.`], [`${n} low. paper cuts, but a lot of them.`, `${n} low. not scary, just embarrassing.`], [`${n} low. death by paper cuts, starting here.`, `${n} low. tiny holes. hackers are tiny too.`]][s],
+  };
+  // Full roast paragraph (2-4 sentences) built from the real scan values.
+  const FULL = {
+    mild: [(c) => `${c.host} scored ${c.score}/100 with ${S(c.total, "finding")}.${c.crit ? ` ${c.crit} ${c.crit === 1 ? "is" : "are"} critical, so start there.` : ""} the worst one is "${c.worst}". nothing here is hard to fix, and you found it before anyone else did.`],
+    spicy: [(c) => `${c.host} scored ${c.score}/100 and we found ${S(c.total, "thing")} without even logging in. the worst one is "${c.worst}"${c.wpath ? ` at ${c.wpath}` : ""}. the way the AI wrote all this and nobody checked is honestly impressive. anyway, the fix is right below. you're welcome.`,
+            (c) => `not ${c.host} pulling ${c.score}/100. ${S(c.total, "finding")}, ${c.crit + c.high} of them serious, and the headliner is "${c.worst}". it's giving "it works on my preview". fix it below before your users find out the hard way.`],
+    nuclear: [(c) => `${c.host}. ${c.score}/100. ${S(c.total, "finding")}. we didn't hack anything, we just asked nicely and your app said yes to everything. the headliner is "${c.worst}"${c.wpath ? ` at ${c.wpath}` : ""}, which is less of a bug and more of a public service. somewhere a hacker is adding ${c.host} to their bookmarks. but hey, at least the favicon loads.`,
+              (c) => `be so for real: ${c.host} scored ${c.score}/100. ${`${c.crit} critical`}, ${c.high} high, and "${c.worst}" leading the parade. this app was clearly shipped at 3am on the strength of "claude said it was secure". the good news is every one of these is fixable. the bad news is you have to actually do it this time.`],
+  };
+  const FULL_SOFT = { // B and C: a few findings, nothing on fire
+    mild: [(c) => `${c.host} scored ${c.score}/100 with ${S(c.total, "finding")}. the worst one is "${c.worst}". short list, easy fixes. you're close.`],
+    spicy: [(c) => `${c.host} scored ${c.score}/100. ${S(c.total, "finding")}, and the worst one is "${c.worst}". not a disaster, just the classic "i'll fix it after launch" pile. you won't, so fix it now. it's right below.`,
+            (c) => `the way ${c.host} got to ${c.score}/100 and just stopped. "${c.worst}" is the thing holding it back. one prompt to your builder and this roast gets a lot shorter.`],
+    nuclear: [(c) => `${c.host}. ${c.score}/100. you did almost everything right, which makes "${c.worst}" so much funnier. ${S(c.total, "finding")} standing between you and a clean sheet. imagine doing all that work and getting roasted over this. anyway, the fix is below. don't make us come back.`,
+              (c) => `be so for real: ${c.host} is a ${c.score}/100 app with a "${c.worst}" problem. it's like building a whole house and forgetting the lock on one door. ${S(c.total, "finding")}, all fixable today. the bar was right there.`],
+  };
+  const FULL_CLEAN = {
+    mild: [(c) => `${c.host} scored ${c.score}/100 and we found nothing serious. that's not a promise it's safe, but it's a great start.`],
+    spicy: [(c) => `${c.host} scored ${c.score}/100 and we found nothing serious. we tried. we really did. that's not a promise it's safe, but it's annoyingly good.`],
+    nuclear: [(c) => `${c.host} scored ${c.score}/100 and gave us nothing. we sent every request we had and it said no to all of them. that's not a promise it's safe, it just means we couldn't get in from outside. go put the badge on before we find something.`],
   };
   const LV = { mild: 0, spicy: 1, nuclear: 2 };
   const pick = (a) => a[Math.floor(Math.random() * a.length)];
@@ -102,9 +191,22 @@
   const band = (g, score) => { g = String(g || "").trim().toUpperCase().charAt(0); if (ROASTS.spicy[g]) return g; if (g === "E") return "F";
     const n = Number(score); return n >= 90 ? "A" : n >= 75 ? "B" : n >= 60 ? "C" : n >= 40 ? "D" : "F"; };
   const SITE = "https://deployvet.com/?utm_source=share";
-  const shareText = (r, withUrl) => `DeployVet roasted my app${withUrl && r.url ? ` (${r.url})` : ""} and I scored ${r.score}/100 🔥 Think your vibe-coded app can take the heat? Get roasted free: ${SITE}`;
+  const shareText = (r, withUrl) => `deployvet roasted my app${withUrl && r.url ? ` (${r.url})` : ""} and i got ${r.score}/100. it did not have to go that hard 💀 your turn, post your score: ${SITE}`;
   const BADGE_HTML = '<a href="https://deployvet.com/?utm_source=badge"><img src="https://deployvet.com/assets/badge-survived.svg" alt="Survived the DeployVet Roast" width="160" height="160"></a>';
-  window.DeployVet.roastLine = (g) => pick(ROASTS.spicy[band(g)])[0];
+  // Context from the real scan data. Every roast line is built from this.
+  const hostOf = (u) => String(u || "").replace(/^[a-z]+:\/\//i, "").replace(/\/.*$/, "").toLowerCase() || "your app";
+  const pathOf = (u, host) => { const s = String(u || "").replace(/^[a-z]+:\/\//i, "").replace(/\/$/, ""); return s.includes("/") ? s : (s || host); };
+  function ctx(r) {
+    const counts = r.counts || {}, t = r.topIssue || {}, host = hostOf(r.url || r.domain);
+    const total = ["critical", "high", "medium", "low", "info"].reduce((a, k) => a + (Number(counts[k]) || 0), 0);
+    const loc = t.location ? pathOf(t.location, host) : "";
+    const guess = { env_exposed: "/.env", git_exposed: "/.git/", admin_open: "/admin", ds_store: "/.DS_Store" }[t.id];
+    return { host, score: r.score, total, crit: Number(counts.critical) || 0, high: Number(counts.high) || 0,
+      title: t.title || "", worst: (t.title || "nothing serious").replace(/\.$/, ""), wpath: loc && loc !== host ? loc : "",
+      path: loc && loc !== host ? loc : guess ? host + guess : host };
+  }
+  const say = (fns, c) => pick(fns)(c);
+  window.DeployVet.roastLine = (g, row) => say(ROASTS.spicy[band(g, row && row.score)], ctx({ ...(row || {}), url: row && row.domain }))[0].replace(/\n/g, ' ');
 
   const urlForm = document.getElementById("check");
   const out = document.getElementById("check-result");
@@ -129,9 +231,11 @@
 
   function openRoast(r, spice) {
     const g = band(r.grade, r.score), lv = LV[spice] ?? 1;
-    const [head, sub] = pick(ROASTS[spice] ? ROASTS[spice][g] : ROASTS.spicy[g]);
+    const lvName = ROASTS[spice] ? spice : "spicy", c = ctx(r);
+    const [head, sub] = say(ROASTS[lvName][g], c);
+    const full = say((!r.topIssue ? FULL_CLEAN : (g === "D" || g === "F") ? FULL : FULL_SOFT)[lvName], c);
     const t = r.topIssue;
-    const lvl = (x) => (Array.isArray(x) ? pick(x) : x);
+    const lvl = (x) => { const v = Array.isArray(x) ? pick(x) : x; return typeof v === "function" ? v(c) : v; };
     const topBurn = t ? lvl((ID_BURNS[t.id] || BURNS[t.category] || BURNS.info)[lv]) : "";
     const counts = r.counts || {};
     const order = ["critical", "high", "medium", "low", "info"];
@@ -146,14 +250,15 @@
       return `<li class="locked"><span class="sev ${k}">${esc(k)}</span><p class="burn-l">${esc(lvl(COUNT_BURNS[k](left, lv)))}</p>
         <div class="fixbox"><b>The fix</b><p>Every one of these, with a fix prompt for your builder, is in the full roast ($7 once).</p></div></li>`; }).join("");
     burns += rest;
-    if (!burns) burns = `<li><p class="burn-l">${esc(pick(["Nothing to burn. We checked twice. We're annoyed.", "Zero burns. Our roast writers are filing for unemployment.", "Clean. Our flamethrower is just sitting here."]))}</p><p class="what">Our outside check found no serious issues. That's not a promise your app is safe, but it's a great start.</p></li>`;
+    if (!burns) burns = `<li><p class="burn-l">${esc(pick(["nothing to burn. we checked twice. we're annoyed.", "zero burns. our roast writers are filing for unemployment.", `${c.host} is clean. our flamethrower is just sitting here.`]))}</p><p class="what">Our outside check found no serious issues. That's not a promise your app is safe, but it's a great start.</p></li>`;
     dlgR.className = "roast g-" + g;
     document.getElementById("roast-body").innerHTML = `
       <div class="r-card ${g === "A" || g === "B" ? "slam" : "shake"}">
         <p class="r-label">${esc(r.url || "Your app")} · ${esc(spice)} roast</p>
         <div class="r-top"><span class="r-score">${esc(r.score)}<small>/100</small></span><span class="r-grade" aria-label="Grade ${esc(g)}">${esc(g)}</span></div>
-        <h2 class="r-head" id="roast-head">${esc(head)}</h2>
+        <h2 class="r-head" id="roast-head">${esc(head).replace(/\n/g, "<br>")}</h2>
         <p class="r-sub">${esc(sub)}</p>
+        <p class="r-full"><b>the full roast:</b> ${esc(full)}</p>
         <div class="r-counts">${chips || '<span class="sev low">0 issues</span>'}</div>
         ${total && t ? `<p class="small">${esc(total)} finding${total > 1 ? "s" : ""} in total. The free roast shows the worst one in full.</p>` : ""}
         ${r.message ? `<p class="small">${esc(r.message)}</p>` : ""}
@@ -195,7 +300,7 @@
     });
     const bc = document.getElementById("badge-copy");
     if (bc) bc.addEventListener("click", async () => { try { await navigator.clipboard.writeText(BADGE_HTML); bc.textContent = "Copied"; } catch (_) { document.getElementById("badge-code").select(); } });
-    document.getElementById("roast-card").addEventListener("click", () => roastCard({ score: r.score, grade: g, head, burn: topBurn || sub }).catch((e) => { note.textContent = "Couldn't make the card: " + e.message; }));
+    document.getElementById("roast-card").addEventListener("click", () => roastCard({ score: r.score, grade: g, head: head.replace(/\n/g, " "), burn: topBurn || sub }).catch((e) => { note.textContent = "Couldn't make the card: " + e.message; }));
     joinFlow(r);
   }
 
@@ -222,7 +327,7 @@
     x.font = `600 34px ${F}`; wrap(burn, 90, y + 56, 1000, 40, 2);
     // footer strip
     box(40, 610, 1110, 50, 14, "#111", 0);
-    x.fillStyle = "#fff6e5"; x.font = `800 28px ${F}`; x.fillText("Survived (barely) a DeployVet roast  ·  deployvet.com", 170, 645);
+    x.fillStyle = "#fff6e5"; x.font = `800 28px ${F}`; x.fillText("roasted by deployvet. it didn't have to go that hard  ·  deployvet.com", 170, 645);
     try { const img = new Image(); img.src = "/favicon.svg"; await img.decode(); x.drawImage(img, 110, 614, 42, 42); } catch (_) {}
     return cv;
   }
@@ -232,7 +337,7 @@
     const file = new File([blob], `deployvet-roast-${d.score}.png`, { type: "image/png" });
     const mobile = matchMedia("(max-width: 820px)").matches || /Mobi|Android/i.test(navigator.userAgent);
     if (mobile && navigator.canShare && navigator.canShare({ files: [file] })) {
-      try { await navigator.share({ files: [file], text: `DeployVet roasted my app: ${d.score}/100 🔥 Your turn: ${SITE}` }); return; } catch (e) { if (e.name === "AbortError") return; }
+      try { await navigator.share({ files: [file], text: `deployvet roasted my app: ${d.score}/100. it didn't have to go that hard 💀 your turn: ${SITE}` }); return; } catch (e) { if (e.name === "AbortError") return; }
     }
     const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = file.name; document.body.appendChild(a); a.click(); a.remove();
     setTimeout(() => URL.revokeObjectURL(a.href), 4000);
