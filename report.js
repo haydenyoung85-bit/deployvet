@@ -61,6 +61,23 @@
     });
   }
 
+  if (F.preview) {
+    const sec = document.createElement("section"); sec.className = "box no-print"; sec.id = "preview"; extra.prepend(sec);
+    sec.innerHTML = "<h2>Safe to ship?</h2><p class='small'>Paste a preview URL (Vercel, Netlify, Cloudflare Pages, Lovable, Replit, v0…) or a staging subdomain. 10-second check for leaked keys, open files, open tables and missing headers.</p>" +
+      "<form id='pv-f'><label for='pv-u'>Preview URL</label><input id='pv-u' required placeholder='https://my-app-git-feature.vercel.app'> <button class='btn btn-sm' type='submit'>Check it</button></form><div id='pv-out' aria-live='polite'></div>";
+    document.getElementById("pv-f").addEventListener("submit", async (e) => {
+      e.preventDefault(); const out = document.getElementById("pv-out"), btn = e.target.querySelector("button");
+      btn.disabled = true; out.innerHTML = "<p class='small'>Roasting the preview… (≤10s)</p>";
+      try {
+        const x = await D.call("preview-check", { t, url: document.getElementById("pv-u").value });
+        const head = { yes: "✓ Safe to ship", careful: "⚠ Ship with care", no: "✗ Don't ship this yet" }[x.verdict];
+        out.innerHTML = "<p class='notice " + (x.verdict === "yes" ? "ok" : "err") + "'><b>" + head + "</b> · " + x.score + "/100 · " + (x.ms / 1000).toFixed(1) + "s<br>" + esc(x.line) + (x.partial ? "<br><span class='small'>Some checks ran out of time.</span>" : "") + "</p>" +
+          (x.issues || []).map((i) => "<div class='finding'><span class='sev " + (i.severity === "medium" ? "med" : esc(i.severity)) + "'>" + esc(i.severity) + "</span> <b>" + esc(i.title) + "</b><p class='small'>" + esc(i.fix) + "</p></div>").join("");
+      } catch (err) { out.innerHTML = "<p class='notice err'>" + esc(err.status === 402 ? "Preview checks are part of Pro." : err.message) + "</p>"; }
+      btn.disabled = false;
+    });
+  }
+
   if (F.fixPr) {
     const sec = document.createElement("section"); sec.className = "box no-print"; sec.id = "fixpr"; extra.append(sec);
     const render = async () => {
