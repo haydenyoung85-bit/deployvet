@@ -288,3 +288,13 @@ dialog.roast::backdrop{background:var(--ink)}
 .ticker b{color:var(--yellow)}
 @keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 @media(prefers-reduced-motion:reduce){.ticker{white-space:normal}.ticker ul{flex-wrap:wrap}}
+/* one-click board join, at eye level next to the score */
+.r-top{flex-wrap:wrap}
+.r-top .qj{flex:1 1 280px;background:none;border:0;box-shadow:none;padding:0;margin:0;transform:none;align-self:center}
+.qj-form{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.qj-btn{background:var(--yellow);font-size:1.25rem;transform:rotate(-1.5deg);animation:pulse 1.6s ease-in-out infinite}
+.qj-btn:hover{background:var(--lime)}
+@keyframes pulse{50%{box-shadow:8px 8px 0 var(--ink)}}
+.qj-form input{flex:1 1 160px;max-width:240px;font:inherit;padding:10px 12px;border:var(--line);border-radius:10px;min-height:44px;background:var(--white)}
+.qj-note{font-size:.88rem;font-weight:600;margin:8px 0 0}
+.qj .notice{margin-top:8px}

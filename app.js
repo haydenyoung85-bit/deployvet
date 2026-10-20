@@ -206,7 +206,24 @@
       path: loc && loc !== host ? loc : guess ? host + guess : host };
   }
   const say = (fns, c) => pick(fns)(c);
-  window.DeployVet.roastLine = (g, row) => say(ROASTS.spicy[band(g, row && row.score)], ctx({ ...(row || {}), url: row && (row.domain || row.display_name || row.masked) }))[0].replace(/\n/g, ' ');
+// Scoreboard lines: name + score only (no finding details ever reach the board). Picked deterministically
+  // from the entry id, so a row keeps its line and neighbours can be told apart.
+  const BOARD_LINES = {
+    A: [(n, sc) => `${n} gave us nothing to roast. rude.`, (n) => `not ${n} actually reading the docs.`, (n, sc) => `${sc}/100. insufferable. we love it.`, (n) => `${n} said no to every request. respect, sadly.`],
+    B: [(n) => `${n} was SO close. one window open.`, (n, sc) => `${sc}/100 is the "i'll fix it after launch" score.`, (n) => `${n} locked the front door, forgot the back.`, (n) => `${n} did almost all the work. almost.`, (n) => `one fix from clean. ${n} chose violence.`],
+    C: [(n) => `${n} works on the preview. that's the plan.`, (n) => `"claude said it was secure" energy.`, (n, sc) => `${sc}/100. security by vibes.`, (n) => `${n} runs on hope and a free tier.`],
+    D: [(n) => `${n} said "the AI handled auth". it didn't.`, (n) => `${n} trusts strangers more than its login page.`, (n, sc) => `${sc}/100. shipped at 3am and it shows.`, (n) => `${n} is vibe-exposed, not vibe-coded.`],
+    F: [(n) => `${n} isn't an app. it's an open house.`, (n) => `${n} is a crime scene with a favicon.`, (n, sc) => `${sc}/100. what the hell happened here.`, (n) => `${n} handed the internet its secrets.`],
+  };
+  const hash = (str) => { let h = 2166136261; for (const ch of String(str)) { h ^= ch.codePointAt(0); h = Math.imul(h, 16777619); } return h >>> 0; };
+  // avoid = index used by the row above (same grade), so neighbours differ.
+  window.DeployVet.boardLine = (g, row, avoid) => {
+    const pool = BOARD_LINES[band(g, row && row.score)], n = (row && (row.display_name || row.domain || row.masked)) || "this app";
+    let i = hash((row && (row.id || row.domain || row.masked)) || n) % pool.length;
+    if (i === avoid) i = (i + 1) % pool.length;
+    return { text: pool[i](n, row && row.score), idx: i };
+  };
+  window.DeployVet.roastLine = (g, row) => window.DeployVet.boardLine(g, row).text;
 
   const urlForm = document.getElementById("check");
   const out = document.getElementById("check-result");
@@ -261,7 +278,15 @@
     document.getElementById("roast-body").innerHTML = `
       <div class="r-card ${g === "A" || g === "B" ? "slam" : "shake"}">
         <p class="r-label">${esc(r.url || "Your app")} · ${esc(spice)} roast</p>
-        <div class="r-top"><span class="r-score">${esc(r.score)}<small>/100</small></span><span class="r-grade" aria-label="Grade ${esc(g)}">${esc(g)}</span></div>
+        <div class="r-top"><span class="r-score">${esc(r.score)}<small>/100</small></span><span class="r-grade" aria-label="Grade ${esc(g)}">${esc(g)}</span>
+        ${r.check_id ? `<div class="qj" id="qj">
+          <form id="qj-form" class="qj-form">
+            <button type="submit" class="btn btn-big qj-btn" data-track="board-quick">Put me on the board 🔥</button>
+            <label for="qj-name" class="sr">Nickname (optional)</label><input id="qj-name" maxlength="40" value="" placeholder="nickname (optional)" autocomplete="off">
+          </form>
+          <p class="qj-note">this goes public: your score and a roast line. your domain stays hidden as <code>${esc(maskDomain(c.host))}</code>.</p>
+          <div id="qj-result" class="notice" hidden aria-live="polite"></div>
+        </div>` : ""}</div>
         <h2 class="r-head" id="roast-head">${esc(head).replace(/\n/g, "<br>")}</h2>
         <p class="r-sub">${esc(sub)}</p>
         <p class="r-full"><b>the full roast:</b> ${esc(full)}</p>
@@ -281,14 +306,7 @@
       </div>
       <span class="share-note small" id="share-note" aria-live="polite"></span>
       <label class="share-opt"><input type="checkbox" id="share-url"> Include my app's web address in the post</label>
-      ${r.check_id ? `<div class="qj" id="qj">
-        <h3>Put me on the board</h3>
-        <p class="qj-warn"><b>Heads up: this makes your score public.</b> Your ${esc(r.score)}/100 (${esc(g)}) and a roast headline go on the public scoreboard. Your domain stays hidden as <code>${esc(maskDomain(c.host))}</code> unless you verify you own it. No finding details are shown.</p>
-        <form id="qj-form"><label for="qj-name">Nickname <span class="opt">(optional)</span></label><input id="qj-name" maxlength="40" placeholder="shown instead of the masked domain">
-          <div><button type="submit" class="btn btn-big" data-track="board-quick">Put me on the board</button></div></form>
-        <div id="qj-result" class="notice" hidden aria-live="polite"></div>
-        <p class="small"><button type="button" class="linkbtn" data-track="scoreboard-join" id="join-open">Verify you own it</button> to show your full domain and a ✔ verified badge.</p>
-      </div>` : `<p class="small"><button type="button" class="linkbtn" data-track="scoreboard-join" id="join-open">Verify you own it</button> to join the scoreboard with your full domain and a ✔ verified badge.</p>`}
+      <p class="small"><button type="button" class="linkbtn" data-track="scoreboard-join" id="join-open">Verify you own it</button> to show your full domain on the scoreboard with a ✔ verified badge.</p>
       <div class="join" id="join" hidden>
         <h3>Verify you own it</h3>
         <p class="small">Optional upgrade. Prove you own the site and the board shows your full domain with a ✔ verified badge. You can leave any time.</p>
@@ -377,6 +395,14 @@
       <p class="small">The token works once and lasts 7 days. DNS can take a few minutes.</p>`;
   };
   function maskDomain(d) { const p = String(d).split("."); return `${(p[0] || "?").charAt(0)}*******${p.length > 1 ? "." + p.at(-1) : ""}`; }
+  // "you're #3 in the Hall of Flame 💀". Same split (70) and tie rules as the scoreboard.
+  function boardRank(d, en) {
+    const fame = en.score >= 70, rows = ((fame ? d.fame : d.flame) || []);
+    const i = rows.findIndex((x) => (en.id && x.id === en.id) || (!en.id && x.masked === en.masked && x.display_name === en.display_name && x.score === en.score));
+    if (i < 0) return "";
+    const rank = rows.findIndex((x) => x.score === rows[i].score) + 1;
+    return fame ? `you're #${rank} in the Hall of Fame 🏆` : `you're #${rank} in the Hall of Flame 💀`;
+  }
   function quickJoin(r) {
     const f = document.getElementById("qj-form"); if (!f) return;
     const res = document.getElementById("qj-result");
@@ -387,8 +413,10 @@
         const nickname = document.getElementById("qj-name").value.trim();
         const j = await call("leaderboard", { action: "join_quick", check_id: r.check_id, nickname: nickname || undefined }); // no score sent, ever
         const en = j.entry || {};
-        msg(res, `you're on the board as <b>${esc(en.display_name || en.masked)}</b> with ${esc(en.score)}/100. <a href="/scoreboard.html">see the board</a>`, "ok");
         f.hidden = true;
+        let where = "";
+        try { where = boardRank(await call("leaderboard", null, "GET"), en); } catch (_) {}
+        msg(res, `${where ? esc(where) : "you're on the board"} as <b>${esc(en.display_name || en.masked)}</b>. <a href="/scoreboard.html">see the board</a>`, "ok");
       } catch (err) { msg(res, esc(err.status === 409 ? "that site is already on the board. one entry per site." : friendly(err)), "err"); busy(btn, false); }
     });
   }
