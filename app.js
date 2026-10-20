@@ -94,6 +94,12 @@
   // Burns per finding. Each: [mild[], spicy[], nuclear[]] of (c) => text. c.path = the real host + path.
   const B = (m, s, n) => [m, s, n];
   const ID_BURNS = {
+    sourcemap_exposed: B([(c) => `your source maps are public on ${c.host}. anyone can read your original code.`], [(c) => `your source maps are public. you open-sourced your app by accident.`], [(c) => `source maps in prod on ${c.host}. the minifier did its job and you undid it.`]),
+    cookie_session_insecure: B([(c) => `your session cookie is missing safety flags.`], [(c) => `session cookie with no flags. it's a sticky note with your login on it.`], [(c) => `your session cookie has no HttpOnly or Secure. one XSS and it's somebody else's account.`]),
+    outdated_library: B([(c) => `${c.host} ships a library with known vulnerabilities.`], [(c) => `"${c.worst}". the vulnerabilities came pre-installed.`], [(c) => `"${c.worst}". that library has CVEs with birthdays.`]),
+    phpinfo_exposed: B([(c) => `phpinfo() is public on ${c.host}.`], [(c) => `phpinfo() in prod. you published your server's whole diary.`], [(c) => `phpinfo() in prod. every config value, gift-wrapped.`]),
+    debug_exposed: B([(c) => `debug mode is on in production.`], [(c) => `debug mode in prod. the stack traces are free for everyone.`], [(c) => `debug mode in prod. you're live-streaming your errors to attackers.`]),
+    graphql_ide_public: B([(c) => `your GraphQL IDE is open to anyone.`], [(c) => `graphql playground open to the world. come explore my schema, said no secure app ever.`], [(c) => `open graphql playground. you gave strangers a query console.`]),
     env_exposed: B([(c) => `${c.path} loads for anyone. every secret in it is public.`],
       [(c) => `${c.path} returning 200 is crazy. you didn't get hacked bestie, you hosted an open house.`, (c) => `not ${c.path} just being downloadable. that file is the whole vault.`],
       [(c) => `${c.path} is public. you didn't leak your secrets, you catered them.`, (c) => `the way ${c.path} hands out every key you own. hackers don't need skills, they need a browser.`]),
@@ -249,7 +255,8 @@
   function openRoast(r, spice) {
     const g = band(r.grade, r.score), lv = LV[spice] ?? 1;
     const lvName = ROASTS[spice] ? spice : "spicy", c = ctx(r);
-    const [head, sub] = say(ROASTS[lvName][g], c);
+    // Server line (roast.ts gradeRoast) is built from the full findings, so it can name real misses. Prefer it.
+    const [head0, sub] = say(ROASTS[lvName][g], c), head = typeof r.roast === "string" && r.roast ? r.roast : head0;
     const full = say((!r.topIssue ? FULL_CLEAN : (g === "D" || g === "F") ? FULL : FULL_SOFT)[lvName], c);
     const t = r.topIssue;
     const lvl = (x) => { const v = Array.isArray(x) ? pick(x) : x; return typeof v === "function" ? v(c) : v; };
