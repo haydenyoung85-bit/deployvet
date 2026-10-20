@@ -2,7 +2,8 @@
 (async function () {
   const D = window.DeployVet, esc = D.esc, F = (window.DEPLOYVET_CONFIG || {}).FEATURES || {};
   const h = document.getElementById("r-h"), b = document.getElementById("r-body"), extra = document.getElementById("r-extra");
-  const t = new URLSearchParams(location.search).get("t") || "";
+  const qp = new URLSearchParams(location.search);
+  const t = qp.get("t") || (qp.get("gh") ? sessionStorage.getItem("dv_report_t") || "" : "");
   const sevCls = (s) => (s === "medium" ? "med" : esc(s));
   let r;
   try { r = await D.call("report", null, "GET", "?t=" + encodeURIComponent(t)); }
@@ -58,6 +59,44 @@
       try { const x = await D.call("rls-export", { t, export: document.getElementById("rls-in").value }); out.className = "notice ok"; out.textContent = "Added " + x.added + " policy finding(s). New score " + x.score + "/100. Reloading…"; setTimeout(() => location.reload(), 1200); }
       catch (err) { out.className = "notice err"; out.textContent = err.message; }
     });
+  }
+
+  if (F.fixPr) {
+    const sec = document.createElement("section"); sec.className = "box no-print"; sec.id = "fixpr"; extra.append(sec);
+    const render = async () => {
+      let st; try { st = await D.call("fix-pr", { t, action: "status" }); } catch (e) { sec.innerHTML = "<h2>Fix pull request</h2><p class='small'>" + esc(e.status === 402 ? "Fix pull requests are part of Pro." : e.message) + "</p>"; return; }
+      if (!st.repo) { sec.innerHTML = "<h2>Fix pull request</h2><p class='small'>Add your public GitHub repo to use this. Email support@deployvet.com with the repo URL.</p>"; return; }
+      if (!st.connected) {
+        sec.innerHTML = "<h2>Fix pull request</h2><p class='small'>We can open a pull request on <b>" + esc(st.repo) + "</b> with three standard fixes: security headers, blocking .env/.git files, and adding .env to .gitignore. " +
+          "It only happens if you connect GitHub <b>and</b> approve the exact changes. We never push to your main branch, and you review and merge the PR yourself.</p>" +
+          (qp.get("gh") === "denied" || qp.get("gh") === "error" ? "<p class='notice err'>GitHub connect didn't finish. Try again.</p>" : "") +
+          "<p><button type='button' class='btn btn-sm' id='gh-connect'>Connect GitHub</button></p>";
+        document.getElementById("gh-connect").addEventListener("click", async () => {
+          try { const x = await D.call("github-oauth", { t }); sessionStorage.setItem("dv_report_t", t); location.href = x.url; } catch (e) { alert(e.message); }
+        });
+        return;
+      }
+      sec.innerHTML = "<h2>Fix pull request</h2><p class='small'>Connected as <b>" + esc(st.github_login || "GitHub user") + "</b> · <button type='button' class='btn btn-sm btn-line' id='gh-off'>Disconnect</button></p><p><button type='button' class='btn btn-sm' id='gh-preview'>Preview the fixes</button></p><div id='gh-plan'></div>";
+      document.getElementById("gh-off").addEventListener("click", async () => { await D.call("fix-pr", { t, action: "disconnect" }); render(); });
+      document.getElementById("gh-preview").addEventListener("click", async () => {
+        const plan = document.getElementById("gh-plan"); plan.innerHTML = "<p class='small'>Reading your repo…</p>";
+        try {
+          const pv = await D.call("fix-pr", { t, action: "preview" });
+          if (!pv.changes.length) { plan.innerHTML = "<p class='notice ok'>Nothing to fix. These templates are already in your repo.</p>"; return; }
+          plan.innerHTML = "<p class='small'>Pull request into <b>" + esc(pv.repo) + "</b> from a new branch (base: " + esc(pv.base) + ").</p>" +
+            pv.changes.map((c) => "<details open><summary><code>" + esc(c.path) + "</code> (" + esc(c.action) + "): " + esc(c.why) + "</summary><pre class='fix-t'>" + esc(c.after) + "</pre></details>").join("") +
+            "<p><label><input type='checkbox' id='gh-ok'> I reviewed these changes. Open a pull request (nothing is merged).</label></p><p><button type='button' class='btn btn-sm btn-y' id='gh-open' disabled>Open pull request</button></p><div id='gh-out' aria-live='polite'></div>";
+          const ok = document.getElementById("gh-ok"), open = document.getElementById("gh-open");
+          ok.addEventListener("change", () => { open.disabled = !ok.checked; });
+          open.addEventListener("click", async () => {
+            open.disabled = true; const out = document.getElementById("gh-out");
+            try { const r2 = await D.call("fix-pr", { t, action: "open", confirm: ok.checked, plan_hash: pv.plan_hash }); out.innerHTML = "<p class='notice ok'>✓ Pull request opened: <a href='" + esc(r2.pr_url) + "' target='_blank' rel='noopener'>" + esc(r2.pr_url) + "</a>. Review it, merge it, deploy, then hit Did I fix it?</p>"; }
+            catch (e) { out.innerHTML = "<p class='notice err'>" + esc(e.message) + "</p>"; open.disabled = false; }
+          });
+        } catch (e) { plan.innerHTML = "<p class='notice err'>" + esc(e.message) + "</p>"; }
+      });
+    };
+    render();
   }
 
   if (F.history) document.dispatchEvent(new CustomEvent("dv:report", { detail: { t, r } }));
