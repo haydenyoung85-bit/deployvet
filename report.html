@@ -44,6 +44,7 @@
 <p class="eyebrow">DeployVet report</p>
 <h1 id="r-h">Loading your report…</h1>
 <div id="r-body"></div>
+<div id="r-extra"></div>
 </article></main>
 <footer class="foot">
   <div class="wrap foot-in">
@@ -57,21 +58,7 @@
 </footer>
 <script src="/config.js"></script>
 <script src="/app.js"></script>
-<script>
-(async function(){
-  const esc = DeployVet.esc, h = document.getElementById("r-h"), b = document.getElementById("r-body");
-  const t = new URLSearchParams(location.search).get("t") || "";
-  try {
-    const r = await DeployVet.call("report", null, "GET", "?t=" + encodeURIComponent(t));
-    if (r.status !== "done") { h.textContent = "Your scan is still running."; b.innerHTML = "<p>Refresh this page in a minute.</p>"; return; }
-    h.textContent = "Score " + r.score + "/100 · Grade " + r.grade;
-    const f = (r.result && r.result.findings) || [];
-    b.innerHTML = "<p class='small'>Scanned " + esc(new Date(r.created_at).toLocaleString()) + ". " + f.length + " item(s) found.</p>" +
-      f.map(x => "<div class='box'><p><span class='sev " + (x.severity === "medium" ? "med" : esc(x.severity)) + "'>" + esc(x.severity) + "</span> <b>" + esc(x.title) + "</b></p><p class='small'>" + esc(x.detail) + (x.location ? " · " + esc(x.location) : "") + "</p><pre class='fix-t'>" + esc(x.fix) + "</pre></div>").join("") +
-      "<p class='small'>DeployVet is not a penetration test. A clean report means we did not find the issues we check for.</p>";
-  } catch (e) { h.textContent = "We couldn't open this report."; b.innerHTML = "<p>" + esc(e.message) + " Check the link in your email, or contact <a href='mailto:support@deployvet.com'>support@deployvet.com</a>.</p>"; }
-})();
-</script>
+<script src="/report.js"></script>
 <script src="/nav.js" defer></script>
 <script src="/track.js" defer></script>
 </body>

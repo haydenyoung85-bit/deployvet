@@ -68,6 +68,7 @@
 <script>
 (function(){
   const o = JSON.parse(sessionStorage.getItem("dv_order") || "{}");
+  const qs = new URLSearchParams(location.search); if (qs.get("site")) o.site_id = qs.get("site");
   const q = new URLSearchParams(location.search); const order_id = q.get("order") || o.order_id;
   const esc = DeployVet.esc, out = document.getElementById("v-result");
   if (o.verify_token) { document.getElementById("v-txt").textContent = "deployvet-verify=" + o.verify_token; document.getElementById("v-meta").textContent = '<meta name="deployvet-verification" content="' + o.verify_token + '">'; }
@@ -76,7 +77,8 @@
     try {
       if (!o.site_id) throw new Error("We couldn't find your order in this browser. Please use the link in your email, or contact support.");
       const r = await DeployVet.call("verify-domain", { site_id: o.site_id, order_id });
-      out.className = "notice ok";
+      if (!r.verified && r.instructions) { document.getElementById("v-txt").textContent = r.instructions.dns_txt; document.getElementById("v-meta").textContent = r.instructions.meta_tag; }
+      out.className = r.verified ? "notice ok" : "notice";
       out.innerHTML = r.verified ? (r.scanning ? "Verified! Your scan is running. We'll email your report in a few minutes." : "Verified! We'll email your report when it's ready.") : "We couldn't find the record or tag yet. Wait a few minutes and try again.";
     } catch (e) { out.className = "notice err"; out.textContent = e.message; }
   });
