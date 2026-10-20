@@ -206,7 +206,7 @@
       path: loc && loc !== host ? loc : guess ? host + guess : host };
   }
   const say = (fns, c) => pick(fns)(c);
-  window.DeployVet.roastLine = (g, row) => say(ROASTS.spicy[band(g, row && row.score)], ctx({ ...(row || {}), url: row && row.domain }))[0].replace(/\n/g, ' ');
+  window.DeployVet.roastLine = (g, row) => say(ROASTS.spicy[band(g, row && row.score)], ctx({ ...(row || {}), url: row && (row.domain || row.display_name || row.masked) }))[0].replace(/\n/g, ' ');
 
   const urlForm = document.getElementById("check");
   const out = document.getElementById("check-result");
@@ -245,10 +245,16 @@
     if (t) burns += `<li><span class="sev ${esc(t.severity)}">Worst issue · ${esc(t.category)}</span><p class="burn-l">${esc(topBurn)}</p>
       <p class="what"><b>${esc(t.title)}</b>${t.detail ? ` ${esc(t.detail)}` : ""}</p>
       <div class="fixbox"><b>The fix</b><p>${esc(t.fix || "Open the full roast for step-by-step fix prompts.")}</p></div></li>`;
-    const rest = order.slice(0, 4).filter((k) => counts[k]).map((k) => {
-      const left = Number(counts[k]) - (t && t.severity === k ? 1 : 0); if (left < 1) return "";
-      return `<li class="locked"><span class="sev ${k}">${esc(k)}</span><p class="burn-l">${esc(lvl(COUNT_BURNS[k](left, lv)))}</p>
-        <div class="fixbox"><b>The fix</b><p>Every one of these, with a fix prompt for your builder, is in the full roast ($7 once).</p></div></li>`; }).join("");
+    // Locked teaser: real counts only. Placeholder rows hold NO finding text.
+    const left = {}; order.forEach((k) => { left[k] = Math.max(0, (Number(counts[k]) || 0) - (t && t.severity === k ? 1 : 0)); });
+    const lockedN = t ? Math.max(0, total - 1) : 0;
+    const lockChips = order.filter((k) => left[k]).map((k) => `<span class="sev ${k}">${esc(left[k])} ${esc(k)}</span>`).join("");
+    const rest = lockedN ? `<li class="locked-teaser" id="locked">
+      <p class="lk-h">${esc(lockedN)} more burn${lockedN === 1 ? "" : "s"} locked 🔒</p>
+      <div class="r-counts">${lockChips}</div>
+      <div class="ph-rows" aria-hidden="true">${Array.from({ length: Math.min(lockedN, 3) }, () => '<div class="ph"><i></i><i></i><i></i></div>').join("")}</div>
+      <p class="small">every one of these, with the proof and a fix prompt for your builder, is in the full roast.</p>
+      <a class="btn btn-big btn-y" href="#buy" data-buy="deployvet_scan_once" data-track="unlock">Unlock the full roast + fix prompts, $7</a></li>` : "";
     burns += rest;
     if (!burns) burns = `<li><p class="burn-l">${esc(pick(["nothing to burn. we checked twice. we're annoyed.", "zero burns. our roast writers are filing for unemployment.", `${c.host} is clean. our flamethrower is just sitting here.`]))}</p><p class="what">Our outside check found no serious issues. That's not a promise your app is safe, but it's a great start.</p></li>`;
     dlgR.className = "roast g-" + g;
@@ -269,23 +275,39 @@
         <label for="badge-code" class="sr">Badge HTML</label><textarea id="badge-code" readonly>${esc(BADGE_HTML)}</textarea>
         <button type="button" class="btn btn-sm btn-y" id="badge-copy" data-track="badge-copy">Copy badge code</button></div></div>` : ""}
       <div class="r-actions">
-        <a class="btn btn-big btn-y" href="#buy" data-buy="deployvet_scan_once">Get the full roast: $7</a>
         <button type="button" class="btn btn-lime" data-track="share" id="share-x">Share my roast</button>
         <button type="button" class="btn btn-line" data-track="roast-card" id="roast-card">Download roast card</button>
         <button type="button" class="btn btn-line" data-track="share-copy" id="share-copy">Copy text</button>
-        <button type="button" class="btn btn-line" data-track="scoreboard-join" id="join-open">Put me on the scoreboard</button>
       </div>
       <span class="share-note small" id="share-note" aria-live="polite"></span>
       <label class="share-opt"><input type="checkbox" id="share-url"> Include my app's web address in the post</label>
+      ${r.check_id ? `<div class="qj" id="qj">
+        <h3>Put me on the board</h3>
+        <p class="qj-warn"><b>Heads up: this makes your score public.</b> Your ${esc(r.score)}/100 (${esc(g)}) and a roast headline go on the public scoreboard. Your domain stays hidden as <code>${esc(maskDomain(c.host))}</code> unless you verify you own it. No finding details are shown.</p>
+        <form id="qj-form"><label for="qj-name">Nickname <span class="opt">(optional)</span></label><input id="qj-name" maxlength="40" placeholder="shown instead of the masked domain">
+          <div><button type="submit" class="btn btn-big" data-track="board-quick">Put me on the board</button></div></form>
+        <div id="qj-result" class="notice" hidden aria-live="polite"></div>
+        <p class="small"><button type="button" class="linkbtn" data-track="scoreboard-join" id="join-open">Verify you own it</button> to show your full domain and a ✔ verified badge.</p>
+      </div>` : `<p class="small"><button type="button" class="linkbtn" data-track="scoreboard-join" id="join-open">Verify you own it</button> to join the scoreboard with your full domain and a ✔ verified badge.</p>`}
       <div class="join" id="join" hidden>
-        <h3>Join the scoreboard</h3>
-        <p class="small">Opt-in only. You need to prove you own the site first. You can leave any time.</p>
+        <h3>Verify you own it</h3>
+        <p class="small">Optional upgrade. Prove you own the site and the board shows your full domain with a ✔ verified badge. You can leave any time.</p>
         <form id="join-form"><label for="j-domain">Your domain</label><input id="j-domain" required autocomplete="url" placeholder="your-app.com" value="${esc(r.url || "")}">
           <label for="j-name">Display name <span class="opt">(optional)</span></label><input id="j-name" maxlength="40" placeholder="Shown instead of your domain">
           <div><button type="submit" class="btn btn-sm">Next: verify</button></div></form>
         <div id="join-step2" hidden></div>
         <div id="join-result" class="notice" hidden aria-live="polite"></div>
         <p class="small leave"><a href="#" id="leave-open" data-track="scoreboard-leave">Remove my site</a> from the scoreboard</p>
+      </div>
+      <form class="rr" id="rr-form">
+        <h3>re-roast me when i ship</h3>
+        <p class="small">optional. the roast above is yours either way.</p>
+        <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <label for="rr-email">Email</label><input id="rr-email" type="email" required placeholder="you@email.com" autocomplete="email">
+        <label class="rr-ok"><input type="checkbox" id="rr-consent" required> Email me a confirm link, then DeployVet emails: a reminder to re-roast ${esc(c.host)} and the weekly security newsletter. Unsubscribe any time. <a href="/privacy.html">Privacy</a></label>
+        <div><button type="submit" class="btn btn-sm btn-lime" data-track="reroast-email">Remind me</button></div>
+        <div id="rr-result" class="notice" hidden aria-live="polite"></div>
+      </form>
       </div>`;
     fx(g);
     lastFocus = document.activeElement;
@@ -302,6 +324,8 @@
     if (bc) bc.addEventListener("click", async () => { try { await navigator.clipboard.writeText(BADGE_HTML); bc.textContent = "Copied"; } catch (_) { document.getElementById("badge-code").select(); } });
     document.getElementById("roast-card").addEventListener("click", () => roastCard({ score: r.score, grade: g, head: head.replace(/\n/g, " "), burn: topBurn || sub }).catch((e) => { note.textContent = "Couldn't make the card: " + e.message; }));
     joinFlow(r);
+    quickJoin(r);
+    reRoast(r, c);
   }
 
   // Roast card: 1200x675 PNG drawn in the browser.
@@ -352,6 +376,35 @@
       <p class="small">Option 2: this meta tag in the &lt;head&gt; of your home page</p><pre class="code">${esc(i.meta_tag)}</pre>
       <p class="small">The token works once and lasts 7 days. DNS can take a few minutes.</p>`;
   };
+  function maskDomain(d) { const p = String(d).split("."); return `${(p[0] || "?").charAt(0)}*******${p.length > 1 ? "." + p.at(-1) : ""}`; }
+  function quickJoin(r) {
+    const f = document.getElementById("qj-form"); if (!f) return;
+    const res = document.getElementById("qj-result");
+    f.addEventListener("submit", async (e) => {
+      e.preventDefault(); const btn = f.querySelector("button[type=submit]"); res.hidden = true;
+      busy(btn, true, "Posting…");
+      try {
+        const nickname = document.getElementById("qj-name").value.trim();
+        const j = await call("leaderboard", { action: "join_quick", check_id: r.check_id, nickname: nickname || undefined }); // no score sent, ever
+        const en = j.entry || {};
+        msg(res, `you're on the board as <b>${esc(en.display_name || en.masked)}</b> with ${esc(en.score)}/100. <a href="/scoreboard.html">see the board</a>`, "ok");
+        f.hidden = true;
+      } catch (err) { msg(res, esc(err.status === 409 ? "that site is already on the board. one entry per site." : friendly(err)), "err"); busy(btn, false); }
+    });
+  }
+  function reRoast(r, c) {
+    const f = document.getElementById("rr-form"), res = document.getElementById("rr-result");
+    f.addEventListener("submit", async (e) => {
+      e.preventDefault(); const btn = f.querySelector("button[type=submit]"); res.hidden = true;
+      if (!document.getElementById("rr-consent").checked) { msg(res, "tick the box first so we know you're ok with the emails.", "err"); return; }
+      busy(btn, true, "Sending…");
+      try {
+        await call("newsletter", { email: document.getElementById("rr-email").value, source: "popup", domain: c.host, website: f.querySelector("[name=website]").value || "" });
+        msg(res, "check your inbox and click the confirm link. no confirm, no emails.", "ok"); f.querySelector("#rr-email").value = "";
+      } catch (err) { msg(res, esc(err.status === 400 ? "that email doesn't look right." : friendly(err)), "err"); }
+      busy(btn, false);
+    });
+  }
   function joinFlow(r) {
     const box = document.getElementById("join"), res = document.getElementById("join-result"), step2 = document.getElementById("join-step2");
     const form = document.getElementById("join-form"), dom = document.getElementById("j-domain");

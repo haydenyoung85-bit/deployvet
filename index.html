@@ -31,7 +31,7 @@
 ]}
 </script>
 </head>
-<body>
+<body data-board-limit="5">
 <header class="nav">
   <div class="wrap nav-in">
     <a href="/" class="brand" aria-label="DeployVet home"><img src="/assets/logo.svg" alt="DeployVet" width="187" height="48"></a>
@@ -70,6 +70,21 @@
     <p class="tools">Works with <b>Lovable</b> <b>Bolt</b> <b>Replit</b> <b>Cursor</b> <b>v0</b> <b>Bubble</b> <b>Supabase</b></p>
     <div class="sticker st1" aria-hidden="true">yes, this site was vibe-coded too. we roasted it first.</div>
     <div class="sticker st2" aria-hidden="true">it didn't have to go that hard 💀</div>
+  </div>
+</section>
+
+<section class="live" id="board" aria-labelledby="live-h">
+  <div class="wrap">
+    <p class="eyebrow">Live scoreboard</p>
+    <h2 id="live-h">Hall of Flame. Hall of Fame.</h2>
+    <p id="sb-total" class="total" hidden></p>
+    <div id="sb-err" class="notice err" hidden></div>
+    <div id="ticker" class="ticker" hidden aria-label="Latest roasts"></div>
+    <div class="boards">
+      <section class="board flame" aria-labelledby="hf-h"><h3 id="hf-h">Hall of Flame</h3><p>lowest scores. owners with no shame. respect.</p><div id="flame"><p class="empty">Loading…</p></div></section>
+      <section class="board fame" aria-labelledby="hfa-h"><h3 id="hfa-h">Hall of Fame</h3><p>top scores. apps that somehow survived.</p><div id="fame"><p class="empty">Loading…</p></div></section>
+    </div>
+    <p class="row"><a class="btn btn-line" href="/scoreboard.html">See the full scoreboard</a></p>
   </div>
 </section>
 
@@ -243,6 +258,7 @@
 </dialog>
 <script src="/config.js"></script>
 <script src="/app.js" defer></script>
+<script src="/scoreboard.js" defer></script>
 <script src="/nav.js" defer></script>
 <script src="/track.js" defer></script>
 </body>
