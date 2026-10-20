@@ -10,7 +10,7 @@
 ## Pricing (USD)
 - DeployVet Free Check: $0. One outside scan per verified site each month. Shows a "roast": a 0-100 score plus an A-F grade, a playful roast of the app (Mild, Spicy or Nuclear spice level, chosen in the browser), issue counts and full detail and fix for the most serious issue. Results can be shared on X; the checked URL is left out unless the user opts in.
 - DeployVet Scan: $7 one-time. Paid up front, then the scan runs.
-- DeployVet Pro: $15/month or $150/year, billed up front. Weekly scans with email alerts and scan history. Cancel any time.
+- DeployVet Fix it pack: $10 one-time, one site. Full roast report, every finding with fix prompts, PDF, plus 30 days of "Did I fix it?" re-checks and the glow-up tracker. No subscription.
 
 ## Who it is for
 - Non-technical founders and solo makers shipping with AI builders

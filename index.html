@@ -29,7 +29,7 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
 {"@type":"SoftwareApplication","name":"DeployVet","url":"https://deployvet.com/","applicationCategory":"SecurityApplication","operatingSystem":"Web","creator":{"@type":"Person","name":"Hayden Young"},
-"offers":[{"@type":"Offer","name":"DeployVet Free Check","price":"0","priceCurrency":"USD"},{"@type":"Offer","name":"DeployVet Scan","price":"7","priceCurrency":"USD"},{"@type":"Offer","name":"DeployVet Pro","price":"15","priceCurrency":"USD"}]},
+"offers":[{"@type":"Offer","name":"DeployVet Free Check","price":"0","priceCurrency":"USD"},{"@type":"Offer","name":"DeployVet Scan","price":"7","priceCurrency":"USD"},{"@type":"Offer","name":"DeployVet Fix it pack","price":"10","priceCurrency":"USD"}]},
 {"@type":"Organization","name":"DeployVet","url":"https://deployvet.com/","logo":"https://deployvet.com/assets/logo-520.png","email":"support@deployvet.com"}
 ]}
 </script>
@@ -114,7 +114,7 @@
     <p class="sub">Link your repo or Supabase project for a deeper look. We get read-only access, so we can look but not change things. You get fix prompts to paste into your builder.</p>
     <div class="tbl-wrap">
     <table class="tbl">
-      <thead><tr><th scope="col">What you get</th><th scope="col">Free roast</th><th scope="col">Scan</th><th scope="col">Pro</th></tr></thead>
+      <thead><tr><th scope="col">What you get</th><th scope="col">Free roast</th><th scope="col">Scan</th><th scope="col">Fix it pack</th></tr></thead>
       <tbody>
         <tr><th scope="row">Outside scan of your live site</th><td class="y">Yes</td><td class="y">Yes</td><td class="y">Yes</td></tr>
         <tr><th scope="row">Score, grade and roast</th><td class="y">Yes</td><td class="y">Yes</td><td class="y">Yes</td></tr>
@@ -122,12 +122,8 @@
         <tr><th scope="row">Read-only check of repo or Supabase</th><td class="n">No</td><td class="y">Yes</td><td class="y">Yes</td></tr>
         <tr><th scope="row">Fix prompts for your builder</th><td class="n">No</td><td class="y">Yes</td><td class="y">Yes</td></tr>
         <tr><th scope="row">PDF report (download from your report page)</th><td class="n">No</td><td class="y">Yes</td><td class="y">Yes</td></tr>
-        <tr><th scope="row">Weekly scans and email alerts</th><td class="n">No</td><td class="n">No</td><td class="y">Yes</td></tr>
-        <tr><th scope="row">"Did I fix it?" one-click re-checks</th><td class="n">No</td><td class="n">No</td><td class="y">Yes</td></tr>
-        <tr><th scope="row">Re-roast on every deploy (GitHub push) + instant critical alerts</th><td class="n">No</td><td class="n">No</td><td class="n">Coming soon</td></tr>
-        <tr><th scope="row">One-click fix pull requests on GitHub (you approve every change)</th><td class="n">No</td><td class="n">No</td><td class="n">Coming soon</td></tr>
-        <tr><th scope="row">10-second "safe to ship?" check for preview URLs</th><td class="n">No</td><td class="n">No</td><td class="y">Yes</td></tr>
-        <tr><th scope="row">Scan history + glow-up tracker (cooked → survived) with a share card</th><td class="n">No</td><td class="n">No</td><td class="y">Yes</td></tr>
+        <tr><th scope="row">"Did I fix it?" one-click re-checks</th><td class="n">No</td><td class="n">No</td><td class="y">30 days</td></tr>
+        <tr><th scope="row">Scan history + glow-up tracker (cooked → survived) with a share card</th><td class="n">No</td><td class="n">No</td><td class="y">30 days</td></tr>
       </tbody>
     </table>
     </div>
@@ -168,11 +164,12 @@
         <a href="#buy" class="btn" data-buy="deployvet_scan_once">Get the full roast</a>
       </div>
       <div class="price">
-        <h3>Pro</h3>
-        <p class="amt">$15 <span>/ month</span></p>
-        <p class="alt">or $150 a year</p>
-        <ul><li>Everything in Scan</li><li>Weekly scans with email alerts</li><li>Scan history + glow-up tracker</li><li>Billed up front each month or year</li><li>Cancel any time from the billing portal</li></ul>
-        <div class="price-btns"><a href="#buy" class="btn btn-line" data-buy="deployvet_pro_monthly">Pro monthly</a><a href="#buy" class="btn btn-y" data-buy="deployvet_pro_yearly">Pro yearly</a></div>
+        <span class="badge">One-time</span>
+        <h3>Fix it pack</h3>
+        <p class="amt">$10 <span>once</span></p>
+        <p class="alt">No subscription. Nothing renews.</p>
+        <ul><li>Full roast report for one site</li><li>Every finding with copyable fix prompts</li><li>PDF download</li><li>30 days of "Did I fix it?" re-checks</li><li>30 days of the glow-up tracker (cooked → survived)</li></ul>
+        <a href="#buy" class="btn btn-y" data-buy="deployvet_fix_pack">Get the Fix it pack</a>
       </div>
     </div>
   </div>
@@ -192,7 +189,7 @@
     <details><summary>Is this a penetration test?</summary><p>No. DeployVet is not a penetration test. It finds common, known issues. If your app holds very private data or payments, get a pro security review too.</p></details>
     <details><summary>Do you need my code or database?</summary><p>Not for the free roast. It only looks at your public site. The paid Scan asks for read-only access to your repo or Supabase project. We can read but not change anything.</p></details>
     <details><summary>Can I check an app I don't own?</summary><p>No. For paid scans and the scoreboard, you must prove you own the site with a DNS TXT record or a meta tag.</p></details>
-    <details><summary>Will you charge me later?</summary><p>No surprise charges. You pay for a Scan before it runs. Pro is billed up front each month or year, and you can cancel any time.</p></details>
+    <details><summary>Will you charge me later?</summary><p>No surprise charges. You pay once, up front, for a Scan ($7) or the Fix it pack ($10). Neither one is a subscription, so nothing renews.</p></details>
     <details><summary>Does a clean report mean my app is safe?</summary><p>No tool can promise that. A clean report means we did not find the issues we check for.</p></details>
     <details><summary>Does DeployVet fix my app?</summary><p>No. We never change your app. We tell you what is wrong and give you steps and prompts to fix it.</p></details>
     </div>
@@ -246,7 +243,6 @@
   <p class="small">You pay first on Stripe's secure page. Then you prove you own the site, and the scan runs.</p>
   <form>
     <input type="hidden" name="product" value="deployvet_scan_once">
-    <div class="pro-plan" hidden><label><input type="radio" name="plan" value="deployvet_pro_monthly" checked> $15 / month</label><label><input type="radio" name="plan" value="deployvet_pro_yearly"> $150 / year</label></div>
     <label for="b-email">Your email</label><input id="b-email" name="email" type="email" required placeholder="you@email.com">
     <label for="b-domain">Your app's address</label><input id="b-domain" name="domain" required placeholder="https://your-app.com">
     <label for="b-builder">Built with</label>

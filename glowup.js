@@ -6,7 +6,7 @@
     const D = window.DeployVet, esc = D.esc, t = ev.detail.t, extra = document.getElementById("r-extra");
     let x; try { x = await D.call("history", null, "GET", "?t=" + encodeURIComponent(t)); } catch (e) { return; }
     const sec = document.createElement("section"); sec.className = "box no-print"; sec.id = "glowup";
-    if (!x.pro) { sec.innerHTML = "<h2>Glow-up tracker</h2><p class='small'>Track your score from cooked to survived, every scan. Part of <a href='/#pricing'>Pro</a>.</p>"; extra.prepend(sec); return; }
+    if (!x.pro) { sec.innerHTML = "<h2>Glow-up tracker</h2><p class='small'>Track your score from cooked to survived, every scan. Comes with the <a href='/#pricing'>$10 Fix it pack</a> (30 days, one-time).</p>"; extra.prepend(sec); return; }
     const pts = x.points || [], last = pts.at(-1) || { score: 0, level: "cooked" };
     const W = 600, H = 160, P = 20, n = Math.max(1, pts.length - 1);
     const xy = pts.map((p, i) => [P + (W - 2 * P) * (pts.length === 1 ? 0.5 : i / n), H - P - (H - 2 * P) * (p.score / 100)]);

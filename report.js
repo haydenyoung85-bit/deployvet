@@ -40,7 +40,7 @@
         else if (x.fixed === true) { slot.innerHTML = "<p class='notice ok'><b>✓</b> " + esc(x.line) + "</p>"; h.textContent = "Score " + x.score + "/100 · Grade " + x.grade; rc.textContent = "✓ Fixed. Re-check again"; }
         else if (x.fixed === false) { slot.innerHTML = "<p class='notice err'><b>✗</b> " + esc(x.line) + "</p>"; rc.textContent = "Did I fix it?"; }
         else { slot.innerHTML = "<p class='notice'>" + esc(x.message) + "</p>"; rc.textContent = "Did I fix it?"; }
-      } catch (err) { slot.innerHTML = "<p class='notice err'>" + esc(err.status === 402 ? "Re-checks are part of Pro." : err.message) + "</p>"; rc.textContent = "Did I fix it?"; }
+      } catch (err) { slot.innerHTML = "<p class='notice err'>" + esc(err.status === 402 ? "Re-checks come with the $10 Fix it pack (30 days)." : err.message) + "</p>"; rc.textContent = "Did I fix it?"; }
       rc.disabled = false; return;
     }
     const c = e.target.closest("[data-copy]"); if (!c) return;
@@ -73,7 +73,7 @@
         const head = { yes: "✓ Safe to ship", careful: "⚠ Ship with care", no: "✗ Don't ship this yet" }[x.verdict];
         out.innerHTML = "<p class='notice " + (x.verdict === "yes" ? "ok" : "err") + "'><b>" + head + "</b> · " + x.score + "/100 · " + (x.ms / 1000).toFixed(1) + "s<br>" + esc(x.line) + (x.partial ? "<br><span class='small'>Some checks ran out of time.</span>" : "") + "</p>" +
           (x.issues || []).map((i) => "<div class='finding'><span class='sev " + (i.severity === "medium" ? "med" : esc(i.severity)) + "'>" + esc(i.severity) + "</span> <b>" + esc(i.title) + "</b><p class='small'>" + esc(i.fix) + "</p></div>").join("");
-      } catch (err) { out.innerHTML = "<p class='notice err'>" + esc(err.status === 402 ? "Preview checks are part of Pro." : err.message) + "</p>"; }
+      } catch (err) { out.innerHTML = "<p class='notice err'>" + esc(err.status === 402 ? "Preview checks are part of the Fix it pack." : err.message) + "</p>"; }
       btn.disabled = false;
     });
   }
@@ -81,7 +81,7 @@
   if (F.fixPr) {
     const sec = document.createElement("section"); sec.className = "box no-print"; sec.id = "fixpr"; extra.append(sec);
     const render = async () => {
-      let st; try { st = await D.call("fix-pr", { t, action: "status" }); } catch (e) { sec.innerHTML = "<h2>Fix pull request</h2><p class='small'>" + esc(e.status === 402 ? "Fix pull requests are part of Pro." : e.message) + "</p>"; return; }
+      let st; try { st = await D.call("fix-pr", { t, action: "status" }); } catch (e) { sec.innerHTML = "<h2>Fix pull request</h2><p class='small'>" + esc(e.status === 402 ? "Fix pull requests aren't available yet." : e.message) + "</p>"; return; }
       if (!st.repo) { sec.innerHTML = "<h2>Fix pull request</h2><p class='small'>Add your public GitHub repo to use this. Email support@deployvet.com with the repo URL.</p>"; return; }
       if (!st.connected) {
         sec.innerHTML = "<h2>Fix pull request</h2><p class='small'>We can open a pull request on <b>" + esc(st.repo) + "</b> with three standard fixes: security headers, blocking .env/.git files, and adding .env to .gitignore. " +

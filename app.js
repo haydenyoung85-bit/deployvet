@@ -527,9 +527,9 @@
   const nl = new URLSearchParams(location.search).get("newsletter");
   if (nl) msg(document.getElementById("mail-result"), { confirmed: "You're subscribed. Thanks!", unsubscribed: "You're unsubscribed. Sorry to see you go.", invalid: "That link didn't work. It may have expired." }[nl] || "", nl === "invalid" ? "err" : "ok");
 
-  // ---- Checkout (Scan / Pro) ----
+  // ---- Checkout (Scan / Fix it pack) ----
   const dlg = document.getElementById("buy");
-  const NAMES = { deployvet_scan_once: "DeployVet Scan · $7 once", deployvet_pro_monthly: "DeployVet Pro · $15 / month", deployvet_pro_yearly: "DeployVet Pro · $150 / year" };
+  const NAMES = { deployvet_scan_once: "DeployVet Scan · $7 once", deployvet_fix_pack: "DeployVet Fix it pack · $10 once" };
   document.addEventListener("click", (e) => {
     const a = e.target.closest("[data-buy]"); if (!a || !dlg) return;
     e.preventDefault();
@@ -537,7 +537,7 @@
     dlg.querySelectorAll("[name=plan]").forEach((r) => { r.checked = r.value === product; });
     dlg.querySelector("[name=product]").value = product;
     dlg.querySelector("#buy-title").textContent = NAMES[product] || "Checkout";
-    dlg.querySelector(".pro-plan").hidden = !product.startsWith("deployvet_pro");
+    const pp = dlg.querySelector(".pro-plan"); if (pp) pp.hidden = true;
     const u = document.getElementById("url")?.value; if (u) dlg.querySelector("[name=domain]").value = u;
     document.getElementById("buy-result").hidden = true;
     dlg.showModal ? dlg.showModal() : dlg.setAttribute("open", "");
