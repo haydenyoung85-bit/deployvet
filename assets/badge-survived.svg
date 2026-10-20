@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160" role="img" aria-label="Survived the DeployVet Roast">
+<path d="M80 6l14 12 18-4 6 17 17 6-4 18 12 14-12 14 4 18-17 6-6 17-18-4-14 12-14-12-18 4-6-17-17-6 4-18L6 80l12-14-4-18 17-6 6-17 18 4z" fill="#111" transform="translate(4 4)"/>
+<path d="M80 6l14 12 18-4 6 17 17 6-4 18 12 14-12 14 4 18-17 6-6 17-18-4-14 12-14-12-18 4-6-17-17-6 4-18L6 80l12-14-4-18 17-6 6-17 18 4z" fill="#b6f23a" stroke="#111" stroke-width="4" stroke-linejoin="round"/>
+<circle cx="80" cy="80" r="50" fill="#ffe14d" stroke="#111" stroke-width="4"/>
+<g font-family="'Arial Black',Arial,sans-serif" font-weight="900" text-anchor="middle" fill="#111">
+<text x="80" y="62" font-size="15">SURVIVED</text>
+<text x="80" y="80" font-size="11">THE</text>
+<text x="80" y="104" font-size="26" transform="rotate(-6 80 96)">ROAST</text>
+<text x="80" y="122" font-size="9">DEPLOYVET.COM</text>
+</g>
+</svg>

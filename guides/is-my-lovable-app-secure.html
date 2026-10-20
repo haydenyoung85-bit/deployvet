@@ -6,7 +6,7 @@
 <title>Is My Lovable App Secure? A Plain Checklist | DeployVet</title>
 <meta name="description" content="Is your Lovable app safe to launch? Check Supabase Row Level Security, leaked keys and open pages with this step-by-step list.">
 <link rel="canonical" href="https://deployvet.com/guides/is-my-lovable-app-secure.html">
-<meta name="theme-color" content="#2340c8">
+<meta name="theme-color" content="#ff3d8b">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -18,7 +18,7 @@
 <meta name="twitter:image" content="https://deployvet.com/assets/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,640&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
 <meta property="og:url" content="https://deployvet.com/guides/is-my-lovable-app-secure.html">
 <meta property="og:title" content="Is My Lovable App Secure? A Plain Checklist | DeployVet">
@@ -107,13 +107,13 @@
 <header class="nav">
   <div class="wrap nav-in">
     <a href="/" class="brand" aria-label="DeployVet home"><img src="/assets/logo.svg" alt="DeployVet" width="187" height="48"></a>
-    <nav aria-label="Main"><ul class="links">
-      <li><a href="/#checks">What we check</a></li>
-      <li><a href="/#compare">Free vs paid</a></li>
-      <li><a href="/#how">How it works</a></li>
+    <button type="button" class="menu-btn" aria-expanded="false" aria-controls="main-links"><span class="mb-i" aria-hidden="true"></span><span class="mb-l">Menu</span></button>
+    <nav aria-label="Main"><ul class="links" id="main-links">
+      <li><a href="/#checks">What we roast</a></li>
       <li><a href="/#pricing">Pricing</a></li>
       <li><a href="/guides/">Guides</a></li>
       <li><a href="/#faq">FAQ</a></li>
+      <li class="hot"><a href="/scoreboard.html">Scoreboard</a></li>
     </ul></nav>
   </div>
 </header>
@@ -127,7 +127,7 @@
 <p>Lovable also has a built-in security scan. Use it, but treat it as one check, not proof.</p>
 <h2>FAQ</h2>
 <div class="faq"><details><summary>Is the Supabase anon key in my Lovable app a leak?</summary><p>No. The anon key is meant to be public. It is only safe if RLS is on and your policies are tight.</p></details><details><summary>What is Row Level Security?</summary><p>RLS is a Postgres feature. It decides which rows each user can read or change. Without it, the public key can reach the whole table.</p></details><details><summary>Does Lovable turn on RLS for me?</summary><p>It often adds RLS and policies, but you should not assume they are right. Check every table yourself.</p></details><details><summary>Can DeployVet check my Lovable app?</summary><p>Yes. The Free check scans your live site from the outside. The $7 Scan can also read your Supabase project with read-only access.</p></details><details><summary>Is a clean report a promise my app is safe?</summary><p>No. It means we did not find the issues we look for. It is not a penetration test.</p></details></div>
-<div class="cta-box"><h2 style="margin-top:0">Check your app for free</h2><p>DeployVet scans your live site from the outside, like a stranger would. You get a score and the worst issue with a fix.</p><p>DeployVet has three plans. The <b>Free check is $0</b>. A one-time <b>Scan is $7</b>. <b>Pro is $15/mo</b> and adds weekly scans and email alerts. For paid plans you pay first, then the scan runs.</p><p><a href="/#check" class="btn">Run the free check <span aria-hidden="true">→</span></a></p></div>
+<div class="cta-box"><h2>Check your app for free</h2><p>DeployVet scans your live site from the outside, like a stranger would. You get a score and the worst issue with a fix.</p><p>DeployVet has three plans. The <b>Free check is $0</b>. A one-time <b>Scan is $7</b>. <b>Pro is $15/mo</b> and adds weekly scans and email alerts. For paid plans you pay first, then the scan runs.</p><p><a href="/#check" class="btn">Roast my app free</a></p></div>
 <h2>More guides</h2><ul><li><a href="/guides/bolt-new-app-security-checklist.html">Bolt.new app security checklist</a></li><li><a href="/guides/supabase-rls-check-for-ai-apps.html">Supabase RLS check for AI-built apps</a></li><li><a href="/guides/leaked-api-keys-in-frontend.html">Leaked API keys in your frontend</a></li><li><a href="/guides/replit-app-security-before-launch.html">Replit app security before launch</a></li><li><a href="/guides/cursor-vibe-coded-app-security.html">Security for apps vibe coded with Cursor</a></li></ul><p><a href="/guides/">All guides</a></p>
 </div></section>
 </main>
@@ -143,6 +143,7 @@
   <p class="wrap small copy">© 2026 DeployVet</p>
 </footer>
 <script src="/config.js"></script>
+<script src="/nav.js" defer></script>
 <script src="/track.js" defer></script>
 </body>
 </html>

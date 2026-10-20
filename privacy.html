@@ -6,26 +6,26 @@
 <title>Privacy Policy – DeployVet</title>
 <meta name="description" content="What DeployVet collects, why, and how to delete it.">
 <link rel="canonical" href="https://deployvet.com/privacy.html">
-<meta name="theme-color" content="#2340c8">
+<meta name="theme-color" content="#ff3d8b">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,640&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
 <header class="nav">
   <div class="wrap nav-in">
     <a href="/" class="brand" aria-label="DeployVet home"><img src="/assets/logo.svg" alt="DeployVet" width="187" height="48"></a>
-    <nav aria-label="Main"><ul class="links">
-      <li><a href="/#checks">What we check</a></li>
-      <li><a href="/#compare">Free vs paid</a></li>
-      <li><a href="/#how">How it works</a></li>
+    <button type="button" class="menu-btn" aria-expanded="false" aria-controls="main-links"><span class="mb-i" aria-hidden="true"></span><span class="mb-l">Menu</span></button>
+    <nav aria-label="Main"><ul class="links" id="main-links">
+      <li><a href="/#checks">What we roast</a></li>
       <li><a href="/#pricing">Pricing</a></li>
+      <li><a href="/guides/">Guides</a></li>
       <li><a href="/#faq">FAQ</a></li>
-      <li><a href="/#signup">Newsletter</a></li>
+      <li class="hot"><a href="/scoreboard.html">Scoreboard</a></li>
     </ul></nav>
   </div>
 </header>
@@ -66,6 +66,7 @@
   <p class="wrap small copy">© 2026 DeployVet</p>
 </footer>
 <script src="/config.js"></script>
+<script src="/nav.js" defer></script>
 <script src="/track.js" defer></script>
 </body>
 </html>
