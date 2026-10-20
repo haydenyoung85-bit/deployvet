@@ -7,8 +7,8 @@
   const rank = (rows) => { let prev = null, rk = 0; return rows.map((r, i) => { if (r.score !== prev) { rk = i + 1; prev = r.score; } return { ...r, rank: rk }; }); };
   const roasts = (n) => Number.isFinite(n) ? `${n.toLocaleString()} app${n === 1 ? " has" : "s have"} been roasted` : "Apps are getting roasted";
   const EMPTY = {
-    fame: (n) => `<div class="empty"><p class="em-big">This trophy shelf is empty.</p><p>${esc(roasts(n))}, but no owner has claimed a spot yet. Score high? Put your name here first.</p><a class="btn btn-sm btn-y" href="/#check">Roast my app</a></div>`,
-    flame: (n) => `<div class="empty"><p class="em-big">No one's on fire. Yet.</p><p>${esc(roasts(n))}. The bravest owner gets this spot. It takes guts, and a domain you own.</p><a class="btn btn-sm" href="/#check">Roast my app</a></div>`,
+    fame: (n) => `<div class="empty"><p class="em-big">This trophy shelf is empty.</p><p>${esc(roasts(n))}, and not one owner was confident enough to claim a spot. Think your app can take it? Prove it.</p><a class="btn btn-sm btn-y" href="/#check">Roast my app</a></div>`,
+    flame: (n) => `<div class="empty"><p class="em-big">Nobody's brave enough to burn in public. Yet.</p><p>${esc(roasts(n))}. Everyone's hiding their score. Be the first owner with the guts, and a domain you own.</p><a class="btn btn-sm" href="/#check">Roast my app</a></div>`,
   };
   const list = (rows, kind, n) => {
     if (!Array.isArray(rows) || !rows.length) return EMPTY[kind](n);

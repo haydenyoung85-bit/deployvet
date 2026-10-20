@@ -34,53 +34,67 @@
   // ---- Free roast ----
   // Roast lines: [headline, subline] per spice level and grade band. Roast the APP, never the person. No crude stuff.
   const ROASTS = {
+    // Mild = the old Spicy. Roast the APP and the AI-builder habits, never the person.
     mild: {
-      A: [["Honestly? Nice work.", "We came to roast and found almost nothing. Your app is buttoned up."], ["Clean plate.", "Your app kept its keys in its pocket. Gold star."], ["Not much to roast here.", "Hackers would get bored fast. That's a compliment."]],
-      B: [["Pretty solid, one loose thread.", "Your app is mostly ready. A small fix and you're there."], ["Good, with a small to-do.", "Your app left a sock on the floor. Pick it up and you're done."], ["Almost honor roll.", "Your app did the homework. It skipped one page."]],
-      C: [["Middle of the road.", "Some doors are unlocked. Easy fixes, though."], ["Okay, but let's tidy up.", "Your AI wrote the code and took a long lunch."], ["Fixable, for sure.", "A short list stands between you and a safe launch."]],
-      D: [["A bit leaky.", "A few things are open that shouldn't be. Let's close them."], ["Needs some love.", "Your app trusts strangers a little too much."], ["Let's patch a few holes.", "Nothing a calm afternoon can't fix."]],
-      F: [["Okay, this one needs work.", "Good news: you checked before someone else did."], ["Lots to fix, but you've got this.", "Start with the worst issue below."], ["Your app is wide open right now.", "Take it one fix at a time."]],
-    },
-    spicy: {
       A: [["We tried. We really tried.", "Your app gave us nothing to roast. Rude, honestly."], ["Survived the roast.", "Locked doors, hidden keys. Who raised this app so well?"], ["Main character energy, but secure.", "Hackers took one look and went somewhere easier."]],
       B: [["So close it hurts.", "Your app has one button undone and it's doing its best."], ["Good vibes, one side quest.", "Your app is 90% fine and 10% 'oh, about that.'"], ["B for 'barely leaking'.", "One small leak. Patch it before launch day."]],
       C: [["Mid. Very mid.", "Your app has the security of a phone with no lock screen."], ["It's giving 'ship now, patch later'.", "Later is here. Good news: the list is short."], ["C for 'could be worse'.", "And it could be a lot better. Let's go."]],
       D: [["Your app is out here trusting strangers.", "Like a golden retriever. Sweet, but no."], ["D for 'doors open'.", "The welcome mat is out and so is your data."], ["Your AI was very confident.", "The code was less sure."]],
       F: [["Your app is open for business. All of it.", "Front door, back door, the database. Good thing you checked first."], ["F for 'free real estate'.", "Your app is sharing more than a group chat at 2am."], ["The vibes were coded. The locks were not.", "Totally fixable. Start below."]],
     },
+    spicy: {
+      A: [["Ugh. Fine. It's secure.", "We sharpened every joke we had and your app just sat there being competent. Disgusting."], ["No roast for you.", "Your app is locked tighter than a startup's Figma file. We hate it here."], ["Did a human review this?", "Because this is NOT how 'the AI handled auth' usually ends."]],
+      B: [["One leak away from greatness.", "Your app is a nice house with one window open and a sign that says 'probably fine'."], ["So close. So annoying.", "Your app did 90% of the work, then shipped at 3am and called it a night."], ["B for 'brief panic'.", "One issue. The kind you find right after you post the launch tweet."]],
+      C: [["It works on my preview.", "Your app passed every test. The test was 'does the page load?'"], ["Security by vibes.", "Half of this app is locked. The other half is a prayer."], ["C for 'Claude said it was fine'.", "Claude also says please and thank you. It's not a security review."]],
+      D: [["Your app is a lost wallet with the ID still in it.", "It's not hacked yet. It's just extremely findable."], ["The AI handled auth. Allegedly.", "We checked. The AI handled 'auth-shaped' and moved on."], ["47 'fix bug' commits and this is the result.", "The bugs stayed. They brought friends."]],
+      F: [["This isn't an app. It's an open house.", "Keys, data, files. Snacks are in the kitchen. Help yourself, internet."], ["F for 'found everything'.", "We didn't hack your app. We just walked in. The door wasn't even closed."], ["Shipped at 3am. It shows.", "Your app went live with the confidence of a prompt and the locks of a tent."]],
+    },
     nuclear: {
-      A: [["We brought the flamethrower for nothing.", "Your app is so locked down it's almost boring. Respect."], ["Fireproof. Annoyingly.", "We searched every corner. Your app just stared back."], ["Roast cancelled. Not enough fuel.", "This app takes security more seriously than most banks we've seen."]],
-      B: [["One crack, and we found it.", "Your app was one fix from untouchable. Now it's one fix from untouchable and roasted."], ["Close. Not close enough to escape.", "Your app locked the house and left a window open."], ["Almost perfect, which is the funniest kind.", "So much work, and then this."]],
-      C: [["Your app's security is a group project nobody finished.", "Some parts are great. Some parts are a sticky note that says 'TODO'."], ["Average is a choice.", "Your app picked 'it works on my machine' as its security model."], ["This app runs on hope.", "Hope is not a security header."]],
-      D: [["Your app is a screen door on a submarine.", "It looks like a door. It does not act like one."], ["Hackers would leave a thank-you note.", "Your app does half their work for them."], ["This isn't a bug. It's a buffet.", "Strangers can help themselves. Let's close the kitchen."]],
-      F: [["Your app isn't leaking. It's a sprinkler.", "Keys, data, files. Everyone gets some."], ["Your app has the security of a public diary.", "With a sign that says 'please read'. Fix below, fast."], ["We've seen sandcastles with better walls.", "And the tide is coming. Start with the fix below."]],
+      A: [["We brought a flamethrower and found a fire station.", "Your app is so locked down we're filing a complaint. Respect, sadly."], ["Fireproof. Unbearably.", "We searched every corner. Your app stared back like a bank vault with a superiority complex."], ["Roast cancelled due to lack of crimes.", "Somewhere a prompt engineer is furious this app actually reads its own security docs."]],
+      B: [["Ninety percent fortress, ten percent screen door.", "You built a castle and left the drawbridge down for one guy. We are that guy."], ["So close it's tragic.", "Your app ran the whole marathon and tripped on the finish line's shoelace."], ["One hole. We found it. We always find it.", "Your app was one fix from untouchable. Now it's one fix from untouchable and roasted on the internet."]],
+      C: [["Your app's security plan is 'nobody will look'.", "We looked. It took one request."], ["It works on my preview, part two.", "Production called. It wants its locks back."], ["This app runs on hope and a free tier.", "Hope is not a security header. We checked. Twice."]],
+      D: [["Your app isn't vibe-coded. It's vibe-exposed.", "This is less 'ship fast' and more 'leak fast'."], ["Hackers would leave a five-star review.", "'Easy setup. Very welcoming. Would breach again.'"], ["'Claude said it was secure' is not a legal defense.", "Your app trusts strangers more than a toddler at a candy shop."]],
+      F: [["Your app isn't vibe-coded. It's a crime scene with a favicon.", "Keys, data, files, all of it, taped off and on display."], ["This app isn't leaking. It's a public fountain.", "Your secrets aren't secret. They're a guided tour with free parking."], ["Somewhere, a hacker just whispered 'thank you'.", "47 'fix bug' commits, zero fixed locks. Your app is the free sample at Costco, and everyone's lining up."]],
     },
   };
   // Burns per finding category (from scanner.ts). Specific ids override the category.
+  // Each entry: [mild, spicy, nuclear]; each level can be a list, one is picked at random.
   const BURNS = {
-    secrets: ["A secret key is sitting in your public code.", "Your secret key is in the JS bundle. Anyone can copy it, and the bill is yours.", "Your API key is more public than your landing page."],
-    database: ["Some of your database can be read without a login.", "Your database is open to anyone who asks nicely. Or rudely.", "Your database has no lock. It barely has a door."],
-    headers: ["A few security headers are missing.", "No security headers at all. Bold choice.", "Your headers are as empty as a hackathon fridge at 4am."],
-    transport: ["Some traffic isn't using HTTPS.", "Plain HTTP in this economy?", "Your app talks in plain text like it's 1999."],
-    exposure: ["A private file or route is reachable by strangers.", "Your private stuff is one URL away from the whole internet.", "Your app left its diary open on the bus."],
-    links: ["Some pages or links are broken.", "Links that go nowhere. Very mysterious. Very broken.", "Your app has more dead ends than a corn maze."],
-    seo: ["Search engines can't read you well.", "Google can't find you. That's the one thing that should find you.", "Your app is hiding from Google better than from hackers."],
-    info: ["A small detail leaks out.", "Your app overshares about its tech stack.", "Your app announces its whole tech stack like a dating profile."],
+    secrets: [["Your secret key is in the JS bundle. Anyone can copy it, and the bill is yours."], ["Your secret key is in the JS bundle. That's not a key, that's a party invite.", "Your API key is more public than your landing page."], ["Your secret key is in the browser. Hackers don't need to hack, they just need to scroll.", "You didn't leak a key. You published it. With a launch post."]],
+    database: [["Your database is open to anyone who asks nicely. Or rudely."], ["Your database has no lock. It barely has a door.", "Your tables are open like a 24-hour diner. No ID needed."], ["Your database isn't open, it's a petting zoo. Everyone gets to touch everything.", "Your users trusted you with their data. Your database trusted everyone."]],
+    headers: [["No security headers at all. Bold choice."], ["Your headers are as empty as a hackathon fridge at 4am.", "Zero security headers. The AI said 'optional' and you believed it."], ["Your app wears no armor and calls it 'minimalist design'.", "Security headers missing. Your app is skydiving with a backpack full of snacks."]],
+    transport: [["Plain HTTP in this economy?"], ["Your app talks in plain text like it's 1999.", "No HTTPS. Your traffic is a postcard anyone can read."], ["Your app sends data like it's shouting across a crowded mall.", "Plain HTTP in this economy? Your app is basically a fax machine with a logo."]],
+    exposure: [["Your private stuff is one URL away from the whole internet."], ["Your app left its diary open on the bus.", "Private files, public URL. Big 'it works on my preview' energy."], ["Your private files are public. That's not a leak, that's a museum exhibit.", "Your app keeps secrets the way a group chat keeps secrets."]],
+    links: [["Links that go nowhere. Very mysterious. Very broken."], ["Your app has more dead ends than a corn maze.", "Broken links. Your users click and get ghosted."], ["Your app's links lead nowhere, like a 3am roadmap.", "Broken pages everywhere. Your app is a haunted house, minus the fun."]],
+    seo: [["Google can't find you. That's the one thing that should find you."], ["Your app is hiding from Google better than from hackers.", "Search engines can't read you. Hackers can. Wrong order."], ["Google can't find your app. Hackers found it in four seconds. Priorities.", "Your app is invisible to search and wide open to strangers. Impressive, backwards."]],
+    info: [["Your app overshares about its tech stack."], ["Your app announces its whole tech stack like a dating profile.", "Your server tells strangers what it runs. Nobody asked."], ["Your app hands out its tech stack like a business card at a hacker convention.", "Your server overshares like it's on a podcast."]],
   };
   const ID_BURNS = {
-    env_exposed: ["Your .env file can be downloaded.", "Your .env file is public. Every secret, one click away.", "Your .env file is basically a press release."],
-    git_exposed: ["Your .git folder is public.", "Your whole source code history is public. Every commit. Every regret.", "Your .git folder is open. That's every commit, including the 'oops' ones."],
-    supabase_rls_readable: ["A table can be read without a login.", "RLS is off. Your users' data is a public spreadsheet.", "Your table is so open it should have a guestbook."],
-    admin_open: ["/admin loads without a login.", "Your admin page has no bouncer.", "Your admin panel is open to the public. Even the cat could get in."],
-    stripe_live_secret: ["A live Stripe secret key is in public code.", "Your live Stripe key is public. That's your money, not a demo.", "You put your Stripe live key in the browser. It's like taping your card to a lamppost."],
-    missing_csp: ["No Content-Security-Policy header.", "No CSP. Any script can show up and run.", "No CSP. Your page runs whatever script shows up."],
-    no_https: ["Your site isn't on HTTPS.", "No HTTPS. Every password goes out in plain text.", "No HTTPS. Your login form sends passwords on a postcard."],
+    env_exposed: [["Your .env file is public. Every secret, one click away."], ["Your .env file is basically a press release.", "Your .env is downloadable. That's not a config file, that's a gift basket."], ["Your .env is public. You didn't get hacked, you got catered.", "Your .env file is open. Every secret you have, gift-wrapped, free shipping."]],
+    git_exposed: [["Your whole source code history is public. Every commit. Every regret."], ["Your .git folder is open. All 47 'fix bug' commits, live for the world.", "Your .git is public. Strangers can read your code and your commit messages. Both hurt."], ["Your .git folder is public. Your entire history, every 3am 'fix bug', streaming worldwide.", "Your .git is open. This is less open source and more open wound."]],
+    supabase_rls_readable: [["RLS is off. Your users' data is a public spreadsheet."], ["Your Supabase table is so open it should have a guestbook.", "RLS off. 'The AI handled auth.' The AI handled nothing."], ["RLS is off. Your users' data has the privacy of a billboard.", "Your Supabase table is open to the whole internet. Row Level Security was right there. Right there."]],
+    supabase_schema_exposed: [["Your database layout is public. It's like posting your house's floor plan."], ["Your Supabase schema is public. You handed strangers the map and the flashlight.", "Your schema is exposed. Now everyone knows where the good stuff is."], ["Your schema is public. Hackers don't need to guess, you drew them a treasure map.", "Your database's blueprint is public. You basically wrote the heist script."]],
+    admin_open: [["Your admin page has no bouncer."], ["Your admin panel is open to the public. Even the cat could get in.", "/admin loads with no login. 'It works on my preview.' It works for everyone else too."], ["Your admin panel is open. Strangers can be the boss now. Congrats on the promotion, internet.", "No login on /admin. Your app has a VIP room with no door and a neon sign."]],
+    api_open: [["Your API answers anyone, no login needed."], ["Your API takes requests from anyone. It's a vending machine with no coin slot.", "Open API route. 'The AI handled auth' strikes again."], ["Your API serves strangers like a waiter who doesn't check if you're a customer.", "Your API has no login. It's a buffet and everyone's invited."]],
+    stripe_live_secret: [["Your live Stripe key is public. That's your money, not a demo."], ["You put your Stripe live key in the browser. It's like taping your card to a lamppost.", "Your live Stripe key is public. Your bank account just went open source."], ["Your live Stripe key is in the browser. Your revenue is now a group project.", "Live Stripe key, public JS. You didn't launch a startup, you launched a giveaway."]],
+    missing_csp: [["No CSP. Any script can show up and run."], ["No CSP. Your page runs whatever script shows up, like a party with no guest list.", "No Content-Security-Policy. Your page trusts every script like it's family."], ["No CSP. Your app will run any script a stranger hands it. Candy from vans, but code.", "No CSP. Your page is an open mic and the hackers brought a set."]],
+    missing_xfo: [["Your page can be framed by other sites."], ["Anyone can put your app in a frame and trick your users. Clickjacking says hi.", "No framing protection. Your app is a picture anyone can hang on their wall."], ["Your app can be framed by any sketchy site. It's a hostage with a nice UI.", "No framing protection. Clickjackers can wear your app like a costume."]],
+    no_https: [["No HTTPS. Every password goes out in plain text."], ["No HTTPS. Your login form sends passwords on a postcard.", "No HTTPS in 2026. Your app is wearing a 'kick me' sign."], ["No HTTPS. Your users' passwords travel the internet naked.", "No HTTPS. Your login form is a megaphone."]],
+    no_https_redirect: [["The http:// version still loads. Some visitors skip the lock."], ["Your http:// site still works. Half your users take the unlocked back door.", "No HTTPS redirect. You built a lock and left a side entrance."], ["You have HTTPS and still serve plain HTTP. A vault with a doggy door.", "No redirect to HTTPS. You bought the lock and propped the door open."]],
+    mixed_content: [["Some files load over plain http on a secure page."], ["Mixed content. Your HTTPS page loads http files, like a seatbelt worn as a scarf.", "Your secure page pulls insecure files. Half a lock is no lock."], ["Mixed content. Your app has HTTPS, then loads files over HTTP like it wants to get caught.", "Secure page, insecure files. That's a bulletproof vest made of paper."]],
+    page_error: [["Your home page returns an error. Visitors see nothing."], ["Your home page is an error. Bold launch strategy.", "Your home page is broken. Your app's first impression is a shrug."], ["Your home page is an error page. You shipped a 404 with a domain name.", "Your homepage doesn't load. It's not a launch, it's a ghost town with SSL."]],
+    broken_links: [["Some links go nowhere."], ["Broken links everywhere. Your users click and get ghosted.", "Your links lead to nothing, like a prompt with no context."], ["Your app's links go nowhere. It's a choose-your-own-adventure where every choice is wrong.", "Broken links galore. Your nav menu is a list of dead ends."]],
+    backup_exposed: [["A backup file is public. Old secrets live there."], ["Your backup file is public. 'final_v2_REAL.zip' is now everyone's.", "Public backup. Your old secrets are still alive and accepting visitors."], ["Your backup is public. You didn't back up your app, you backed it up onto the sidewalk.", "Public backup file. Your past mistakes are now downloadable."]],
+    config_exposed: [["A config file is public. It shows how your app is wired."], ["Your config file is public. You posted the wiring diagram on the front door.", "Public config. Strangers now know your app better than you do."], ["Your config is public. That's the instruction manual for breaking in.", "Config file exposed. You left the keys to the server room taped to the server."]],
+    ds_store: [["A .DS_Store file is public. It lists your folder names."], ["Your .DS_Store is public. Your Mac is snitching on your folder names.", ".DS_Store exposed. Your file list is now public, thanks to your laptop."], ["Your .DS_Store is public. Your Mac is giving a guided tour of your folders.", ".DS_Store is live. Even your file system is leaking."]],
+    cors_wildcard_creds: [["Your CORS rules let other sites act as your users."], ["Your CORS says 'anyone, any site, with cookies'. That's a house key for every neighbor.", "CORS wide open with credentials. Other sites can borrow your users' logins."], ["Your CORS rules let any site use your users' sessions. That's not sharing, that's identity theft with extra steps.", "Wildcard CORS with credentials. Your API trusts the whole internet with your users' logins."]],
+    x_powered_by: [["Your server tells strangers what it runs."], ["Your server announces its tech stack like a dating profile.", "X-Powered-By header. Your server overshares like it's on a podcast."], ["Your server tells hackers its exact tech stack. You wrote them a shopping list.", "Your headers brag about your stack. Hackers love a bragger."]],
   };
   const COUNT_BURNS = {
-    critical: (n, s) => [`${n} critical issue${n > 1 ? "s" : ""}. Fix these first.`, `${n} critical. This one's a fire, not a burn.`, `${n} critical. Somewhere a hacker just got excited.`][s],
-    high: (n, s) => [`${n} high issue${n > 1 ? "s" : ""} to look at.`, `${n} high. That's ${n} open door${n > 1 ? "s" : ""}.`, `${n} high. Your app is one tweet away from trending, for the wrong reason.`][s],
-    medium: (n, s) => [`${n} medium issue${n > 1 ? "s" : ""}.`, `${n} medium. Not on fire, but warm.`, `${n} medium. Smoldering, not quite flames.`][s],
-    low: (n, s) => [`${n} low issue${n > 1 ? "s" : ""}. Small stuff.`, `${n} low. Small stuff, but it adds up.`, `${n} low. Paper cuts, but lots of them.`][s],
+    critical: (n, s) => [[`${n} critical. This one's a fire, not a burn.`], [`${n} critical. Somewhere a hacker just got excited.`, `${n} critical. This isn't a to-do list, it's an emergency.`], [`${n} critical. Hackers are fighting over who gets your app first.`, `${n} critical. Your app is a crime scene and we just counted the evidence.`]][s],
+    high: (n, s) => [[`${n} high. That's ${n} open door${n > 1 ? "s" : ""}.`], [`${n} high. Your app is one tweet away from trending, for the wrong reason.`, `${n} high. ${n > 1 ? "Those are" : "That's"} not bugs, ${n > 1 ? "they're" : "it's"} invitations.`], [`${n} high. Your app has more open doors than a mall on Black Friday.`, `${n} high. Each one is a hacker's favorite bookmark.`]][s],
+    medium: (n, s) => [[`${n} medium. Not on fire, but warm.`], [`${n} medium. Smoldering. One bad day from flames.`, `${n} medium. The 'I'll fix it after launch' pile.`], [`${n} medium. Smoldering like a laptop left on a bed.`, `${n} medium. Small fires add up to a big one.`]][s],
+    low: (n, s) => [[`${n} low. Small stuff, but it adds up.`], [`${n} low. Paper cuts, but lots of them.`, `${n} low. Not scary. Just embarrassing.`], [`${n} low. Death by a thousand paper cuts, starting with these.`, `${n} low. Tiny holes. Hackers are tiny too.`]][s],
   };
   const LV = { mild: 0, spicy: 1, nuclear: 2 };
   const pick = (a) => a[Math.floor(Math.random() * a.length)];
@@ -88,7 +102,7 @@
   const band = (g, score) => { g = String(g || "").trim().toUpperCase().charAt(0); if (ROASTS.spicy[g]) return g; if (g === "E") return "F";
     const n = Number(score); return n >= 90 ? "A" : n >= 75 ? "B" : n >= 60 ? "C" : n >= 40 ? "D" : "F"; };
   const SITE = "https://deployvet.com/?utm_source=share";
-  const shareText = (r, withUrl) => `DeployVet just roasted my app${withUrl && r.url ? ` (${r.url})` : ""}: ${r.score}/100 🔥 Get roasted free: ${SITE}`;
+  const shareText = (r, withUrl) => `DeployVet roasted my app${withUrl && r.url ? ` (${r.url})` : ""} and I scored ${r.score}/100 🔥 Think your vibe-coded app can take the heat? Get roasted free: ${SITE}`;
   const BADGE_HTML = '<a href="https://deployvet.com/?utm_source=badge"><img src="https://deployvet.com/assets/badge-survived.svg" alt="Survived the DeployVet Roast" width="160" height="160"></a>';
   window.DeployVet.roastLine = (g) => pick(ROASTS.spicy[band(g)])[0];
 
@@ -117,7 +131,8 @@
     const g = band(r.grade, r.score), lv = LV[spice] ?? 1;
     const [head, sub] = pick(ROASTS[spice] ? ROASTS[spice][g] : ROASTS.spicy[g]);
     const t = r.topIssue;
-    const topBurn = t ? ((ID_BURNS[t.id] || BURNS[t.category] || BURNS.info)[lv]) : "";
+    const lvl = (x) => (Array.isArray(x) ? pick(x) : x);
+    const topBurn = t ? lvl((ID_BURNS[t.id] || BURNS[t.category] || BURNS.info)[lv]) : "";
     const counts = r.counts || {};
     const order = ["critical", "high", "medium", "low", "info"];
     const chips = order.filter((k) => counts[k]).map((k) => `<span class="sev ${k}">${esc(counts[k])} ${esc(k)}</span>`).join("");
@@ -128,10 +143,10 @@
       <div class="fixbox"><b>The fix</b><p>${esc(t.fix || "Open the full roast for step-by-step fix prompts.")}</p></div></li>`;
     const rest = order.slice(0, 4).filter((k) => counts[k]).map((k) => {
       const left = Number(counts[k]) - (t && t.severity === k ? 1 : 0); if (left < 1) return "";
-      return `<li class="locked"><span class="sev ${k}">${esc(k)}</span><p class="burn-l">${esc(COUNT_BURNS[k](left, lv))}</p>
+      return `<li class="locked"><span class="sev ${k}">${esc(k)}</span><p class="burn-l">${esc(lvl(COUNT_BURNS[k](left, lv)))}</p>
         <div class="fixbox"><b>The fix</b><p>Every one of these, with a fix prompt for your builder, is in the full roast ($7 once).</p></div></li>`; }).join("");
     burns += rest;
-    if (!burns) burns = `<li><p class="burn-l">Nothing serious to burn.</p><p class="what">Our outside check found no serious issues. That's not a promise your app is safe, but it's a great start.</p></li>`;
+    if (!burns) burns = `<li><p class="burn-l">${esc(pick(["Nothing to burn. We checked twice. We're annoyed.", "Zero burns. Our roast writers are filing for unemployment.", "Clean. Our flamethrower is just sitting here."]))}</p><p class="what">Our outside check found no serious issues. That's not a promise your app is safe, but it's a great start.</p></li>`;
     dlgR.className = "roast g-" + g;
     document.getElementById("roast-body").innerHTML = `
       <div class="r-card ${g === "A" || g === "B" ? "slam" : "shake"}">
@@ -207,7 +222,7 @@
     x.font = `600 34px ${F}`; wrap(burn, 90, y + 56, 1000, 40, 2);
     // footer strip
     box(40, 610, 1110, 50, 14, "#111", 0);
-    x.fillStyle = "#fff6e5"; x.font = `800 28px ${F}`; x.fillText("Roasted by DeployVet  ·  deployvet.com", 170, 645);
+    x.fillStyle = "#fff6e5"; x.font = `800 28px ${F}`; x.fillText("Survived (barely) a DeployVet roast  ·  deployvet.com", 170, 645);
     try { const img = new Image(); img.src = "/favicon.svg"; await img.decode(); x.drawImage(img, 110, 614, 42, 42); } catch (_) {}
     return cv;
   }
@@ -217,7 +232,7 @@
     const file = new File([blob], `deployvet-roast-${d.score}.png`, { type: "image/png" });
     const mobile = matchMedia("(max-width: 820px)").matches || /Mobi|Android/i.test(navigator.userAgent);
     if (mobile && navigator.canShare && navigator.canShare({ files: [file] })) {
-      try { await navigator.share({ files: [file], text: `DeployVet just roasted my app: ${d.score}/100 🔥 ${SITE}` }); return; } catch (e) { if (e.name === "AbortError") return; }
+      try { await navigator.share({ files: [file], text: `DeployVet roasted my app: ${d.score}/100 🔥 Your turn: ${SITE}` }); return; } catch (e) { if (e.name === "AbortError") return; }
     }
     const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = file.name; document.body.appendChild(a); a.click(); a.remove();
     setTimeout(() => URL.revokeObjectURL(a.href), 4000);

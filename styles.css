@@ -257,3 +257,5 @@ dialog.roast::backdrop{background:var(--ink)}
 .board .dm{display:block;font:500 .8rem var(--mono,monospace);opacity:.75;word-break:break-all}
 .join .leave{margin-top:14px}
 .join .leave a{color:var(--ink);font-weight:700}
+.st1{font-size:.82rem;width:170px;height:170px}
+.selfown{display:inline-block;margin:6px 0 0;font:800 1rem var(--head);background:var(--yellow);border:var(--line);border-radius:12px;padding:6px 12px;box-shadow:var(--shadow-s);transform:rotate(-1deg)}
