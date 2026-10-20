@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your report – DeployVet</title>
+<meta name="description" content="Your DeployVet scan report.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#2340c8">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,640&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a href="/" class="brand" aria-label="DeployVet home"><img src="/assets/logo.svg" alt="DeployVet" width="187" height="48"></a>
+    <nav aria-label="Main"><ul class="links">
+      <li><a href="/#checks">What we check</a></li>
+      <li><a href="/#compare">Free vs paid</a></li>
+      <li><a href="/#how">How it works</a></li>
+      <li><a href="/#pricing">Pricing</a></li>
+      <li><a href="/#faq">FAQ</a></li>
+      <li><a href="/#signup">Newsletter</a></li>
+    </ul></nav>
+  </div>
+</header>
+<main class="wrap"><article class="legal">
+<p class="eyebrow">DeployVet report</p>
+<h1 id="r-h">Loading your report…</h1>
+<div id="r-body"></div>
+</article></main>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div><img src="/assets/logo.svg" alt="DeployVet" width="156" height="40"><p class="small">Made by Hayden Young. DeployVet is not a penetration test.</p></div>
+    <ul class="flinks">
+      <li><a href="mailto:support@deployvet.com">support@deployvet.com</a></li>
+      <li><a href="/privacy.html">Privacy</a></li><li><a href="/terms.html">Terms</a></li><li><a href="/refunds.html">Refunds</a></li><li><a href="/llms.txt">llms.txt</a></li>
+    </ul>
+  </div>
+  <p class="wrap small copy">© 2026 DeployVet</p>
+</footer>
+<script src="/config.js"></script>
+<script src="/app.js"></script>
+<script>
+(async function(){
+  const esc = DeployVet.esc, h = document.getElementById("r-h"), b = document.getElementById("r-body");
+  const t = new URLSearchParams(location.search).get("t") || "";
+  try {
+    const r = await DeployVet.call("report", null, "GET", "?t=" + encodeURIComponent(t));
+    if (r.status !== "done") { h.textContent = "Your scan is still running."; b.innerHTML = "<p>Refresh this page in a minute.</p>"; return; }
+    h.textContent = "Score " + r.score + "/100 · Grade " + r.grade;
+    const f = (r.result && r.result.findings) || [];
+    b.innerHTML = "<p class='small'>Scanned " + esc(new Date(r.created_at).toLocaleString()) + ". " + f.length + " item(s) found.</p>" +
+      f.map(x => "<div class='box'><p><span class='sev " + (x.severity === "medium" ? "med" : esc(x.severity)) + "'>" + esc(x.severity) + "</span> <b>" + esc(x.title) + "</b></p><p class='small'>" + esc(x.detail) + (x.location ? " · " + esc(x.location) : "") + "</p><pre class='fix-t'>" + esc(x.fix) + "</pre></div>").join("") +
+      "<p class='small'>DeployVet is not a penetration test. A clean report means we did not find the issues we check for.</p>";
+  } catch (e) { h.textContent = "We couldn't open this report."; b.innerHTML = "<p>" + esc(e.message) + " Check the link in your email, or contact <a href='mailto:support@deployvet.com'>support@deployvet.com</a>.</p>"; }
+})();
+</script>
+</body>
+</html>

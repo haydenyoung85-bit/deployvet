@@ -1,0 +1,25 @@
+# DeployVet
+
+> DeployVet is a pre-launch security and bug check for web apps built with AI and no-code tools (Lovable, Bolt, Replit, Cursor, v0, Bubble) and apps with Supabase backends. Made by Hayden Young. Formerly called Launch Guard. It is not a penetration test.
+
+## What it checks
+- DeployVet Free Check: an outside-only scan of the public URL. Covers exposed keys in the JS bundle, the Supabase anon key with a Row Level Security probe, security headers, open admin/API routes, mixed content and broken pages.
+- DeployVet Scan: everything above plus a read-only check of the repo or Supabase project the user connects, and copy-paste fix prompts for their builder.
+- Owners verify their domain with a DNS TXT record or a meta tag. DeployVet only checks sites the user owns.
+
+## Pricing (USD)
+- DeployVet Free Check: $0. One outside scan per verified site each month. Shows the score, issue counts and full detail for the most serious issue.
+- DeployVet Scan: $7 one-time. Paid up front, then the scan runs.
+- DeployVet Pro: $15/month or $150/year, billed up front. Weekly scans with email alerts and scan history. Cancel any time.
+
+## Who it is for
+- Non-technical founders and solo makers shipping with AI builders
+- Indie hackers using Cursor or v0 with Supabase
+- Agencies shipping AI-built apps for clients
+
+## Who it is not for
+- Teams that need a formal penetration test, compliance attestation or legal security sign-off
+
+## Links
+- Home: https://deployvet.com/
+- Contact: support@deployvet.com

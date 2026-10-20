@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thanks for your order – DeployVet</title>
+<meta name="description" content="Next steps after paying for a DeployVet Scan or Pro.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#2340c8">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,640&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a href="/" class="brand" aria-label="DeployVet home"><img src="/assets/logo.svg" alt="DeployVet" width="187" height="48"></a>
+    <nav aria-label="Main"><ul class="links">
+      <li><a href="/#checks">What we check</a></li>
+      <li><a href="/#compare">Free vs paid</a></li>
+      <li><a href="/#how">How it works</a></li>
+      <li><a href="/#pricing">Pricing</a></li>
+      <li><a href="/#faq">FAQ</a></li>
+      <li><a href="/#signup">Newsletter</a></li>
+    </ul></nav>
+  </div>
+</header>
+<main class="wrap"><article class="legal">
+<p class="eyebrow">Payment received</p>
+<h1>Thanks! One more step.</h1>
+<p>We only scan sites you own, so please prove this one is yours. Then your scan starts.</p>
+<div class="box" id="verify-box">
+<p><b>Add one of these to your site</b>:</p>
+<p>A DNS TXT record:<br><code id="v-txt">deployvet-verify=…</code></p>
+<p>Or this tag inside your home page's &lt;head&gt;:<br><code id="v-meta">&lt;meta name="deployvet-verification" content="…"&gt;</code></p>
+<p><button type="button" class="btn" id="v-btn">I added it, check now <span aria-hidden="true">→</span></button></p>
+<div id="v-result" class="notice" hidden aria-live="polite"></div>
+</div>
+<p class="small">DNS changes can take a few minutes. We'll also email your report when it's ready. Questions? <a href="mailto:support@deployvet.com">support@deployvet.com</a></p>
+</article></main>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div><img src="/assets/logo.svg" alt="DeployVet" width="156" height="40"><p class="small">Made by Hayden Young. DeployVet is not a penetration test.</p></div>
+    <ul class="flinks">
+      <li><a href="mailto:support@deployvet.com">support@deployvet.com</a></li>
+      <li><a href="/privacy.html">Privacy</a></li><li><a href="/terms.html">Terms</a></li><li><a href="/refunds.html">Refunds</a></li><li><a href="/llms.txt">llms.txt</a></li>
+    </ul>
+  </div>
+  <p class="wrap small copy">© 2026 DeployVet</p>
+</footer>
+<script src="/config.js"></script>
+<script src="/app.js"></script>
+<script>
+(function(){
+  const o = JSON.parse(sessionStorage.getItem("dv_order") || "{}");
+  const q = new URLSearchParams(location.search); const order_id = q.get("order") || o.order_id;
+  const esc = DeployVet.esc, out = document.getElementById("v-result");
+  if (o.verify_token) { document.getElementById("v-txt").textContent = "deployvet-verify=" + o.verify_token; document.getElementById("v-meta").textContent = '<meta name="deployvet-verification" content="' + o.verify_token + '">'; }
+  document.getElementById("v-btn").addEventListener("click", async () => {
+    out.hidden = false; out.className = "notice"; out.textContent = "Checking…";
+    try {
+      if (!o.site_id) throw new Error("We couldn't find your order in this browser. Please use the link in your email, or contact support.");
+      const r = await DeployVet.call("verify-domain", { site_id: o.site_id, order_id });
+      out.className = "notice ok";
+      out.innerHTML = r.verified ? (r.scanning ? "Verified! Your scan is running. We'll email your report in a few minutes." : "Verified! We'll email your report when it's ready.") : "We couldn't find the record or tag yet. Wait a few minutes and try again.";
+    } catch (e) { out.className = "notice err"; out.textContent = e.message; }
+  });
+})();
+</script>
+</body>
+</html>
