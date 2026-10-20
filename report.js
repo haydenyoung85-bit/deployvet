@@ -22,12 +22,26 @@
         "<p class='small'><b>Proof:</b> " + esc(x.detail) + (x.location ? " · <code>" + esc(x.location) + "</code>" : "") + "</p>" +
         "<p class='small'><b>Fix:</b> " + esc(x.fix) + "</p>" +
         (p ? "<p class='small'><b>Fix prompt for your builder</b> <button type='button' class='btn btn-sm btn-line no-print' data-copy='" + i + "'>Copy prompt</button></p><pre class='fix-t'>" + esc(p) + "</pre>" : "") +
-        "<div class='slot' id='slot-" + i + "'></div></div>";
+        (F.recheck && /^https?:/.test(x.location || "") && x.category !== "seo" ? "<p class='no-print'><button type='button' class='btn btn-sm btn-y' data-recheck='" + i + "'>" + (x.fixed_at ? "✓ Fixed. Re-check again" : "Did I fix it?") + "</button></p>" : "") +
+        "<div class='slot' id='slot-" + i + "' aria-live='polite'>" + (x.fixed_at ? "<p class='notice ok'>✓ fixed " + esc(new Date(x.fixed_at).toLocaleString()) + "</p>" : "") + "</div></div>";
     }).join("") +
     ((res.notes || []).length ? "<details><summary>Scan notes</summary><ul class='small'>" + res.notes.map((n) => "<li>" + esc(n) + "</li>").join("") + "</ul></details>" : "") +
     "<p class='small'>DeployVet is not a penetration test. A clean report means we did not find the issues we check for.</p>";
   document.getElementById("r-pdf").addEventListener("click", () => window.print());
   b.addEventListener("click", async (e) => {
+    const rc = e.target.closest("[data-recheck]");
+    if (rc) {
+      const i = +rc.dataset.recheck, slot = document.getElementById("slot-" + i);
+      rc.disabled = true; rc.textContent = "Re-checking…";
+      try {
+        const x = await D.call("recheck", { t, i });
+        if (!x.supported) slot.innerHTML = "<p class='notice'>" + esc(x.message) + "</p>";
+        else if (x.fixed === true) { slot.innerHTML = "<p class='notice ok'><b>✓</b> " + esc(x.line) + "</p>"; h.textContent = "Score " + x.score + "/100 · Grade " + x.grade; rc.textContent = "✓ Fixed. Re-check again"; }
+        else if (x.fixed === false) { slot.innerHTML = "<p class='notice err'><b>✗</b> " + esc(x.line) + "</p>"; rc.textContent = "Did I fix it?"; }
+        else { slot.innerHTML = "<p class='notice'>" + esc(x.message) + "</p>"; rc.textContent = "Did I fix it?"; }
+      } catch (err) { slot.innerHTML = "<p class='notice err'>" + esc(err.status === 402 ? "Re-checks are part of Pro." : err.message) + "</p>"; rc.textContent = "Did I fix it?"; }
+      rc.disabled = false; return;
+    }
     const c = e.target.closest("[data-copy]"); if (!c) return;
     const x = f[+c.dataset.copy]; await navigator.clipboard.writeText(promptFor(x)); c.textContent = "Copied ✓";
   });
