@@ -8,7 +8,7 @@
 - Owners verify their domain with a DNS TXT record or a meta tag. DeployVet only checks sites the user owns.
 
 ## Pricing (USD)
-- DeployVet Free Check: $0. One outside scan per verified site each month. Shows the score, issue counts and full detail for the most serious issue.
+- DeployVet Free Check: $0. One outside scan per verified site each month. Shows the "Vibe Score" (a 0-100 score plus an A-F grade, with a playful one-line verdict), issue counts and full detail and fix for the most serious issue. Results can be shared on X; the checked URL is left out unless the user opts in.
 - DeployVet Scan: $7 one-time. Paid up front, then the scan runs.
 - DeployVet Pro: $15/month or $150/year, billed up front. Weekly scans with email alerts and scan history. Cancel any time.
 

@@ -160,3 +160,15 @@ dialog.buy::backdrop{background:rgba(22,24,43,.35)}
 .legal{max-width:760px;padding:72px 0 96px}.legal h1{font-size:clamp(36px,4vw,52px)}.legal h2{font-size:26px;margin:40px 0 8px;max-width:none}
 .legal p,.legal li{color:var(--ink2)}.legal .box{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:18px 22px;margin:24px 0}
 .pro-plan[hidden],.notice[hidden]{display:none}
+/* Vibe Score result */
+.vibe-head{display:flex;gap:16px;align-items:center}
+.vibe-num{font:640 44px/1 var(--disp);color:var(--brand)}.vibe-num small{font:500 15px var(--body);color:var(--mut)}
+.vibe-grade{font:700 20px/1 var(--mono);border:1.5px solid var(--brand);color:var(--brand);border-radius:6px;padding:8px 11px;background:var(--paper)}
+.vibe-label{margin:0 0 4px;font:600 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}
+.vibe-verdict{margin:12px 0 2px;font:640 21px/1.25 var(--disp)}
+.vibe-roast{margin:0 0 6px;color:var(--ink2);font-size:16px}
+.r-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:14px}
+.share-box{margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.share-opt{display:flex;gap:8px;align-items:center;font-size:14px;color:var(--mut);margin-top:8px}
+.btn-sm{padding:11px 16px;font-size:15px}
+.sev.info{color:var(--brand);background:var(--tint)}
