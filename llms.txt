@@ -23,3 +23,12 @@
 ## Links
 - Home: https://deployvet.com/
 - Contact: support@deployvet.com
+
+## Guides
+- https://deployvet.com/guides/bolt-new-app-security-checklist.html
+- https://deployvet.com/guides/cursor-vibe-coded-app-security.html
+- https://deployvet.com/guides/index.html
+- https://deployvet.com/guides/is-my-lovable-app-secure.html
+- https://deployvet.com/guides/leaked-api-keys-in-frontend.html
+- https://deployvet.com/guides/replit-app-security-before-launch.html
+- https://deployvet.com/guides/supabase-rls-check-for-ai-apps.html

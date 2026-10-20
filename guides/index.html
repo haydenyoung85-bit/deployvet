@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Security Guides for AI-Built Apps | DeployVet</title>
+<meta name="description" content="Plain security checklists for apps built with Lovable, Bolt, Replit, Cursor and Supabase. Find leaks and open data before launch.">
+<link rel="canonical" href="https://deployvet.com/guides/">
+<meta name="theme-color" content="#2340c8">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="DeployVet">
+<meta property="og:image" content="https://deployvet.com/assets/og-image.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://deployvet.com/assets/og-image.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,640&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+<meta property="og:url" content="https://deployvet.com/guides/">
+<meta property="og:title" content="Security Guides for AI-Built Apps | DeployVet">
+<meta property="og:description" content="Plain security checklists for apps built with Lovable, Bolt, Replit, Cursor and Supabase. Find leaks and open data before launch.">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "CollectionPage",
+ "name": "DeployVet Guides",
+ "url": "https://deployvet.com/guides/",
+ "hasPart": [
+  {
+   "@type": "Article",
+   "headline": "Is my Lovable app secure?",
+   "url": "https://deployvet.com/guides/is-my-lovable-app-secure.html"
+  },
+  {
+   "@type": "Article",
+   "headline": "Bolt.new app security checklist",
+   "url": "https://deployvet.com/guides/bolt-new-app-security-checklist.html"
+  },
+  {
+   "@type": "Article",
+   "headline": "Supabase RLS check for AI-built apps",
+   "url": "https://deployvet.com/guides/supabase-rls-check-for-ai-apps.html"
+  },
+  {
+   "@type": "Article",
+   "headline": "Leaked API keys in your frontend",
+   "url": "https://deployvet.com/guides/leaked-api-keys-in-frontend.html"
+  },
+  {
+   "@type": "Article",
+   "headline": "Replit app security before launch",
+   "url": "https://deployvet.com/guides/replit-app-security-before-launch.html"
+  },
+  {
+   "@type": "Article",
+   "headline": "Security for apps vibe coded with Cursor",
+   "url": "https://deployvet.com/guides/cursor-vibe-coded-app-security.html"
+  }
+ ]
+}
+</script>
+<style>
+.guide{max-width:760px}.guide h1{margin:0 0 18px}.guide h2{margin:48px 0 14px}
+.guide .answer{font-size:19px;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:18px 22px}
+.guide ol.do{padding-left:22px}.guide ol.do li{margin:0 0 14px}.guide code{font-family:var(--mono);font-size:.92em}
+.cta-box{margin:48px 0 0;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:24px 26px}
+.glist{list-style:none;padding:0;margin:24px 0 0;display:grid;gap:16px}
+.glist li{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:20px 22px}
+.glist h2,.glist h3{margin:0 0 6px;font-size:20px}
+</style>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a href="/" class="brand" aria-label="DeployVet home"><img src="/assets/logo.svg" alt="DeployVet" width="187" height="48"></a>
+    <nav aria-label="Main"><ul class="links">
+      <li><a href="/#checks">What we check</a></li>
+      <li><a href="/#compare">Free vs paid</a></li>
+      <li><a href="/#how">How it works</a></li>
+      <li><a href="/#pricing">Pricing</a></li>
+      <li><a href="/guides/">Guides</a></li>
+      <li><a href="/#faq">FAQ</a></li>
+    </ul></nav>
+  </div>
+</header>
+<main>
+<section class="sec"><div class="wrap guide">
+<p class="eyebrow">Guides</p><h1>Security guides for AI-built apps</h1><p class="lead">Plain checklists for apps made with Lovable, Bolt, Replit, Cursor and Supabase. Each one tells you what to check and how to fix it.</p><ul class="glist"><li><h2><a href="/guides/is-my-lovable-app-secure.html">Is my Lovable app secure?</a></h2><p>Is your Lovable app safe to launch? Check Supabase Row Level Security, leaked keys and open pages with this step-by-step list.</p></li><li><h2><a href="/guides/bolt-new-app-security-checklist.html">Bolt.new app security checklist</a></h2><p>A step-by-step security checklist for apps built with Bolt.new: keys, database rules, open routes and headers. Plain words, no hype.</p></li><li><h2><a href="/guides/supabase-rls-check-for-ai-apps.html">Supabase RLS check for AI-built apps</a></h2><p>How to check Supabase Row Level Security in apps built with Lovable, Bolt, Cursor or Replit. Find open tables and weak policies.</p></li><li><h2><a href="/guides/leaked-api-keys-in-frontend.html">Leaked API keys in your frontend</a></h2><p>Secret API keys in your JS bundle can be copied by anyone. Learn how to find leaked keys in AI-built apps and how to fix them.</p></li><li><h2><a href="/guides/replit-app-security-before-launch.html">Replit app security before launch</a></h2><p>Launching an app built on Replit? Check Secrets, database access, open routes and public code before real users arrive.</p></li><li><h2><a href="/guides/cursor-vibe-coded-app-security.html">Security for apps vibe coded with Cursor</a></h2><p>Built your app with Cursor? Check keys, auth, database rules and dependencies before you ship. A plain step-by-step list.</p></li></ul><div class="cta-box"><h2 style="margin-top:0">Check your app for free</h2><p>DeployVet scans your live site from the outside, like a stranger would. You get a score and the worst issue with a fix.</p><p>DeployVet has three plans. The <b>Free check is $0</b>. A one-time <b>Scan is $7</b>. <b>Pro is $15/mo</b> and adds weekly scans and email alerts. For paid plans you pay first, then the scan runs.</p><p><a href="/#check" class="btn">Run the free check <span aria-hidden="true">→</span></a></p></div>
+</div></section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div><img src="/assets/logo.svg" alt="DeployVet" width="156" height="40"><p class="small">Made by Hayden Young. DeployVet is not a penetration test.</p></div>
+    <ul class="flinks">
+      <li><a href="mailto:support@deployvet.com">support@deployvet.com</a></li>
+      <li><a href="/privacy.html">Privacy</a></li><li><a href="/terms.html">Terms</a></li><li><a href="/refunds.html">Refunds</a></li><li><a href="/llms.txt">llms.txt</a></li>
+    </ul>
+  </div>
+  <p class="wrap small copy">© 2026 DeployVet</p>
+</footer>
+</body>
+</html>
