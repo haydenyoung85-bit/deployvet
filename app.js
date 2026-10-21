@@ -252,6 +252,35 @@
     }
   }
 
+  // Fix it pack CTA in the roast popup. Real counts only; no CTA push when there's nothing found.
+  function fixCta(c, total, hasTop) {
+    if (!total || !hasTop) return `<p class="fp-soft">nothing to fix right now. come back and check again anytime, it's free.</p>`;
+    const n = esc(total), A = c.score >= 90;
+    const head = A ? `your site's doing fine. ${total === 1 ? "the 1 thing" : `the ${n} little things`} left? not so much.`
+      : total === 1 ? `we found 1 problem. your site would rather you didn't know.` : `we found ${n} problems. your website is not okay.`;
+    const btn = A ? `fix the last ${total === 1 ? "one" : n}: $10, one time` : `fix all ${n} for $10, one time`;
+    return `<div class="fixpack" id="fixpack">
+      <p class="fp-h">${head}</p>
+      <ul class="fp-list"><li>the full list, in plain english</li><li>copy-paste steps to fix each one</li><li>free "did i fix it?" checks for 30 days</li></ul>
+      <div class="fp-blur" aria-hidden="true"><i></i><i></i><i></i></div>
+      <form class="fp-form" id="fp-form" data-domain="${esc(c.host)}">
+        <label for="fp-email" class="sr">Your email</label><input id="fp-email" type="email" required placeholder="your email (for the report)" autocomplete="email">
+        <button type="submit" class="btn btn-big btn-y" data-track="popup-fixpack">${btn}</button>
+      </form>
+      <p class="fp-note">no subscription. no sales call. just you and your site's problems.</p>
+      <div id="fp-result" class="notice" hidden aria-live="polite"></div></div>`;
+  }
+  document.addEventListener("submit", async (e) => {
+    const f = e.target.closest("#fp-form"); if (!f) return;
+    e.preventDefault(); const btn = f.querySelector("button");
+    busy(btn, true, "opening secure checkout…");
+    try {
+      const body = { product: "deployvet_fix_pack", email: f.querySelector("#fp-email").value, domain: f.dataset.domain, builder: "other" };
+      const r = await call("create-checkout", body);
+      sessionStorage.setItem("dv_order", JSON.stringify({ order_id: r.order_id, site_id: r.site_id, verify_token: r.verify_token, domain: body.domain }));
+      location.href = r.url;
+    } catch (err) { msg(document.getElementById("fp-result"), esc(err.message), "err"); busy(btn, false); }
+  });
   function openRoast(r, spice) {
     const g = band(r.grade, r.score), lv = LV[spice] ?? 1;
     const lvName = ROASTS[spice] ? spice : "spicy", c = ctx(r);
@@ -274,11 +303,10 @@
     const lockedN = t ? Math.max(0, total - 1) : 0;
     const lockChips = order.filter((k) => left[k]).map((k) => `<span class="sev ${k}">${esc(left[k])} ${esc(k)}</span>`).join("");
     const rest = lockedN ? `<li class="locked-teaser" id="locked">
-      <p class="lk-h">${esc(lockedN)} more burn${lockedN === 1 ? "" : "s"} locked 🔒</p>
+      <p class="lk-h">${esc(lockedN)} more problem${lockedN === 1 ? "" : "s"} hidden 🔒</p>
       <div class="r-counts">${lockChips}</div>
       <div class="ph-rows" aria-hidden="true">${Array.from({ length: Math.min(lockedN, 3) }, () => '<div class="ph"><i></i><i></i><i></i></div>').join("")}</div>
-      <p class="small">every one of these, with the proof and a fix prompt for your builder, is in the full roast.</p>
-      <a class="btn btn-big btn-y" href="#buy" data-buy="deployvet_scan_once" data-track="unlock">Unlock the full roast + fix prompts, $7</a></li>` : "";
+      <p class="small">each one comes with plain steps you can copy and paste to whoever built your site (or the tool you used).</p></li>` : "";
     burns += rest;
     if (!burns) burns = `<li><p class="burn-l">${esc(pick(["nothing to burn. we checked twice. we're annoyed.", "zero burns. our roast writers are filing for unemployment.", `${c.host} is clean. our flamethrower is just sitting here.`]))}</p><p class="what">Our outside check found no serious issues. That's not a promise your app is safe, but it's a great start.</p></li>`;
     dlgR.className = "roast g-" + g;
@@ -294,6 +322,7 @@
           <p class="qj-note">this goes public: your score and a roast line. your domain stays hidden as <code>${esc(maskDomain(c.host))}</code>.</p>
           <div id="qj-result" class="notice" hidden aria-live="polite"></div>
         </div>` : ""}</div>
+        ${fixCta(c, total, !!t)}
         <h2 class="r-head" id="roast-head">${esc(head).replace(/\n/g, "<br>")}</h2>
         <p class="r-sub">${esc(sub)}</p>
         <p class="r-full"><b>the full roast:</b> ${esc(full)}</p>

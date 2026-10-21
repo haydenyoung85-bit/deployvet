@@ -304,3 +304,10 @@ dialog.roast::backdrop{background:var(--ink)}
 .levels .lvl{display:inline-block;border:2px solid var(--c);border-radius:999px;padding:2px 10px;font-weight:800}
 .levels .lvl.on{background:var(--c)} .hist{max-height:220px;overflow:auto}
 .wrap{overflow-wrap:break-word}
+/* popup fix pack CTA */
+.fixpack{margin:14px 0;padding:14px;border:2px solid #ffd60a;border-radius:14px;background:#fff8d6;color:#111;overflow-wrap:normal;word-break:normal;hyphens:none}
+.fixpack .fp-h{font-weight:800;font-size:1.1rem;margin:0 0 6px;text-wrap:balance}
+.fp-list{margin:0 0 8px;padding-left:1.1em;font-size:.95rem}
+.fp-blur{display:grid;gap:6px;margin:8px 0;filter:blur(3px);opacity:.6}.fp-blur i{display:block;height:10px;border-radius:5px;background:currentColor;opacity:.35}.fp-blur i:nth-child(2){width:80%}.fp-blur i:nth-child(3){width:60%}
+.fp-form{display:flex;flex-wrap:wrap;gap:8px}.fp-form input{flex:1 1 180px;min-width:0;padding:10px;font-size:16px;border:1px solid #111;border-radius:8px}.fp-form .btn{flex:1 1 100%;white-space:normal}
+.fp-note,.fp-soft{font-size:.85rem;opacity:.8;margin:6px 0 0}
