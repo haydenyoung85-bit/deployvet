@@ -7,7 +7,8 @@
   if (!$("fame") && !$("flame")) return;
   const FAME_MIN = 70;
   const LIMIT = Number(document.body.dataset.boardLimit || 20);
-  const name = (r) => r.display_name || r.domain || r.masked || "anonymous app";
+  // Free-text display names only show once the owner verified the domain, so nobody can put a brand or adult site name on the public board.
+  const name = (r) => (r.verified && r.display_name) || r.domain || r.masked || "anonymous app";
   const rank = (rows) => { let prev = null, rk = 0; return rows.map((r, i) => { if (r.score !== prev) { rk = i + 1; prev = r.score; } return { ...r, rank: rk }; }); };
   const roasts = (n) => Number.isFinite(n) ? `${n.toLocaleString()} app${n === 1 ? " has" : "s have"} been roasted` : "apps are getting roasted";
   const EMPTY = {
