@@ -224,7 +224,7 @@
   const hash = (str) => { let h = 2166136261; for (const ch of String(str)) { h ^= ch.codePointAt(0); h = Math.imul(h, 16777619); } return h >>> 0; };
   // avoid = index used by the row above (same grade), so neighbours differ.
   window.DeployVet.boardLine = (g, row, avoid) => {
-    const pool = BOARD_LINES[band(g, row && row.score)], n = (row && (row.display_name || row.domain || row.masked)) || "this app";
+    const pool = BOARD_LINES[band(g, row && row.score)], n = (row && ((row.verified && row.display_name) || row.domain || row.masked)) || "this app";
     let i = hash((row && (row.id || row.domain || row.masked)) || n) % pool.length;
     if (i === avoid) i = (i + 1) % pool.length;
     return { text: pool[i](n, row && row.score), idx: i };
