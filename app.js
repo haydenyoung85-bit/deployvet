@@ -252,23 +252,29 @@
     }
   }
 
-  // Fix it pack CTA in the roast popup. Real counts only; no CTA push when there's nothing found.
-  function fixCta(c, total, hasTop) {
-    if (!total || !hasTop) return `<p class="fp-soft">nothing to fix right now. come back and check again anytime, it's free.</p>`;
-    const n = esc(total), A = c.score >= 90;
-    const head = A ? `your site's doing fine. ${total === 1 ? "the 1 thing" : `the ${n} little things`} left? not so much.`
-      : total === 1 ? `we found 1 problem. your site would rather you didn't know.` : `we found ${n} problems. your website is not okay.`;
-    const btn = A ? `fix the last ${total === 1 ? "one" : n}: $10, one time` : `fix all ${n} for $10, one time`;
-    return `<div class="fixpack" id="fixpack">
+  // Two-offer paid step (Scan $7, Fix it pack $10). Shown in the roast popup and in the inline result under the form.
+  // Real counts only. With no findings it says so and does not claim problems. Copy follows the #pricing section of index.html.
+  function offersBlock(c, total, where) {
+    const n = Number(total) || 0, host = esc(c.host);
+    const head = n ? `${n} issue${n === 1 ? "" : "s"} found. The free check shows the worst one in full.`
+      : "No problems found in the free check. The paid options go deeper.";
+    const scanVal = n ? "Every issue with proof and a fix, plus a read-only check of your public repo or Supabase."
+      : "Adds a read-only check of your public repo or Supabase, which the free check does not do. Fix prompts and a PDF included.";
+    const packVal = "Full report for one site with copyable fix prompts, a PDF, and 30 days of re-checks and glow-up tracking.";
+    const scanBtn = `<button type="button" class="btn offer-btn" data-buy="deployvet_scan_once" data-domain="${host}" data-track="${where}-scan">Get the Scan: $7</button>`;
+    const packAct = where === "popup"
+      ? `<form class="fp-form" id="fp-form" data-domain="${host}">
+          <label for="fp-email" class="sr">Your email</label><input id="fp-email" type="email" required placeholder="your email (for the report)" autocomplete="email">
+          <button type="submit" class="btn btn-y offer-btn" data-track="popup-fixpack">Get Fix it pack: $10</button>
+        </form><div id="fp-result" class="notice" hidden aria-live="polite"></div>`
+      : `<button type="button" class="btn btn-y offer-btn" data-buy="deployvet_fix_pack" data-domain="${host}" data-track="result-fixpack">Get Fix it pack: $10</button>`;
+    return `<div class="fixpack"${where === "popup" ? ' id="fixpack"' : ""}>
       <p class="fp-h">${head}</p>
-      <ul class="fp-list"><li>the full list, in plain english</li><li>copy-paste steps to fix each one</li><li>free "did i fix it?" checks for 30 days</li></ul>
-      <div class="fp-blur" aria-hidden="true"><i></i><i></i><i></i></div>
-      <form class="fp-form" id="fp-form" data-domain="${esc(c.host)}">
-        <label for="fp-email" class="sr">Your email</label><input id="fp-email" type="email" required placeholder="your email (for the report)" autocomplete="email">
-        <button type="submit" class="btn btn-big btn-y" data-track="popup-fixpack">${btn}</button>
-      </form>
-      <p class="fp-note">no subscription. no sales call. just you and your site's problems.</p>
-      <div id="fp-result" class="notice" hidden aria-live="polite"></div></div>`;
+      <div class="offers">
+        <div class="offer"><h3 class="o-h">Scan</h3><p class="o-v">${scanVal}</p><p class="o-p"><b>$7</b> once</p><div class="o-act">${scanBtn}</div></div>
+        <div class="offer"><h3 class="o-h">Fix it pack</h3><p class="o-v">${packVal}</p><p class="o-p"><b>$10</b> once</p><div class="o-act">${packAct}</div></div>
+      </div>
+      <p class="fp-note">Pay once, up front. No subscription, nothing renews. After you pay, you prove you own the site, then the scan runs.</p></div>`;
   }
   document.addEventListener("submit", async (e) => {
     const f = e.target.closest("#fp-form"); if (!f) return;
@@ -322,7 +328,7 @@
           <p class="qj-note">this goes public: your score and a roast line. your domain stays hidden as <code>${esc(maskDomain(c.host))}</code>.</p>
           <div id="qj-result" class="notice" hidden aria-live="polite"></div>
         </div>` : ""}</div>
-        ${fixCta(c, total, !!t)}
+        ${offersBlock(c, total, "popup")}
         <h2 class="r-head" id="roast-head">${esc(head).replace(/\n/g, "<br>")}</h2>
         <p class="r-sub">${esc(sub)}</p>
         <p class="r-full"><b>the full roast:</b> ${esc(full)}</p>
@@ -534,6 +540,9 @@
     try {
       const r = await call("free-check", { url, website: urlForm.querySelector("[name=website]")?.value || "" });
       openRoast(r, spice);
+      // Same two offers inline under the form, so they are still there when the popup closes.
+      const cc = ctx(r), tot = ["critical", "high", "medium", "low", "info"].reduce((a, k) => a + (Number((r.counts || {})[k]) || 0), 0);
+      out.hidden = false; out.className = "result-offers"; out.innerHTML = `<p class="ro-h">Free check done for ${esc(cc.host)}: ${esc(r.score)}/100.</p>` + offersBlock(cc, tot, "result");
     } catch (err) { msg(out, esc(err.message), "err"); }
     busy(btn, false);
   });
@@ -567,7 +576,7 @@
     dlg.querySelector("[name=product]").value = product;
     dlg.querySelector("#buy-title").textContent = NAMES[product] || "Checkout";
     const pp = dlg.querySelector(".pro-plan"); if (pp) pp.hidden = true;
-    const u = document.getElementById("url")?.value; if (u) dlg.querySelector("[name=domain]").value = u;
+    const u = a.dataset.domain || document.getElementById("url")?.value; if (u) dlg.querySelector("[name=domain]").value = u;
     document.getElementById("buy-result").hidden = true;
     dlg.showModal ? dlg.showModal() : dlg.setAttribute("open", "");
   });
