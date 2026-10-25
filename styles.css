@@ -337,3 +337,10 @@ dialog.roast::backdrop{background:var(--ink)}
 .rr-row input[type=email]{flex:1 1 auto;min-width:0;max-width:none}
 .rr-row .btn{flex:none;min-height:44px}
 .rr .rr-ok{display:block;margin:8px 0 0;font-size:.82rem;line-height:1.35}
+/* guide signup */
+.gsign{margin-top:28px;padding:12px 14px;background:var(--lime)}
+.gsign p{margin:0 0 8px;font-size:.95rem}
+.gsign .rr-row{display:flex;gap:8px}
+.gsign .rr-row input[type=email]{flex:1 1 auto;min-width:0;font:600 1rem var(--body);border:var(--line);border-radius:12px;padding:.6em .8em}
+.gsign .rr-row .btn{min-height:44px;white-space:nowrap}
+.gsign .gs-res{margin-top:8px}

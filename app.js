@@ -588,7 +588,7 @@
     busy(btn, true, "Sending…");
     try {
       const r = await call("newsletter", { email: mailForm.querySelector("#email").value, source: "site", website: mailForm.querySelector("[name=website]")?.value || "" });
-      msg(note, esc(r.message || "Check your inbox to confirm."), "ok"); mailForm.reset();
+      msg(note, "Almost done: we sent a confirm link. If you don't see it in a minute, check spam or promotions.", "ok"); mailForm.reset();
     } catch (err) { msg(note, esc(err.message), "err"); }
     busy(btn, false);
   });
