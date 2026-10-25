@@ -344,3 +344,7 @@ dialog.roast::backdrop{background:var(--ink)}
 .gsign .rr-row input[type=email]{flex:1 1 auto;min-width:0;font:600 1rem var(--body);border:var(--line);border-radius:12px;padding:.6em .8em}
 .gsign .rr-row .btn{min-height:44px;white-space:nowrap}
 .gsign .gs-res{margin-top:8px}
+/* footer: listed on */
+.foot .listed{display:flex;flex-wrap:wrap;gap:2px 12px;margin:14px auto 0;font-size:.8rem;line-height:1.5;opacity:.85}
+.foot .listed span{font-weight:700}
+.foot .listed a{text-decoration:underline}
