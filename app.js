@@ -548,7 +548,7 @@
       // Same two offers inline under the form, so they are still there when the popup closes.
       const cc = ctx(r), tot = ["critical", "high", "medium", "low", "info"].reduce((a, k) => a + (Number((r.counts || {})[k]) || 0), 0);
       out.hidden = false; out.className = "result-offers"; out.innerHTML = `<p class="ro-h">Free check done for ${esc(cc.host)}: ${esc(r.score)}/100.</p>`
-        + (r.cached && r.rescan_in_hours ? `<p class="small">This is your latest free check. Rescan available in about ${esc(r.rescan_in_hours)} hour${r.rescan_in_hours === 1 ? "" : "s"}. Fixed something already? The $10 "Did I fix it?" re-check verifies it right now.</p>` : "")
+        + (r.cached && r.rescan_in_hours ? `<p class="small">This is your latest free check. Rescan available in about ${esc(r.rescan_in_hours)} hour${r.rescan_in_hours === 1 ? "" : "s"}. Fixed something already? The $10 Fix it pack includes re-checks, so you can verify it right now.</p>` : "")
         + (r.incomplete ? `<p class="small">${esc(r.incompleteNote || "Part of your site sits behind a firewall, so this score may be incomplete.")}</p>` : "")
         + offersBlock(cc, tot, "result");
     } catch (err) { msg(out, esc(err.message), "err"); }
