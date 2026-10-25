@@ -359,3 +359,9 @@ dialog.roast::backdrop{background:var(--ink)}
 @media(min-width:600px){.foot .listed .lbadges a{flex:0 0 140px}.foot .listed .lbadges a.fz{flex:0 0 103px}}
 .foot .listed .lbadges img{background:none;border:0;padding:0;border-radius:0;box-sizing:border-box}
 @media(min-width:600px){.foot .listed>span:first-child{order:-2}.foot .listed{align-items:center}}
+/* revenue pass: board below offers, optional checkout fields folded */
+.r-card>.qj{background:none;border:0;box-shadow:none;padding:0;margin:14px 0 0;transform:none}
+.r-card>.qj .qj-btn{font-size:1.1rem}
+.b-more{margin:2px 0}.b-more summary{cursor:pointer;font-weight:700;padding:6px 0}
+.b-more[open]{display:grid;gap:6px}
+dialog.buy #buy-what{font-weight:700;margin:0 0 6px}

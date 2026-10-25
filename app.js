@@ -259,11 +259,15 @@
 
   // Two-offer paid step (Scan $7, Fix it pack $10). Shown in the roast popup and in the inline result under the form.
   // Real counts only. With no findings it says so and does not claim problems. Copy follows the #pricing section of index.html.
-  function offersBlock(c, total, where) {
+  function offersBlock(c, total, where, top) {
     const n = Number(total) || 0, host = esc(c.host);
-    const head = n ? `${n} issue${n === 1 ? "" : "s"} found. The free check shows the worst one in full.`
+    const tt = top && top.title ? String(top.title).replace(/\.$/, "") : "";
+    const tshort = tt.length > 70 ? tt.slice(0, 67) + "…" : tt;
+    const head = n ? (n === 1 ? `1 issue found${tshort ? ": " + esc(tshort) : ""}. It's shown in full below.`
+        : `${n} issues found. Worst${tshort ? ": " + esc(tshort) : ""}. The other ${n - 1} are locked.`)
       : "No problems found in the free check. The paid options go deeper.";
-    const scanVal = n ? "Every issue with proof and a fix, plus a read-only check of your public repo or Supabase."
+    const scanVal = n > 1 ? `Unlocks the other ${n - 1} issues, each with proof and a fix. Adds a read-only check of your public repo or Supabase.`
+      : n ? "Adds a read-only check of your public repo or Supabase, plus fix prompts and a PDF."
       : "Adds a read-only check of your public repo or Supabase, which the free check does not do. Fix prompts and a PDF included.";
     const packVal = "Full report for one site with copyable fix prompts, a PDF, and 30 days of re-checks and glow-up tracking.";
     const scanBtn = `<button type="button" class="btn offer-btn" data-buy="deployvet_scan_once" data-domain="${host}" data-track="${where}-scan">Get the Scan: $7</button>`;
@@ -279,7 +283,7 @@
         <div class="offer"><h3 class="o-h">Scan</h3><p class="o-v">${scanVal}</p><p class="o-p"><b>$7</b> once</p><div class="o-act">${scanBtn}</div></div>
         <div class="offer"><h3 class="o-h">Fix it pack</h3><p class="o-v">${packVal}</p><p class="o-p"><b>$10</b> once</p><div class="o-act">${packAct}</div></div>
       </div>
-      <p class="fp-note">Pay once, up front. No subscription, nothing renews. After you pay, you prove you own the site, then the scan runs.</p></div>`;
+      <p class="fp-note">One payment, no subscription, nothing renews. A developer's hour costs more than either one. After you pay, you prove you own the site, then the scan runs.</p></div>`;
   }
   document.addEventListener("submit", async (e) => {
     const f = e.target.closest("#fp-form"); if (!f) return;
@@ -325,6 +329,8 @@
       <div class="r-card ${g === "A" || g === "B" ? "slam" : "shake"}">
         <p class="r-label">${esc(r.url || "Your app")} · ${esc(spice)} roast</p>
         <div class="r-top"><span class="r-score">${esc(r.score)}<small>/100</small></span><span class="r-grade" aria-label="Grade ${esc(g)}">${esc(g)}</span>
+        </div>
+        ${offersBlock(c, total, "popup", t)}
         ${r.check_id ? `<div class="qj" id="qj">
           <form id="qj-form" class="qj-form">
             <button type="submit" class="btn btn-big qj-btn" data-track="board-quick">Put me on the board 🔥</button>
@@ -332,8 +338,7 @@
           </form>
           <p class="qj-note">this goes public: your score and a roast line. your domain stays hidden as <code>${esc(maskDomain(c.host))}</code>.</p>
           <div id="qj-result" class="notice" hidden aria-live="polite"></div>
-        </div>` : ""}</div>
-        ${offersBlock(c, total, "popup")}
+        </div>` : ""}
         <h2 class="r-head" id="roast-head">${esc(head).replace(/\n/g, "<br>")}</h2>
         <p class="r-sub">${esc(sub)}</p>
         <p class="r-full"><b>the full roast:</b> ${esc(full)}</p>
@@ -598,6 +603,7 @@
   // ---- Checkout (Scan / Fix it pack) ----
   const dlg = document.getElementById("buy");
   const NAMES = { deployvet_scan_once: "DeployVet Scan · $7 once", deployvet_fix_pack: "DeployVet Fix it pack · $10 once" };
+  const WHAT = { deployvet_scan_once: "You get: every issue with proof and a fix, fix prompts for your builder, and a PDF. One payment.", deployvet_fix_pack: "You get: the full report with copyable fix prompts, a PDF, and 30 days of re-checks. One payment." };
   document.addEventListener("click", (e) => {
     const a = e.target.closest("[data-buy]"); if (!a || !dlg) return;
     e.preventDefault();
@@ -605,6 +611,7 @@
     dlg.querySelectorAll("[name=plan]").forEach((r) => { r.checked = r.value === product; });
     dlg.querySelector("[name=product]").value = product;
     dlg.querySelector("#buy-title").textContent = NAMES[product] || "Checkout";
+    const bw = dlg.querySelector("#buy-what"); if (bw) bw.textContent = WHAT[product] || "";
     const pp = dlg.querySelector(".pro-plan"); if (pp) pp.hidden = true;
     const u = a.dataset.domain || document.getElementById("url")?.value; if (u) dlg.querySelector("[name=domain]").value = u;
     document.getElementById("buy-result").hidden = true;

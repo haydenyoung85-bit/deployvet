@@ -239,17 +239,20 @@
   <p class="wrap small copy">© 2026 DeployVet</p>
 </footer>
 <dialog id="buy" class="buy" aria-labelledby="buy-title">
-  <button type="button" class="close" aria-label="Close">×</button>
+  <button type="button" class="close" aria-label="Close" data-track="buy-close">×</button>
   <h3 id="buy-title">Checkout</h3>
-  <p class="small">You pay first on Stripe's secure page. Then you prove you own the site, and the scan runs.</p>
+  <p class="small" id="buy-what"></p>
+  <p class="small">You pay first on Stripe's secure page (card, plus wallets like Apple Pay when your device supports them). Then you prove you own the site, and the scan runs.</p>
   <form>
     <input type="hidden" name="product" value="deployvet_scan_once">
     <label for="b-email">Your email</label><input id="b-email" name="email" type="email" required placeholder="you@email.com">
     <label for="b-domain">Your app's address</label><input id="b-domain" name="domain" required placeholder="https://your-app.com">
+    <details class="b-more"><summary>Optional: built with, repo, Supabase</summary>
     <label for="b-builder">Built with</label>
     <select id="b-builder" name="builder"><option value="lovable">Lovable</option><option value="bolt">Bolt</option><option value="replit">Replit</option><option value="cursor">Cursor</option><option value="v0">v0</option><option value="bubble">Bubble</option><option value="other" selected>Other</option></select>
     <label for="b-repo">Public GitHub repo <span class="opt">(optional)</span></label><input id="b-repo" name="repo_url" placeholder="https://github.com/you/app">
     <label for="b-sb">Supabase project URL <span class="opt">(optional)</span></label><input id="b-sb" name="supabase_url" placeholder="https://xxxx.supabase.co">
+    </details>
     <p class="small">Never paste a secret or service_role key. By paying you agree to our <a href="/terms.html">Terms</a> and <a href="/refunds.html">Refund policy</a>.</p>
     <div id="buy-result" class="notice" hidden aria-live="polite"></div>
     <div class="row"><button type="submit" class="btn">Go to secure checkout <span aria-hidden="true">→</span></button></div>
@@ -257,7 +260,7 @@
 </dialog>
 <dialog id="roast" class="roast" aria-labelledby="roast-head">
   <div class="fx" aria-hidden="true"></div>
-  <button type="button" class="close" aria-label="Close roast">×</button>
+  <button type="button" class="close" aria-label="Close roast" data-track="roast-close">×</button>
   <div class="roast-scroll"><div class="roast-in" id="roast-body"></div></div>
 </dialog>
 <script src="/config.js"></script>
