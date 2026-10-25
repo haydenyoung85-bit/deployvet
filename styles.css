@@ -353,3 +353,9 @@ dialog.roast::backdrop{background:var(--ink)}
 .foot .listed .lbadges a{flex:0 1 46%;max-width:182px;line-height:0;text-decoration:none}
 .foot .listed .lbadges img{display:block;width:100%;height:auto}
 @media(min-width:600px){.foot .listed .lbadges{flex:0 0 auto;order:-1;margin:0}.foot .listed .lbadges a{flex:0 0 140px}}
+/* fazier badge shares the line with the other two */
+.foot .listed .lbadges a{flex:3.96 1 0;min-width:0;max-width:none}
+.foot .listed .lbadges a.fz{flex:2.34 1 0}
+@media(min-width:600px){.foot .listed .lbadges a{flex:0 0 140px}.foot .listed .lbadges a.fz{flex:0 0 103px}}
+.foot .listed .lbadges img{background:none;border:0;padding:0;border-radius:0;box-sizing:border-box}
+@media(min-width:600px){.foot .listed>span:first-child{order:-2}.foot .listed{align-items:center}}
