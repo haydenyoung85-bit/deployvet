@@ -197,7 +197,12 @@
   const band = (g, score) => { g = String(g || "").trim().toUpperCase().charAt(0); if (ROASTS.spicy[g]) return g; if (g === "E") return "F";
     const n = Number(score); return n >= 90 ? "A" : n >= 75 ? "B" : n >= 60 ? "C" : n >= 40 ? "D" : "F"; };
   const SITE = "https://deployvet.com/?utm_source=share";
-  const shareText = (r, withUrl) => `deployvet roasted my app${withUrl && r.url ? ` (${r.url})` : ""} and i got ${r.score}/100. it did not have to go that hard 💀 your turn, post your score: ${SITE}`;
+  const siteFor = (how) => `${SITE}&utm_campaign=${how}`; // how = x | native | copy | card, so the numbers show which button worked
+  const shareLead = (r, g, withUrl) => `deployvet roasted my app${withUrl && r.url ? ` (${r.url})` : ""}: ${r.score}/100 (${g}). it did not have to go that hard 💀 roast yours:`;
+  const shareText = (r, g, withUrl, how) => `${shareLead(r, g, withUrl)} ${siteFor(how)}`;
+  // Badge snippet: plain link with inline styles, no image to host. Shows the real score from this check.
+  const badgeHtml = (r) => { const n = Math.max(0, Math.min(100, Math.round(Number(r.score) || 0))), d = new Date().toISOString().slice(0, 10);
+    return `<a href="https://deployvet.com/?utm_source=badge" title="Free outside security check on ${d}. Not a pentest." style="display:inline-block;padding:4px 12px;border:2px solid #111;border-radius:999px;background:#b6f23a;color:#111;font:700 13px/1.4 system-ui,sans-serif;text-decoration:none">Roasted by DeployVet ${n}/100</a>`; };
   const BADGE_HTML = '<a href="https://deployvet.com/?utm_source=badge"><img src="https://deployvet.com/assets/badge-survived.svg" alt="Survived the DeployVet Roast" width="160" height="160"></a>';
   // Context from the real scan data. Every roast line is built from this.
   const hostOf = (u) => String(u || "").replace(/^[a-z]+:\/\//i, "").replace(/\/.*$/, "").toLowerCase() || "your app";
@@ -336,18 +341,32 @@
         ${total && t ? `<p class="small">${esc(total)} finding${total > 1 ? "s" : ""} in total. The free roast shows the worst one in full.</p>` : ""}
         ${r.message ? `<p class="small">${esc(r.message)}</p>` : ""}
       </div>
-      <ol class="r-burns">${burns}</ol>
-      ${g === "A" ? `<div class="r-badge"><img src="/assets/badge-survived.svg" alt="Survived the Roast badge" width="140" height="140">
-        <div><h3>You survived the roast.</h3><p>Show it off. Paste this on your site. <a href="/badge.html">About the badge</a></p>
-        <label for="badge-code" class="sr">Badge HTML</label><textarea id="badge-code" readonly>${esc(BADGE_HTML)}</textarea>
-        <button type="button" class="btn btn-sm btn-y" id="badge-copy" data-track="badge-copy">Copy badge code</button></div></div>` : ""}
-      <div class="r-actions">
-        <button type="button" class="btn btn-lime" data-track="share" id="share-x">Share my roast</button>
-        <button type="button" class="btn btn-line" data-track="roast-card" id="roast-card">Download roast card</button>
-        <button type="button" class="btn btn-line" data-track="share-copy" id="share-copy">Copy text</button>
+      <div class="r-share">
+        <div class="r-actions">
+          <button type="button" class="btn btn-sm btn-lime" id="share-main">Share my roast</button>
+          <button type="button" class="btn btn-sm btn-line" data-track="share-copy" id="share-copy">Copy text</button>
+          <button type="button" class="btn btn-sm btn-line" data-track="share-x" id="share-x" hidden>Post on X</button>
+          <button type="button" class="btn btn-sm btn-line" data-track="roast-card" id="roast-card">Card (PNG)</button>
+        </div>
+        <label class="share-opt"><input type="checkbox" id="share-url"> Include my app's web address</label>
+        <span class="share-note small" id="share-note" aria-live="polite"></span>
       </div>
-      <span class="share-note small" id="share-note" aria-live="polite"></span>
-      <label class="share-opt"><input type="checkbox" id="share-url"> Include my app's web address in the post</label>
+      ${g === "A" || g === "B" ? `<details class="bd"><summary>Get a badge for your site</summary>
+        <p class="small">Optional. Paste it in your footer if you want. It shows today's score (${esc(r.score)}/100) and links to DeployVet. Only use it on your own site, and update or remove it if the score changes.</p>
+        <p class="bd-prev" id="badge-prev"></p>
+        <label for="badge-code" class="sr">Badge HTML</label><textarea id="badge-code" readonly rows="4"></textarea>
+        <button type="button" class="btn btn-sm btn-y" id="badge-copy" data-track="badge-copy">Copy badge code</button>
+        ${g === "A" ? `<button type="button" class="btn btn-sm btn-line" id="badge-copy2" data-track="badge-copy-survived">Copy "Survived the Roast" image badge</button>` : ""}
+      </details>` : ""}
+      <form class="rr" id="rr-form">
+        <h3>get security tips + a re-roast reminder</h3>
+        <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <div class="rr-row"><label for="rr-email" class="sr">Email</label><input id="rr-email" type="email" required placeholder="you@email.com" autocomplete="email">
+        <button type="submit" class="btn btn-sm btn-lime" data-track="reroast-email">Email me</button></div>
+        <p class="small rr-ok">We email a confirm link first. No confirm, no emails. After that: occasional security tips and a nudge to re-roast ${esc(c.host)}. Unsubscribe any time. <a href="/privacy.html">Privacy</a></p>
+        <div id="rr-result" class="notice" hidden aria-live="polite"></div>
+      </form>
+      <ol class="r-burns">${burns}</ol>
       <p class="small"><button type="button" class="linkbtn" data-track="scoreboard-join" id="join-open">Verify you own it</button> to show your full domain on the scoreboard with a ✔ verified badge.</p>
       <div class="join" id="join" hidden>
         <h3>Verify you own it</h3>
@@ -359,15 +378,6 @@
         <div id="join-result" class="notice" hidden aria-live="polite"></div>
         <p class="small leave"><a href="#" id="leave-open" data-track="scoreboard-leave">Remove my site</a> from the scoreboard</p>
       </div>
-      <form class="rr" id="rr-form">
-        <h3>re-roast me when i ship</h3>
-        <p class="small">optional. the roast above is yours either way.</p>
-        <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
-        <label for="rr-email">Email</label><input id="rr-email" type="email" required placeholder="you@email.com" autocomplete="email">
-        <label class="rr-ok"><input type="checkbox" id="rr-consent" required> Email me a confirm link, then DeployVet emails: a reminder to re-roast ${esc(c.host)} and the weekly security newsletter. Unsubscribe any time. <a href="/privacy.html">Privacy</a></label>
-        <div><button type="submit" class="btn btn-sm btn-lime" data-track="reroast-email">Remind me</button></div>
-        <div id="rr-result" class="notice" hidden aria-live="polite"></div>
-      </form>
       </div>`;
     fx(g);
     lastFocus = document.activeElement;
@@ -375,13 +385,26 @@
     dlgR.querySelector(".close").focus();
     const withUrl = () => document.getElementById("share-url").checked;
     const note = document.getElementById("share-note");
-    document.getElementById("share-x").addEventListener("click", () => window.open("https://x.com/intent/post?text=" + encodeURIComponent(shareText(r, withUrl())), "_blank", "noopener,noreferrer"));
+    const main = document.getElementById("share-main"), xBtn = document.getElementById("share-x");
+    const canNative = typeof navigator.share === "function" && (matchMedia("(max-width: 820px)").matches || /Mobi|Android/i.test(navigator.userAgent));
+    const postX = () => window.open("https://x.com/intent/post?text=" + encodeURIComponent(shareText(r, g, withUrl(), "x")), "_blank", "noopener,noreferrer");
+    if (canNative) {
+      main.dataset.track = "share-native"; xBtn.hidden = false;
+      main.addEventListener("click", async () => { try { await navigator.share({ text: shareLead(r, g, withUrl()), url: siteFor("native") }); } catch (e) { if (e.name !== "AbortError") postX(); } });
+    } else {
+      main.dataset.track = "share-x"; main.textContent = "Post on X"; main.addEventListener("click", postX);
+    }
+    xBtn.addEventListener("click", postX);
     document.getElementById("share-copy").addEventListener("click", async () => {
-      const tx = shareText(r, withUrl());
+      const tx = shareText(r, g, withUrl(), "copy");
       try { await navigator.clipboard.writeText(tx); note.textContent = "Copied. Paste it anywhere."; } catch (_) { window.prompt("Copy this:", tx); }
     });
-    const bc = document.getElementById("badge-copy");
-    if (bc) bc.addEventListener("click", async () => { try { await navigator.clipboard.writeText(BADGE_HTML); bc.textContent = "Copied"; } catch (_) { document.getElementById("badge-code").select(); } });
+    const bh = badgeHtml(r), bcode = document.getElementById("badge-code");
+    if (bcode) {
+      bcode.value = bh; document.getElementById("badge-prev").innerHTML = bh;
+      const cp = (btn, txt) => btn && btn.addEventListener("click", async () => { try { await navigator.clipboard.writeText(txt); btn.textContent = "Copied"; } catch (_) { bcode.value = txt; bcode.select(); } });
+      cp(document.getElementById("badge-copy"), bh); cp(document.getElementById("badge-copy2"), BADGE_HTML);
+    }
     document.getElementById("roast-card").addEventListener("click", () => roastCard({ score: r.score, grade: g, head: head.replace(/\n/g, " "), burn: topBurn || sub }).catch((e) => { note.textContent = "Couldn't make the card: " + e.message; }));
     joinFlow(r);
     quickJoin(r);
@@ -421,7 +444,7 @@
     const file = new File([blob], `deployvet-roast-${d.score}.png`, { type: "image/png" });
     const mobile = matchMedia("(max-width: 820px)").matches || /Mobi|Android/i.test(navigator.userAgent);
     if (mobile && navigator.canShare && navigator.canShare({ files: [file] })) {
-      try { await navigator.share({ files: [file], text: `deployvet roasted my app: ${d.score}/100. it didn't have to go that hard 💀 your turn: ${SITE}` }); return; } catch (e) { if (e.name === "AbortError") return; }
+      try { await navigator.share({ files: [file], text: `deployvet roasted my app: ${d.score}/100. it didn't have to go that hard 💀 your turn: ${siteFor("card")}` }); return; } catch (e) { if (e.name === "AbortError") return; }
     }
     const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = file.name; document.body.appendChild(a); a.click(); a.remove();
     setTimeout(() => URL.revokeObjectURL(a.href), 4000);
@@ -466,11 +489,10 @@
     const f = document.getElementById("rr-form"), res = document.getElementById("rr-result");
     f.addEventListener("submit", async (e) => {
       e.preventDefault(); const btn = f.querySelector("button[type=submit]"); res.hidden = true;
-      if (!document.getElementById("rr-consent").checked) { msg(res, "tick the box first so we know you're ok with the emails.", "err"); return; }
       busy(btn, true, "Sending…");
       try {
         await call("newsletter", { email: document.getElementById("rr-email").value, source: "popup", domain: c.host, website: f.querySelector("[name=website]").value || "" });
-        msg(res, "check your inbox and click the confirm link. no confirm, no emails.", "ok"); f.querySelector("#rr-email").value = "";
+        msg(res, "check your inbox (and spam or promotions) for the confirm link. no confirm, no emails.", "ok"); f.querySelector("#rr-email").value = "";
       } catch (err) { msg(res, esc(err.status === 400 ? "that email doesn't look right." : friendly(err)), "err"); }
       busy(btn, false);
     });

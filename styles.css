@@ -185,7 +185,7 @@ dialog.buy input,dialog.buy select{font:500 1rem var(--body);border:var(--line);
 /* ROAST modal */
 dialog.roast{border:0;padding:0;margin:0;width:100vw;height:100dvh;max-width:none;max-height:none;background:var(--ink);color:var(--ink);overflow:hidden}
 dialog.roast::backdrop{background:var(--ink)}
-.roast-scroll{height:100%;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:24px 16px 60px;position:relative}
+.roast-scroll{height:100%;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding:24px 16px 60px;position:relative}
 .roast-in{max-width:880px;margin:0 auto;position:relative;z-index:2}
 .roast .close{position:fixed;top:14px;right:14px;z-index:5}
 .r-card{border:var(--line);border-radius:26px;padding:26px;box-shadow:8px 8px 0 var(--cream);margin-top:40px;position:relative}
@@ -212,7 +212,9 @@ dialog.roast::backdrop{background:var(--ink)}
 .fixbox b{font-family:var(--head)}
 .fixbox p{margin:.2em 0 0;font:500 .95rem/1.5 var(--mono);white-space:pre-wrap;word-break:break-word}
 .locked{background:var(--yellow)}
-.r-actions{display:flex;flex-wrap:wrap;gap:12px;margin:24px 0 0;align-items:center}
+.r-actions{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0;align-items:center}
+.r-actions .btn{min-height:44px;justify-content:center}
+.r-actions[hidden],.r-actions [hidden]{display:none}
 .share-opt{display:block;margin-top:10px;color:var(--cream);font-weight:600}
 .share-note{color:var(--cream);font-weight:700}
 .r-badge{margin-top:24px;background:var(--cream);border:var(--line);border-radius:18px;padding:18px;display:grid;grid-template-columns:140px 1fr;gap:18px;align-items:center}
@@ -321,3 +323,17 @@ dialog.roast::backdrop{background:var(--ink)}
 /* inline result under the free-check form */
 .result-offers{margin-top:14px}.result-offers .ro-h{font-weight:800;margin:0 0 6px}
 .result-offers .fixpack{margin:0}
+
+/* after-roast: compact badge toggle + email row */
+.share-opt{font-size:.9rem;margin-top:8px}
+.bd{margin-top:14px;background:var(--cream);border:var(--line);border-radius:14px;padding:10px 14px}
+.bd summary{font:800 1rem var(--head);cursor:pointer;min-height:32px;display:flex;align-items:center}
+.bd .btn{margin:6px 8px 0 0}
+.bd-prev{margin:8px 0}
+.bd textarea{width:100%;font:500 .75rem var(--mono);border:2px solid var(--ink);border-radius:10px;padding:8px;box-sizing:border-box}
+.rr{padding:12px 14px;margin-top:14px}
+.rr h3{font-size:1.05rem;margin:0 0 8px}
+.rr-row{display:flex;gap:8px}
+.rr-row input[type=email]{flex:1 1 auto;min-width:0;max-width:none}
+.rr-row .btn{flex:none;min-height:44px}
+.rr .rr-ok{display:block;margin:8px 0 0;font-size:.82rem;line-height:1.35}
