@@ -348,3 +348,8 @@ dialog.roast::backdrop{background:var(--ink)}
 .foot .listed{display:flex;flex-wrap:wrap;gap:2px 12px;margin:14px auto 0;font-size:.8rem;line-height:1.5;opacity:.85}
 .foot .listed span{font-weight:700}
 .foot .listed a{text-decoration:underline}
+/* listed-on image badges */
+.foot .listed .lbadges{display:flex;gap:8px;flex:0 0 100%;align-items:center;margin:2px 0}
+.foot .listed .lbadges a{flex:0 1 46%;max-width:182px;line-height:0;text-decoration:none}
+.foot .listed .lbadges img{display:block;width:100%;height:auto}
+@media(min-width:600px){.foot .listed .lbadges{flex:0 0 auto;order:-1;margin:0}.foot .listed .lbadges a{flex:0 0 140px}}
