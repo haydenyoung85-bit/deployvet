@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="DeployVet">
+<meta property="og:title" content="Sample report – DeployVet">
+<meta property="og:description" content="free roast of your vibe-coded app. leaked keys, open Supabase, the works. real fixes under every burn.">
+<meta property="og:image" content="https://deployvet.com/assets/og-roast.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="DeployVet: i vibe-coded a site that roasts your vibe-coded site. example roast: F, 12/100. deployvet.com">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:description" content="free roast of your vibe-coded app. leaked keys, open Supabase, the works. real fixes under every burn.">
+<meta name="twitter:image" content="https://deployvet.com/assets/og-roast.png">
+<meta name="twitter:image:alt" content="DeployVet: i vibe-coded a site that roasts your vibe-coded site. example roast: F, 12/100. deployvet.com">
+<title>Sample report – DeployVet</title>
+<meta name="description" content="A sample DeployVet paid report on a made-up app, so you can see the format before you buy.">
+
+<meta name="theme-color" content="#ff3d8b">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a href="/" class="brand" aria-label="DeployVet home"><img src="/assets/logo.svg" alt="DeployVet" width="187" height="48"></a>
+    <button type="button" class="menu-btn" aria-expanded="false" aria-controls="main-links"><span class="mb-i" aria-hidden="true"></span><span class="mb-l">Menu</span></button>
+    <nav aria-label="Main"><ul class="links" id="main-links">
+      <li><a href="/#checks">What we roast</a></li>
+      <li><a href="/#pricing">Pricing</a></li>
+      <li><a href="/guides/">Guides</a></li>
+      <li><a href="/#faq">FAQ</a></li>
+      <li class="hot"><a href="/scoreboard.html">Scoreboard</a></li>
+    </ul></nav>
+  </div>
+</header>
+<main class="wrap"><article class="legal">
+<p class="eyebrow">Sample report</p>
+<h1>Score 41/100 · Grade F</h1>
+<p class="notice"><b>This is a sample.</b> It is a made-up app (<code>example-bakery.com</code>), not a real customer. The layout and the kind of fixes are real. Your report lists your own findings.</p>
+<p class="small">3 item(s) found. Fix prompts are written for <b>Lovable</b>. You pick your builder at checkout (Lovable, Bolt, Replit, Cursor, v0, Bubble or other).</p>
+<div class="box finding"><p><span class="sev critical">critical</span> <b>/.env file is publicly downloadable</b></p>
+<p class="small"><b>Proof:</b> Your environment file (often containing secrets) can be downloaded. · <code>https://example-bakery.com/.env</code></p>
+<p class="small"><b>Fix:</b> Remove the file from the public folder, then rotate every key that was in it.</p>
+<p class="small"><b>Fix prompt for your builder</b></p><pre class="fix-t">Paste this into the Lovable chat:
+"Security fix needed: /.env file is publicly downloadable (found at https://example-bakery.com/.env). Remove the file from the public folder, then rotate every key that was in it. Do not change unrelated features. After the change, explain what you changed and confirm no secret keys remain in frontend code or VITE_/NEXT_PUBLIC_ variables."</pre></div>
+<div class="box finding"><p><span class="sev high">high</span> <b>Table "orders" is readable by anyone</b></p>
+<p class="small"><b>Proof:</b> Anonymous read returned data. Columns: id, email, total (looks like personal data). Row contents were not stored. · <code>https://xxxx.supabase.co/rest/v1/orders</code></p>
+<p class="small"><b>Fix:</b> Enable Row Level Security on this table and add policies so users can only read their own rows.</p>
+<p class="small"><b>Fix prompt for your builder</b></p><pre class="fix-t">Paste this into the Lovable chat:
+"Security fix needed: Table "orders" is readable by anyone (found at https://xxxx.supabase.co/rest/v1/orders). Enable Row Level Security on this table and add policies so users can only read their own rows. Do not change unrelated features. After the change, explain what you changed and confirm no secret keys remain in frontend code or VITE_/NEXT_PUBLIC_ variables."</pre></div>
+<div class="box finding"><p><span class="sev med">medium</span> <b>No Content-Security-Policy</b></p>
+<p class="small"><b>Proof:</b> Response is missing the content-security-policy header. · <code>https://example-bakery.com</code></p>
+<p class="small"><b>Fix:</b> Add a Content-Security-Policy header (start with <code>default-src 'self'</code> and allow only the domains you use).</p></div>
+<p class="small">The Fix it pack also adds a "Did I fix it?" re-check button under each item, a PDF, and 30 days of re-checks. DeployVet is not a penetration test. A clean report means we did not find the issues we check for.</p>
+<p><a class="btn btn-y" href="/#pricing" data-track="sample-to-pricing">See the $7 and $10 options</a> <a class="btn btn-line" href="/" data-track="sample-to-roast">Roast my app free first</a></p>
+</article></main>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div><img src="/assets/logo.svg" alt="DeployVet" width="156" height="40"><p class="small">Made by Hayden Young. DeployVet is not a penetration test.</p></div>
+    <ul class="flinks">
+      <li><a href="mailto:support@deployvet.com">support@deployvet.com</a></li>
+      <li><a href="/privacy.html">Privacy</a></li><li><a href="/terms.html">Terms</a></li><li><a href="/refunds.html">Refunds</a></li><li><a href="/llms.txt">llms.txt</a></li>
+    </ul>
+  </div>
+  <p class="wrap small copy">© 2026 DeployVet</p>
+</footer>
+<script src="/config.js"></script>
+<script src="/nav.js" defer></script>
+<script src="/track.js" defer></script>
+</body>
+</html>

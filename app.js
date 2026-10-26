@@ -283,7 +283,7 @@
         <div class="offer"><h3 class="o-h">Scan</h3><p class="o-v">${scanVal}</p><p class="o-p"><b>$7</b> once</p><div class="o-act">${scanBtn}</div></div>
         <div class="offer"><h3 class="o-h">Fix it pack</h3><p class="o-v">${packVal}</p><p class="o-p"><b>$10</b> once</p><div class="o-act">${packAct}</div></div>
       </div>
-      <p class="fp-note">One payment, no subscription, nothing renews. A developer's hour costs more than either one. After you pay, you prove you own the site, then the scan runs.</p></div>`;
+      <p class="fp-note">One payment, no subscription, nothing renews. A developer's hour costs more than either one. After you pay, you prove you own the site, then the scan runs. <a href="/sample-report.html" target="_blank" rel="noopener" data-track="sample-report">See a sample paid report</a></p></div>`;
   }
   document.addEventListener("submit", async (e) => {
     const f = e.target.closest("#fp-form"); if (!f) return;
