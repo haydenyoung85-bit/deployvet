@@ -386,3 +386,30 @@ dialog.buy #buy-what{font-weight:700;margin:0 0 6px}
 .foot .listed .lbadges6{display:flex;flex-wrap:wrap;gap:6px;flex:0 0 100%;align-items:center;margin:2px 0}
 .foot .listed .lbadges6 a{display:block;line-height:0;text-decoration:none}
 .foot .listed .lbadges6 img{display:block;height:24px;width:auto;max-width:100%;border:0;padding:0;background:none}
+
+/* checkout dialog: compact, email first */
+dialog.buy{padding:20px 18px}
+dialog.buy #buy-title{margin:0 44px 4px 0;font-size:1.25rem;line-height:1.2}
+dialog.buy #buy-what{font-weight:600;margin:0 0 8px}
+dialog.buy .b-for{margin:2px 0;font-size:.95rem}
+dialog.buy .b-for .linkbtn{min-height:44px;padding:0 6px}
+dialog.buy .row .btn{width:100%;justify-content:center;min-height:50px;box-sizing:border-box}
+dialog.buy .b-trust{margin:8px 0 0;line-height:1.4}
+dialog.buy .b-links{margin:4px 0 0;line-height:1.5}
+/* post-roast offers: primary scan card, quiet third line, calm A/B box */
+.offer-main{box-shadow:0 0 0 3px #111}
+.fixpack .fp-soft a{color:#111;font-weight:700}
+.fixpack.calm{background:#eef9e6;border-color:#9ad07a}
+.ra-form{display:grid;gap:8px}
+.ra-form input.ra-email{min-width:0;width:100%;box-sizing:border-box;min-height:44px;padding:10px;font-size:16px;border:2px solid #111;border-radius:8px;color:#111;background:#fff}
+.ra-ok{display:flex;gap:10px;align-items:flex-start;font-size:.85rem;line-height:1.35;color:#222;font-weight:500}
+.ra-ok input{width:22px;height:22px;flex:none;margin-top:1px}
+.ra-form .btn{min-height:44px}
+.co-cancel{margin:0;border-radius:0;text-align:center;padding:10px 14px}
+.co-cancel .linkbtn{min-height:44px;margin-left:8px}
+/* simple stacked forms on content pages (Launch Pack order + intake) */
+form.box label{display:block;font-weight:700;margin:12px 0 4px}
+form.box input:not([type=checkbox]):not(.hp),form.box textarea{display:block;width:100%;box-sizing:border-box;font:500 1rem var(--body);min-height:44px;padding:.55em .7em;border:var(--line);border-radius:10px;background:var(--white);color:var(--ink)}
+form.box textarea{min-height:90px;resize:vertical}
+form.box h2{font-size:1.4rem}
+.lp-ben{padding-left:1.1em}.lp-ben li{margin:.5em 0}

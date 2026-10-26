@@ -172,7 +172,8 @@
         <a href="#buy" class="btn btn-y" data-buy="deployvet_fix_pack">Get the Fix it pack</a>
       </div>
     </div>
-    <p class="small" style="margin-top:14px;text-align:center"><a href="/sample-report.html" data-track="sample-report-pricing">See a sample paid report</a> (made-up app, real format). Not sure yet? Roast your app free first and see how many issues are hidden.</p>
+    <p class="small" style="margin-top:14px;text-align:center"><b>Launching an app too?</b> The <a href="/launch-pack.html" data-track="pricing-launchpack">Launch Pack</a> ($39 once) is a landing-page rewrite, 5 X posts, 2 LinkedIn posts and a launch email, written with AI and delivered in 48 hours. It's marketing copy, not a security scan.</p>
+    <p class="small" style="margin-top:10px;text-align:center"><a href="/sample-report.html" data-track="sample-report-pricing">See a sample paid report</a> (made-up app, real format). Not sure yet? Roast your app free first and see how many issues are hidden.</p>
   </div>
 </section>
 
@@ -243,21 +244,22 @@
   <button type="button" class="close" aria-label="Close" data-track="buy-close">×</button>
   <h3 id="buy-title">Checkout</h3>
   <p class="small" id="buy-what"></p>
-  <p class="small"><a href="/sample-report.html" target="_blank" rel="noopener" data-track="sample-report-buy">See a sample report</a></p>
-  <p class="small">You pay first on Stripe's secure page (card, plus wallets like Apple Pay when your device supports them). Then you prove you own the site, and the scan runs.</p>
   <form>
     <input type="hidden" name="product" value="deployvet_scan_once">
-    <label for="b-email">Your email</label><input id="b-email" name="email" type="email" required placeholder="you@email.com">
-    <label for="b-domain">Your app's address</label><input id="b-domain" name="domain" required placeholder="https://your-app.com">
+    <label for="b-email">Your email <span class="opt">(the report is sent here)</span></label><input id="b-email" name="email" type="email" required placeholder="you@email.com" autocomplete="email">
+    <p class="b-for" id="b-for" hidden>For: <b id="b-host"></b> · <button type="button" class="linkbtn" id="b-change">change</button></p>
+    <div id="b-domain-wrap"><label for="b-domain">Your app's address</label><input id="b-domain" name="domain" required placeholder="https://your-app.com"></div>
     <details class="b-more"><summary>Optional: built with, repo, Supabase</summary>
     <label for="b-builder">Built with</label>
     <select id="b-builder" name="builder"><option value="lovable">Lovable</option><option value="bolt">Bolt</option><option value="replit">Replit</option><option value="cursor">Cursor</option><option value="v0">v0</option><option value="bubble">Bubble</option><option value="other" selected>Other</option></select>
     <label for="b-repo">Public GitHub repo <span class="opt">(optional)</span></label><input id="b-repo" name="repo_url" placeholder="https://github.com/you/app">
     <label for="b-sb">Supabase project URL <span class="opt">(optional)</span></label><input id="b-sb" name="supabase_url" placeholder="https://xxxx.supabase.co">
+    <p class="small">Never paste a secret or service_role key.</p>
     </details>
-    <p class="small">Never paste a secret or service_role key. By paying you agree to our <a href="/terms.html">Terms</a> and <a href="/refunds.html">Refund policy</a>.</p>
     <div id="buy-result" class="notice" hidden aria-live="polite"></div>
-    <div class="row"><button type="submit" class="btn">Go to secure checkout <span aria-hidden="true">→</span></button></div>
+    <div class="row"><button type="submit" class="btn" id="buy-pay">Pay on Stripe <span aria-hidden="true">→</span></button></div>
+    <p class="small b-trust" id="buy-trust"></p>
+    <p class="small b-links">Help: <a href="mailto:support@deployvet.com">support@deployvet.com</a> · <a href="/sample-report.html" target="_blank" rel="noopener" data-track="sample-report-buy">Sample report</a> · <a href="/refunds.html">Refunds</a> · <a href="/terms.html">Terms</a></p>
   </form>
 </dialog>
 <dialog id="roast" class="roast" aria-labelledby="roast-head">

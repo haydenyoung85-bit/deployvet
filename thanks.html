@@ -41,6 +41,23 @@
   </div>
 </header>
 <main class="wrap"><article class="legal">
+<div id="lp-box" hidden>
+<p class="eyebrow" id="lp-eyebrow">Launch Pack</p>
+<h1 id="lp-h">Tell us about your app</h1>
+<p id="lp-intro">Thanks for your order. Fill this in and we'll write your Launch Pack. Delivery is by email within 48 hours of getting your details and your payment.</p>
+<form class="box" id="lp-intake">
+<input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+<label for="i-email">Your email (the pack is sent here)</label><input id="i-email" name="email" type="email" required autocomplete="email">
+<label for="i-app">App address</label><input id="i-app" name="app_url" required maxlength="300" placeholder="https://your-app.com">
+<label for="i-what">What does it do? (1 to 3 sentences)</label><textarea id="i-what" name="what_it_does" required rows="3" maxlength="1500"></textarea>
+<label for="i-aud">Who is it for?</label><input id="i-aud" name="audience" required maxlength="800">
+<label for="i-why">In one sentence, why did you build it?</label><input id="i-why" name="why_built" required maxlength="500">
+<div id="i-result" class="notice" hidden aria-live="polite"></div>
+<p><button type="submit" class="btn" id="i-btn">Send my details <span aria-hidden="true">→</span></button></p>
+<p class="small">We use this only to write your pack and email you about it. Delivered within 48 hours by email, written with AI, one revision round included, no results promised. Questions: <a href="mailto:support@deployvet.com">support@deployvet.com</a></p>
+</form>
+</div>
+<div id="scan-box">
 <p class="eyebrow">Payment received</p>
 <h1>Thanks! One more step.</h1>
 <p>We only scan sites you own, so please prove this one is yours. Then your scan starts.</p>
@@ -52,6 +69,7 @@
 <div id="v-result" class="notice" hidden aria-live="polite"></div>
 </div>
 <p class="small">DNS changes can take a few minutes. We'll also email your report when it's ready. Questions? <a href="mailto:support@deployvet.com">support@deployvet.com</a></p>
+</div>
 </article></main>
 <footer class="foot">
   <div class="wrap foot-in">
@@ -68,6 +86,25 @@
 <script>
 (function(){
   const o = JSON.parse(sessionStorage.getItem("dv_order") || "{}");
+  const isLaunch = ["launch"].includes(new URLSearchParams(location.search).get("p")) || new URLSearchParams(location.search).get("pack") === "launch" || o.pack === "launch";
+  if (isLaunch) {
+    document.getElementById("scan-box").hidden = true; document.getElementById("lp-box").hidden = false; document.title = "Launch Pack details – DeployVet";
+    const ip = new URLSearchParams(location.search), fm = document.getElementById("lp-intake"), res = document.getElementById("i-result"), btn = document.getElementById("i-btn");
+    const oid = ip.get("order") || o.order_id || null;
+    try { fm.email.value = localStorage.getItem("dv_email") || ""; fm.app_url.value = sessionStorage.getItem("dv_lp_app") || o.domain || ""; } catch (_) {}
+    fm.addEventListener("submit", async (e) => {
+      e.preventDefault(); res.hidden = true; const l = btn.innerHTML; btn.disabled = true; btn.textContent = "Sending…";
+      try {
+        const body = { email: fm.email.value, app_url: fm.app_url.value, what_it_does: fm.what_it_does.value, audience: fm.audience.value, why_built: fm.why_built.value, website: fm.website.value || "" };
+        if (oid) body.order_id = oid;
+        const r = await DeployVet.call("launch-intake", body);
+        document.getElementById("lp-h").textContent = r.verified ? "Got it. We're on it." : "Got your details.";
+        document.getElementById("lp-intro").textContent = r.verified ? "Your payment is confirmed and your details are in. We'll email your Launch Pack to " + fm.email.value + " within 48 hours, and a confirmation is on its way." : "Your details are in. We'll match them to your payment by email before we start, so use the same email you paid with. Delivery is within 48 hours of both. If you haven't paid yet, you can still do it from the Launch Pack page.";
+        fm.hidden = true;
+      } catch (err) { res.hidden = false; res.className = "notice err"; res.textContent = err.message; btn.disabled = false; btn.innerHTML = l; }
+    });
+    return;
+  }
   const qs = new URLSearchParams(location.search); if (qs.get("site")) o.site_id = qs.get("site");
   const q = new URLSearchParams(location.search); const order_id = q.get("order") || o.order_id;
   const esc = DeployVet.esc, out = document.getElementById("v-result");
