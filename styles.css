@@ -406,6 +406,9 @@ form.box h2{font-size:1.2rem}
 .wall h2{margin:0 0 4px;font-size:1.15rem}.wall p{margin:0 0 10px}
 .wall-list{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
 .wall-list li{display:inline-flex;gap:8px;align-items:center;border:var(--line);border-radius:999px;padding:4px 12px;font-size:.9rem;background:#f4f6fa}
+.wall-list li[hidden]{display:none}
 .wall-list li.empty{border:0;background:none;padding:0;color:var(--muted)}
 .wall-list .wg{font-weight:700;color:#067647}.vchk{color:#067647;flex:none}
 @media(max-width:480px){.bd-form .rr-row{flex-direction:column}.bd-form .rr-row .btn{width:100%}}
+@media(max-width:560px){.wall-list{display:grid;grid-template-columns:1fr 1fr;gap:6px}.wall-list li{justify-content:space-between;padding:4px 10px;font-size:.82rem;border-radius:8px}}
+.wall>.btn{margin-top:10px}
