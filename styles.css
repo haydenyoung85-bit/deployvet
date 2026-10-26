@@ -381,3 +381,8 @@ dialog.buy #buy-what{font-weight:700;margin:0 0 6px}
 .fixpack.pulse{animation:fpulse 1.2s ease-out 1}
 @keyframes fpulse{0%{box-shadow:0 0 0 0 var(--pink)}70%{box-shadow:0 0 0 14px transparent}100%{box-shadow:0 0 0 0 transparent}}
 @media (prefers-reduced-motion:reduce){.fixpack.pulse{animation:none;outline:3px solid var(--pink)}}
+
+/* directory badges row (6): small, wraps to at most 2 short rows */
+.foot .listed .lbadges6{display:flex;flex-wrap:wrap;gap:6px;flex:0 0 100%;align-items:center;margin:2px 0}
+.foot .listed .lbadges6 a{display:block;line-height:0;text-decoration:none}
+.foot .listed .lbadges6 img{display:block;height:24px;width:auto;max-width:100%;border:0;padding:0;background:none}
