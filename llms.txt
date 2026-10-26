@@ -28,6 +28,8 @@
 - Home: https://deployvet.com/
 - How it works: https://deployvet.com/how-it-works.html
 - Methodology: https://deployvet.com/methodology.html
+- How we grade: https://deployvet.com/how-we-grade.html
+- Badge for A and B results (outside-in check, not a certification): https://deployvet.com/badge.html
 - Pricing: https://deployvet.com/pricing.html
 - About: https://deployvet.com/about.html
 - Contact: https://deployvet.com/contact.html (support@deployvet.com)

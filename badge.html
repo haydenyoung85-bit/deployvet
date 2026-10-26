@@ -3,21 +3,21 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Survived the Roast badge | DeployVet</title>
-<meta name="description" content="The Survived the Roast badge for apps that score an A on a DeployVet free security roast.">
+<title>Get your DeployVet badge</title>
+<meta name="description" content="Show the result of your latest DeployVet outside-in check on your own site. The badge is drawn from our stored scan, shows grade, score and date, and is available for A and B grades.">
 <link rel="canonical" href="https://deployvet.com/badge.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="DeployVet">
-<meta property="og:title" content="Survived the Roast badge | DeployVet">
 <meta property="og:url" content="https://deployvet.com/badge.html">
-<meta property="og:description" content="Free outside-in website security and bug check. A score, your most important issue and how to fix it.">
+<meta property="og:title" content="Get your DeployVet badge">
+<meta property="og:description" content="Show the result of your latest DeployVet outside-in check on your own site. The badge is drawn from our stored scan, shows grade, score and date, and is available for A and B grades.">
 <meta property="og:image" content="https://deployvet.com/assets/og.png">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="DeployVet: website security and bug check">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:description" content="Free outside-in website security and bug check. A score, your most important issue and how to fix it.">
+<meta name="twitter:title" content="Get your DeployVet badge">
+<meta name="twitter:description" content="Show the result of your latest DeployVet outside-in check on your own site. The badge is drawn from our stored scan, shows grade, score and date, and is available for A and B grades.">
 <meta name="twitter:image" content="https://deployvet.com/assets/og.png">
-<meta name="twitter:image:alt" content="DeployVet: website security and bug check">
 <meta name="theme-color" content="#0b2545">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon.ico" sizes="any">
@@ -41,29 +41,37 @@
 </header>
 <main class="wrap"><article class="legal">
 <p class="eyebrow">Badge</p>
-<h1>Survived the Roast</h1>
-<p class="answer">Get an A on a DeployVet roast and you can put this badge on your site. It links back to DeployVet. That's it.</p>
-<p><img src="/assets/badge-survived.svg" alt="Survived the DeployVet Roast badge" width="200" height="200"></p>
-<h2>How to get it</h2>
-<ol class="do"><li>Run a free roast on your own site.</li><li>Score 90 or more (grade A).</li><li>Copy the badge code from your results and paste it into your site.</li></ol>
-<h2>The code</h2>
-<pre>&lt;a href="https://deployvet.com/?utm_source=badge"&gt;&lt;img src="https://deployvet.com/assets/badge-survived.svg" alt="Survived the DeployVet Roast" width="160" height="160"&gt;&lt;/a&gt;</pre>
-<h2>What it means (and doesn't)</h2>
-<p>The badge means your site passed our outside check on the day you ran it. It is not a promise that your app is safe, and it is not a penetration test. If your score drops later, please take the badge down until you fix things.</p>
-<div class="cta-box"><h2>Think you can survive?</h2><p><a href="/#check" class="btn">Roast my app free</a></p></div>
+<h1>Get your badge</h1>
+<p class="lead">If your latest DeployVet check is an A or a B, you can show it on your own site. The badge is drawn by DeployVet from the stored scan, so it always shows the real grade, score and date.</p>
+<form id="bd-form" class="bd-form" novalidate>
+<label for="bd-d">Your site's domain</label>
+<div class="rr-row"><input id="bd-d" name="d" type="text" inputmode="url" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="your-site.com" required>
+<button type="submit" class="btn" data-track="badge-lookup">Show my badge</button></div>
+</form>
+<div id="bd-out" aria-live="polite"></div>
+<div class="tbl-wrap bd-rules"><table class="tbl"><tbody>
+<tr><th scope="row">Who can have one</th><td>Sites whose latest check is an A (90 to 100) or a B (75 to 89). There is no badge for a lower grade or for a site we have not checked.</td></tr>
+<tr><th scope="row">What it shows</th><td>The grade, score and date of our stored check, for example &ldquo;A 92/100 Oct 26 2026&rdquo;. It links to the public result page.</td></tr>
+<tr><th scope="row">Old results</th><td>After 30 days the badge turns grey and says it is old. If a newer check scores below B, the badge stops showing. Re-check to refresh it.</td></tr>
+<tr><th scope="row">What it is not</th><td>An outside-in check at a point in time. It is not a certification, an audit or a guarantee that a site is secure. Please do not describe it as one.</td></tr>
+<tr><th scope="row">Use it on your own sites</th><td>Only place the badge on sites you own or manage. The result is public for a domain, so to have a result removed, email <a href="mailto:support@deployvet.com">support@deployvet.com</a>.</td></tr>
+</tbody></table></div>
+<p>How the grades work is on <a href="/how-we-grade.html">How we grade</a>. No check yet? <a href="/#check" data-track="badge-check">Run the free check</a>.</p>
 </article></main>
 <footer class="foot">
   <div class="wrap foot-in">
     <div class="foot-id"><img src="/assets/logo-light.svg" alt="DeployVet" width="156" height="40"><p class="small">Outside-in website security and bug checks. DeployVet is not a penetration test, an audit or a certification, and a clean result is not a guarantee.</p><p class="small"><a href="mailto:support@deployvet.com">support@deployvet.com</a></p></div>
     <nav class="foot-nav" aria-label="Footer">
-      <div><h4>Product</h4><ul><li><a href="/#check">Free check</a></li><li><a href="/pricing.html">Pricing</a></li><li><a href="/how-it-works.html">How it works</a></li><li><a href="/sample-report.html">Sample report</a></li><li><a href="/launch-pack.html">Launch Pack</a></li></ul></div>
-      <div><h4>Company</h4><ul><li><a href="/about.html">About</a></li><li><a href="/methodology.html">Methodology</a></li><li><a href="/guides/">Guides</a></li><li><a href="/scoreboard.html">Public scores</a></li><li><a href="/contact.html">Contact</a></li></ul></div>
+      <div><h4>Product</h4><ul><li><a href="/#check">Free check</a></li><li><a href="/pricing.html">Pricing</a></li><li><a href="/how-it-works.html">How it works</a></li><li><a href="/sample-report.html">Sample report</a></li><li><a href="/launch-pack.html">Launch Pack</a></li><li><a href="/badge.html">Get a badge</a></li></ul></div>
+      <div><h4>Company</h4><ul><li><a href="/about.html">About</a></li><li><a href="/methodology.html">Methodology</a></li><li><a href="/how-we-grade.html">How we grade</a></li><li><a href="/guides/">Guides</a></li><li><a href="/scoreboard.html">Public scores</a></li><li><a href="/contact.html">Contact</a></li></ul></div>
       <div><h4>Legal</h4><ul><li><a href="/privacy.html">Privacy</a></li><li><a href="/terms.html">Terms</a></li><li><a href="/refunds.html">Refunds</a></li></ul></div>
     </nav>
   </div>
   <p class="wrap small copy">© 2026 DeployVet</p>
 </footer>
 <script src="/config.js"></script>
+<script src="/badge.js" defer></script>
+<script src="/badge-page.js" defer></script>
 <script src="/nav.js" defer></script>
 <script src="/track.js" defer></script>
 </body>

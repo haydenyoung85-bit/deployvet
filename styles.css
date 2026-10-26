@@ -384,3 +384,28 @@ form.box h2{font-size:1.2rem}
 .sr-sum div{padding:10px 14px;border-right:var(--line)}.sr-sum div:last-child{border-right:0}
 .sr-sum span{display:block}.sr-sum b{font:650 1.25rem var(--head);color:var(--navy)}
 @media(max-width:640px){.sr-sum{grid-template-columns:1fr 1fr}.sr-sum div:nth-child(2){border-right:0}.sr-sum div:nth-child(-n+2){border-bottom:var(--line)}}
+/* badge, result, wall */
+.bd-form{margin:18px 0}.bd-form label{display:block;font-weight:600;margin-bottom:6px}
+.bd-form input{width:100%;font:inherit;padding:11px 12px;border:1px solid #9aa8ba;border-radius:8px;min-width:0}
+.bd-form .rr-row{display:flex;gap:8px}.bd-form .rr-row input{flex:1 1 auto}.bd-form .rr-row .btn{flex:none}
+#bd-out{margin:14px 0}#bd-out h2{margin:0 0 8px}
+.bdg-box{border:var(--line);border-radius:8px;padding:12px 14px;margin:10px 0;background:#fff}
+.bdg-box h3{margin:0 0 6px;font-size:1rem}
+.bdg-box label{display:block;font-weight:600;margin:10px 0 4px;font-size:.9rem}
+.bdg-box textarea{width:100%;font:400 .78rem var(--mono);border:1px solid #9aa8ba;border-radius:6px;padding:8px;resize:vertical}
+.bdg-box .btn{margin:6px 8px 0 0}
+.bdg-prev{margin:6px 0}.bdg-prev img,.rs-grade+p img{max-width:100%;height:24px}
+.bdg-row{margin:12px 0 0}
+.ba{margin-top:14px;border-top:var(--line);padding-top:12px}.ba h3{margin:0 0 4px}.ba img,.ba-img{max-width:100%;height:auto;border:var(--line);border-radius:8px}
+.bd-rules{margin:22px 0}.bd-rules .tbl{min-width:0}.bd-rules th{width:32%}
+.rs-grade{display:flex;gap:14px;align-items:center;margin:8px 0}
+.rs-g{display:inline-flex;width:64px;height:64px;border-radius:12px;align-items:center;justify-content:center;font:700 2rem var(--head);color:#fff;background:#067647}
+.rs-g.rs-B{background:#1d4fa8}.rs-g.rs-old{background:#6b7686}
+.rs-note{margin-top:18px}
+.wall{border:var(--line);border-radius:8px;background:#fff;padding:14px 16px;margin:16px 0}
+.wall h2{margin:0 0 4px;font-size:1.15rem}.wall p{margin:0 0 10px}
+.wall-list{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.wall-list li{display:inline-flex;gap:8px;align-items:center;border:var(--line);border-radius:999px;padding:4px 12px;font-size:.9rem;background:#f4f6fa}
+.wall-list li.empty{border:0;background:none;padding:0;color:var(--muted)}
+.wall-list .wg{font-weight:700;color:#067647}.vchk{color:#067647;flex:none}
+@media(max-width:480px){.bd-form .rr-row{flex-direction:column}.bd-form .rr-row .btn{width:100%}}

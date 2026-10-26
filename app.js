@@ -43,9 +43,6 @@ window.DeployVet = { call, esc, friendly , attrib };
   const siteFor = (how) => `${SITE}&utm_campaign=${how}`; // how = x | native | copy | card, so the numbers show which button worked
   const shareLead = (r, g, withUrl) => `I ran a DeployVet outside security check on ${withUrl && r.url ? r.url : "my site"}: ${r.score}/100 (grade ${g}). Check yours:`;
   const shareText = (r, g, withUrl, how) => `${shareLead(r, g, withUrl)} ${siteFor(how)}`;
-  // Badge snippet: plain link with inline styles, no image to host. Shows the real score from this check and its date.
-  const badgeHtml = (r) => { const n = Math.max(0, Math.min(100, Math.round(Number(r.score) || 0))), d = new Date().toISOString().slice(0, 10);
-    return `<a href="https://deployvet.com/?utm_source=badge" title="DeployVet outside-in check on ${d}. Not a security audit or certification." style="display:inline-block;padding:5px 12px;border:1px solid #0b2545;border-radius:6px;background:#fff;color:#0b2545;font:600 13px/1.4 system-ui,sans-serif;text-decoration:none">DeployVet outside check: ${n}/100 (${d})</a>`; };
   // Context from the real scan data. The result copy is built from this.
   const hostOf = (u) => String(u || "").replace(/^[a-z]+:\/\//i, "").replace(/\/.*$/, "").toLowerCase() || "your app";
   const pathOf = (u, host) => { const s = String(u || "").replace(/^[a-z]+:\/\//i, "").replace(/\/$/, ""); return s.includes("/") ? s : (s || host); };
@@ -153,6 +150,13 @@ window.DeployVet = { call, esc, friendly , attrib };
     } catch (err) { msg(res, esc(err.status === 400 ? "That didn't work. Check the email, or run the check again." : friendly(err)), "err"); }
     busy(btn, false);
   });
+  const rrBox = (tag, host) => `<${tag}>Re-check reminder</${tag}><form class="rr" id="rr-form">
+          <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <div class="rr-row"><label for="rr-email" class="sr">Email</label><input id="rr-email" type="email" required placeholder="you@email.com" autocomplete="email">
+          <button type="submit" class="btn btn-sm btn-lime" data-track="reroast-email">Email me</button></div>
+          <p class="small rr-ok">We email a confirm link first. No confirm, no emails. After that: occasional security tips and a reminder to re-check ${host}. Unsubscribe any time. <a href="/privacy.html">Privacy</a></p>
+          <div id="rr-result" class="notice" hidden aria-live="polite"></div>
+        </form>`;
   function openRoast(r) {
     const g = band(r.grade, r.score), c = ctx(r), t = r.topIssue, total = totalOf(r), good = isGood(r);
     const counts = r.counts || {}, order = ["critical", "high", "medium", "low", "info"];
@@ -187,6 +191,7 @@ window.DeployVet = { call, esc, friendly , attrib };
         <ol class="r-burns">${burns}</ol>
       </div>
       ${offersBlock(c, total, "popup", t, r)}
+      ${good ? `<section class="bdg-box" id="bdg-box" hidden><h3>Show this result on your site</h3><div id="bdg"></div></section>` : ""}
       <details class="more"><summary data-track="more-open">Share, reminders and public listing</summary><div>
         <h3>Share this result</h3>
         <div class="r-actions">
@@ -196,19 +201,7 @@ window.DeployVet = { call, esc, friendly , attrib };
         </div>
         <label class="share-opt"><input type="checkbox" id="share-url"> Include my site's web address</label>
         <span class="share-note small" id="share-note" aria-live="polite"></span>
-        ${g === "A" || g === "B" ? `<h3>Badge for your site</h3><details class="bd"><summary>Show the badge code</summary>
-          <p class="small">Optional. It shows today's score (${esc(r.score)}/100) and date and links to DeployVet. It is an outside-in check, not an audit or certification. Only use it on your own site, and update or remove it if the score changes.</p>
-          <p class="bd-prev" id="badge-prev"></p>
-          <label for="badge-code" class="sr">Badge HTML</label><textarea id="badge-code" readonly rows="4"></textarea>
-          <button type="button" class="btn btn-sm btn-y" id="badge-copy" data-track="badge-copy">Copy badge code</button>
-        </details>` : ""}
-        ${good ? "" : `<h3>Re-check reminder</h3><form class="rr" id="rr-form">
-          <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
-          <div class="rr-row"><label for="rr-email" class="sr">Email</label><input id="rr-email" type="email" required placeholder="you@email.com" autocomplete="email">
-          <button type="submit" class="btn btn-sm btn-lime" data-track="reroast-email">Email me</button></div>
-          <p class="small rr-ok">We email a confirm link first. No confirm, no emails. After that: occasional security tips and a reminder to re-check ${esc(c.host)}. Unsubscribe any time. <a href="/privacy.html">Privacy</a></p>
-          <div id="rr-result" class="notice" hidden aria-live="polite"></div>
-        </form>`}
+        ${good ? "" : rrBox("h3", esc(c.host))}
         ${r.check_id ? `<h3>Public scores</h3><div class="qj" id="qj">
           <p class="small">Optional. List your score and grade on the public scores page. Your domain stays hidden as <code>${esc(maskDomain(c.host))}</code> unless you verify ownership.</p>
           <form id="qj-form" class="qj-form">
@@ -245,11 +238,9 @@ window.DeployVet = { call, esc, friendly , attrib };
       const tx = shareText(r, g, withUrl(), "copy");
       try { await navigator.clipboard.writeText(tx); note.textContent = "Copied."; } catch (_) { window.prompt("Copy this:", tx); }
     });
-    const bh = badgeHtml(r), bcode = document.getElementById("badge-code");
-    if (bcode) {
-      bcode.value = bh; document.getElementById("badge-prev").innerHTML = bh;
-      const bb = document.getElementById("badge-copy");
-      bb.addEventListener("click", async () => { try { await navigator.clipboard.writeText(bh); bb.textContent = "Copied"; } catch (_) { bcode.value = bh; bcode.select(); } });
+    if (good && window.DeployVetBadge) {
+      const dom = window.DeployVetBadge.norm(c.host);
+      window.DeployVetBadge.info(dom, true).then((i) => { if (!i) return; document.getElementById("bdg-box").hidden = false; window.DeployVetBadge.render(document.getElementById("bdg"), dom, i, { compact: true, id: "pop" }); }).catch(() => {});
     }
     document.getElementById("roast-card").addEventListener("click", () => roastCard({ score: r.score, grade: g, host: c.host, head, sub: t ? t.title : "No serious issues found" }).catch((e) => { note.textContent = "Could not make the card: " + e.message; }));
     joinFlow(r);

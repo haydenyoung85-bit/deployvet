@@ -14,7 +14,7 @@
 <url><loc>https://deployvet.com/privacy.html</loc></url>
 <url><loc>https://deployvet.com/refunds.html</loc></url>
   <url><loc>https://deployvet.com/guides/bolt-new-app-security-checklist.html</loc></url>
-  <url><loc>https://deployvet.com/guides/cursor-vibe-coded-app-security.html</loc></url>
+  <url><loc>https://deployvet.com/guides/cursor-app-security.html</loc></url>
   <url><loc>https://deployvet.com/guides/</loc></url>
   <url><loc>https://deployvet.com/guides/is-my-lovable-app-secure.html</loc></url>
   <url><loc>https://deployvet.com/guides/leaked-api-keys-in-frontend.html</loc></url>
@@ -22,4 +22,5 @@
   <url><loc>https://deployvet.com/guides/supabase-rls-check-for-ai-apps.html</loc></url>
   <url><loc>https://deployvet.com/scoreboard.html</loc></url>
   <url><loc>https://deployvet.com/badge.html</loc></url>
+  <url><loc>https://deployvet.com/how-we-grade.html</loc></url>
 </urlset>

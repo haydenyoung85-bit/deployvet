@@ -37,11 +37,18 @@
     const flame = dedupe(d.flame).filter((r) => !inFame.has(key(r))); // lowest entries not in Fame (server picks them)
     $("fame").innerHTML = list(fame, "fame", n);
     $("flame").innerHTML = list(flame, "flame", n);
+    const wall = $("wall");
+    if (wall) {
+      const a = fame.filter((r) => String(r.grade).toUpperCase() === "A" && Number(r.score) >= 90).slice(0, 30);
+      const CHK = '<svg class="vchk" viewBox="0 0 16 16" width="14" height="14" role="img" aria-label="Verified owner"><title>Owner verified this domain</title><path d="M3 8.5l3.2 3L13 4.8" fill="none" stroke="currentColor" stroke-width="2"/></svg>';
+      wall.innerHTML = a.length ? a.map((r) => { const nm = esc(name(r)); const inner = r.verified && r.domain ? `<a href="/result.html?d=${encodeURIComponent(r.domain)}">${nm}</a>${CHK}` : `<span>${nm}</span>`; return `<li>${inner}<span class="wg">A ${esc(r.score)}</span></li>`; }).join("")
+        : '<li class="empty">No A grades listed yet. After a check, owners can choose to list their score.</li>';
+    }
     ticker(dedupe(d.latest));
     if (Number.isFinite(n)) { const t = $("sb-total"); t.hidden = false; t.textContent = `${n.toLocaleString()} site${n === 1 ? "" : "s"} checked so far`; }
   }).catch((e) => {
     const el = $("sb-err"); el.hidden = false;
     el.textContent = e.status === 429 ? "Too many requests. Give it a minute and refresh." : "We could not load the public scores. Refresh to try again.";
-    ["fame", "flame"].forEach((k) => { $(k).innerHTML = `<div class="empty"><p class="em-big">Public scores are unavailable right now.</p><p>Please refresh in a minute.</p></div>`; });
+    ["fame", "flame", "wall"].forEach((k) => { if ($(k)) $(k).innerHTML = k === "wall" ? "" : `<div class="empty"><p class="em-big">Public scores are unavailable right now.</p><p>Please refresh in a minute.</p></div>`; });
   });
 })();
