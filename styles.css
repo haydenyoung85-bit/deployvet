@@ -365,3 +365,6 @@ dialog.roast::backdrop{background:var(--ink)}
 .b-more{margin:2px 0}.b-more summary{cursor:pointer;font-weight:700;padding:6px 0}
 .b-more[open]{display:grid;gap:6px}
 dialog.buy #buy-what{font-weight:700;margin:0 0 6px}
+/* Runway badge (LaunchFree) */
+.foot .listed a.rw{display:inline-flex;align-items:center;line-height:0;text-decoration:none}
+.foot .listed a.rw img{display:block;height:28px;width:auto;background:none;border:0;padding:0;border-radius:0}
