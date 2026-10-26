@@ -207,8 +207,27 @@
   // Context from the real scan data. Every roast line is built from this.
   const hostOf = (u) => String(u || "").replace(/^[a-z]+:\/\//i, "").replace(/\/.*$/, "").toLowerCase() || "your app";
   const pathOf = (u, host) => { const s = String(u || "").replace(/^[a-z]+:\/\//i, "").replace(/\/$/, ""); return s.includes("/") ? s : (s || host); };
-  // Total issue count: the server sends it as r.total. Older cached responses only carry per-severity counts.
-  const totalOf = (r) => Number.isFinite(Number(r && r.total)) && r.total !== undefined ? Number(r.total) : ["critical", "high", "medium", "low", "info"].reduce((a, k) => a + (Number(((r && r.counts) || {})[k]) || 0), 0);
+  // <lockinfo>
+  // Counts. Trust a server number only when it is a real finite number: null / "" / undefined / NaN are NOT zero.
+  // Total = r.total, else the summed per-severity counts. Locked = r.locked.count, else total minus the worst issue shown.
+  const SEVS = ["critical", "high", "medium", "low", "info"];
+  const finiteNum = (v) => (typeof v === "number" || (typeof v === "string" && v.trim() !== "")) && Number.isFinite(Number(v)) ? Number(v) : null;
+  const sumCounts = (r) => SEVS.reduce((a, k) => a + (finiteNum(((r && r.counts) || {})[k]) || 0), 0);
+  const totalOf = (r) => {
+    const t = finiteNum(r && r.total), base = t !== null && t >= 0 ? t : sumCounts(r);
+    const lc = finiteNum(r && r.locked && r.locked.count);
+    return Math.max(base, (lc !== null && lc > 0 ? lc : 0) + (r && r.topIssue ? 1 : 0));   // never fewer issues than the ones we are showing
+  };
+  // One source of truth for the locked box: the headline number and the chips always describe the same issues.
+  function lockInfo(r) {
+    const total = totalOf(r), counts = (r && r.counts) || {}, top = r && r.topIssue;
+    const lc = finiteNum(r && r.locked && r.locked.count);
+    const n = lc !== null && lc >= 0 ? lc : (top ? Math.max(0, total - 1) : total);
+    const left = {}; SEVS.forEach((k) => { left[k] = Math.max(0, (finiteNum(counts[k]) || 0) - (top && top.severity === k ? 1 : 0)); });
+    const chipSum = SEVS.reduce((a, k) => a + left[k], 0);
+    return { total, locked: n, left, chipsOk: chipSum === n };   // chips are shown only when they add up to the headline
+  }
+  // </lockinfo>
   function ctx(r) {
     const counts = r.counts || {}, t = r.topIssue || {}, host = hostOf(r.url || r.domain);
     const total = totalOf(r);
@@ -316,9 +335,8 @@
       <p class="what"><b>${esc(t.title)}</b>${t.detail ? ` ${esc(t.detail)}` : ""}</p>
       <div class="fixbox"><b>The fix</b><p>${esc(t.fix || "Open the full roast for step-by-step fix prompts.")}</p></div></li>`;
     // Locked teaser: real counts only. Placeholder rows hold NO finding text.
-    const left = {}; order.forEach((k) => { left[k] = Math.max(0, (Number(counts[k]) || 0) - (t && t.severity === k ? 1 : 0)); });
-    const lockedN = r.locked && Number.isFinite(Number(r.locked.count)) ? Number(r.locked.count) : (t ? Math.max(0, total - 1) : 0);
-    const lockChips = order.filter((k) => left[k]).map((k) => `<span class="sev ${k}">${esc(left[k])} ${esc(k)}</span>`).join("");
+    const li = lockInfo(r), lockedN = li.locked, left = li.left;
+    const lockChips = li.chipsOk ? order.filter((k) => left[k]).map((k) => `<span class="sev ${k}">${esc(left[k])} ${esc(k)}</span>`).join("") : "";
     // Locked rows hold NO finding text (the server sends only a count). Tapping one scrolls to the offers; the button opens the $7 Scan.
     const rest = lockedN ? `<li class="locked-teaser" id="locked">
       <p class="lk-h">${esc(lockedN)} more problem${lockedN === 1 ? "" : "s"} hidden 🔒</p>

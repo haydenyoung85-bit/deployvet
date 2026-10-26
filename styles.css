@@ -369,6 +369,10 @@ dialog.buy #buy-what{font-weight:700;margin:0 0 6px}
 .foot .listed a.rw{display:inline-flex;align-items:center;line-height:0;text-decoration:none}
 .foot .listed a.rw img{display:block;height:28px;width:auto;background:none;border:0;padding:0;border-radius:0}
 
+/* Findly badge: light badge, compact on the same line as Runway */
+.foot .listed a.fd{display:inline-flex;align-items:center;line-height:0;text-decoration:none}
+.foot .listed a.fd img{display:block;height:30px;width:auto;max-width:100%;border-radius:6px;background:#fff;border:0;padding:0}
+
 /* locked rows: blurred placeholders (no real text), whole row is tappable */
 .ph i{filter:blur(2.5px);user-select:none}
 .ph-lock{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:1.15rem;background:var(--white);border:2px solid var(--ink);border-radius:999px;width:32px;height:32px;display:grid;place-items:center;line-height:1}
