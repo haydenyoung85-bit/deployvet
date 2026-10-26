@@ -1,4 +1,4 @@
-// Scoreboard renderer, used on scoreboard.html (top 20) and the homepage block (top 5 + ticker).
+// Public scores renderer, used on scoreboard.html (top 20) and the homepage block (top 5 + ticker).
 // GET leaderboard -> { fame, flame, latest, totals: { roasts } }. Spec: app/LEADERBOARD.md
 // Unverified rows have no domain: show nickname or masked domain. Rank is computed here (ties share). No fake rows, ever.
 (function () {
@@ -10,25 +10,24 @@
   // Free-text display names only show once the owner verified the domain, so nobody can put a brand or adult site name on the public board.
   const name = (r) => (r.verified && r.display_name) || r.domain || r.masked || "anonymous app";
   const rank = (rows) => { let prev = null, rk = 0; return rows.map((r, i) => { if (r.score !== prev) { rk = i + 1; prev = r.score; } return { ...r, rank: rk }; }); };
-  const roasts = (n) => Number.isFinite(n) ? `${n.toLocaleString()} app${n === 1 ? " has" : "s have"} been roasted` : "apps are getting roasted";
+  const checked = (n) => Number.isFinite(n) ? `${n.toLocaleString()} site${n === 1 ? " has" : "s have"} been checked` : "Sites are being checked";
   const EMPTY = {
-    fame: (n) => `<div class="empty"><p class="em-big">the trophy shelf is empty. be so for real.</p><p>${esc(roasts(n))}, and not one owner was confident enough to claim a spot. think your app can take it? prove it.</p><a class="btn btn-sm btn-y" href="/#check">Roast my app</a></div>`,
-    flame: (n) => `<div class="empty"><p class="em-big">nobody: <br>literally nobody: <br>this board:</p><p>${esc(roasts(n))} and every owner is hiding their score. be the first one with the guts. it's one click after your roast.</p><a class="btn btn-sm" href="/#check">Roast my app</a></div>`,
+    fame: (n) => `<div class="empty"><p class="em-big">No public high scores yet.</p><p>${esc(checked(n))}. Listing is opt-in: after a check, the owner can choose to show their score here.</p><a class="btn btn-line btn-sm" href="/#check">Check my site</a></div>`,
+    flame: (n) => `<div class="empty"><p class="em-big">No public low scores yet.</p><p>${esc(checked(n))}. Owners decide whether to list a score, and most do not.</p><a class="btn btn-line btn-sm" href="/#check">Check my site</a></div>`
   };
   const key = (r) => r.id || r.domain || `${r.masked}|${r.display_name}|${r.score}|${r.joined_at}`;
   const dedupe = (rows) => { const seen = new Set(); return (Array.isArray(rows) ? rows : []).filter((r) => { const k = key(r); if (seen.has(k)) return false; seen.add(k); return true; }); };
   const list = (rows, kind, n) => {
     if (!rows.length) return EMPTY[kind](n);
-    let prev = { g: null, i: -1 };
-    return `<ol>${rank(rows.slice(0, LIMIT)).map((r) => { const line = D.boardLine(r.grade, r, prev.g === r.grade ? prev.i : -1); prev = { g: r.grade, i: line.idx }; return `<li><span class="rk">#${esc(r.rank)}</span>
-      <span><span class="nm">${esc(name(r))}</span>${r.verified ? '<span class="vbadge" title="Owner verified this domain">✔ verified</span>' : ""}${r.display_name && r.domain ? `<span class="dm">${esc(r.domain)}</span>` : ""}<span class="ln">${esc(line.text)}</span></span>
+        return `<ol>${rank(rows.slice(0, LIMIT)).map((r) => { return `<li><span class="rk">#${esc(r.rank)}</span>
+      <span><span class="nm">${esc(name(r))}</span>${r.verified ? '<span class="vbadge" title="Owner verified this domain">Verified</span>' : ""}${r.display_name && r.domain ? `<span class="dm">${esc(r.domain)}</span>` : ""}</span>
       <span class="sc">${esc(r.score)}<span class="gr">${esc(r.grade)}</span></span></li>`; }).join("")}</ol>`;
   };
   const ticker = (rows) => {
     const el = $("ticker"); if (!el) return;
     if (!Array.isArray(rows) || !rows.length) { el.hidden = true; return; }
-    const items = rows.map((r) => `<li><b>${esc(name(r))}</b> got ${esc(r.score)}/100 (${esc(r.grade)})</li>`).join("");
-    el.hidden = false; el.innerHTML = `<p class="sr">Latest roasts</p><ul>${items}${rows.length > 2 ? items.replace(/<li>/g, '<li aria-hidden="true">') : ""}</ul>`;
+    const items = rows.map((r) => `<li><b>${esc(name(r))}</b> scored ${esc(r.score)}/100 (${esc(r.grade)})</li>`).join("");
+    el.hidden = false; el.innerHTML = `<p class="sr">Latest checks</p><ul>${items}${rows.length > 2 ? items.replace(/<li>/g, '<li aria-hidden="true">') : ""}</ul>`;
   };
   D.call("leaderboard", null, "GET").then((d) => {
     const n = d.totals ? Number(d.totals.roasts) : NaN;
@@ -39,10 +38,10 @@
     $("fame").innerHTML = list(fame, "fame", n);
     $("flame").innerHTML = list(flame, "flame", n);
     ticker(dedupe(d.latest));
-    if (Number.isFinite(n)) { const t = $("sb-total"); t.hidden = false; t.textContent = `${n.toLocaleString()} app${n === 1 ? "" : "s"} roasted so far`; }
+    if (Number.isFinite(n)) { const t = $("sb-total"); t.hidden = false; t.textContent = `${n.toLocaleString()} site${n === 1 ? "" : "s"} checked so far`; }
   }).catch((e) => {
     const el = $("sb-err"); el.hidden = false;
-    el.textContent = e.status === 429 ? "Too many requests. Give it a minute and refresh." : "We couldn't load the scoreboard. Refresh to try again.";
-    ["fame", "flame"].forEach((k) => { $(k).innerHTML = `<div class="empty"><p class="em-big">scoreboard is taking a nap.</p><p>refresh in a bit.</p></div>`; });
+    el.textContent = e.status === 429 ? "Too many requests. Give it a minute and refresh." : "We could not load the public scores. Refresh to try again.";
+    ["fame", "flame"].forEach((k) => { $(k).innerHTML = `<div class="empty"><p class="em-big">Public scores are unavailable right now.</p><p>Please refresh in a minute.</p></div>`; });
   });
 })();

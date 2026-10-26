@@ -3,28 +3,25 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Roast my vibe-coded app | DeployVet free security check for AI-built apps</title>
-<meta name="description" content="Roast my vibe-coded app: a free security check for apps built with Lovable, Bolt, Replit, Cursor, v0 and Bubble. Finds leaked keys, open data and broken pages in under a minute.">
+<title>Website security and bug check | DeployVet</title>
+<meta name="description" content="Free outside-in website security and bug check. Get a score, your most important issue and how to fix it in under a minute. For freelancers, agencies and their clients.">
 <link rel="canonical" href="https://deployvet.com/">
-<meta property="og:description" content="free roast of your vibe-coded app. leaked keys, open Supabase, the works. real fixes under every burn.">
-<meta property="og:image" content="https://deployvet.com/assets/og-roast.png">
+<meta property="og:description" content="Free outside-in website security and bug check. A score, your most important issue and how to fix it.">
+<meta property="og:image" content="https://deployvet.com/assets/og.png">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="DeployVet: i vibe-coded a site that roasts your vibe-coded site. example roast: F, 12/100. deployvet.com">
+<meta property="og:image:alt" content="DeployVet: website security and bug check">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:description" content="free roast of your vibe-coded app. leaked keys, open Supabase, the works. real fixes under every burn.">
-<meta name="twitter:image" content="https://deployvet.com/assets/og-roast.png">
-<meta name="twitter:image:alt" content="DeployVet: i vibe-coded a site that roasts your vibe-coded site. example roast: F, 12/100. deployvet.com">
-<meta name="theme-color" content="#ff3d8b">
+<meta name="twitter:description" content="Free outside-in website security and bug check. A score, your most important issue and how to fix it.">
+<meta name="twitter:image" content="https://deployvet.com/assets/og.png">
+<meta name="twitter:image:alt" content="DeployVet: website security and bug check">
+<meta name="theme-color" content="#0b2545">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="DeployVet">
 <meta property="og:url" content="https://deployvet.com/">
-<meta property="og:title" content="DeployVet – Roast my vibe-coded app">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
+<meta property="og:title" content="DeployVet: website security and bug check">
 <link rel="stylesheet" href="/styles.css">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
@@ -40,11 +37,11 @@
     <a href="/" class="brand" aria-label="DeployVet home"><img src="/assets/logo.svg" alt="DeployVet" width="187" height="48"></a>
     <button type="button" class="menu-btn" aria-expanded="false" aria-controls="main-links"><span class="mb-i" aria-hidden="true"></span><span class="mb-l">Menu</span></button>
     <nav aria-label="Main"><ul class="links" id="main-links">
-      <li><a href="/#checks">What we roast</a></li>
+      <li><a href="/#checks">What we check</a></li>
       <li><a href="/#pricing">Pricing</a></li>
       <li><a href="/guides/">Guides</a></li>
       <li><a href="/#faq">FAQ</a></li>
-      <li class="hot"><a href="/scoreboard.html">Scoreboard</a></li>
+      <li><a href="/scoreboard.html">Public scores</a></li>
     </ul></nav>
   </div>
 </header>
@@ -52,168 +49,133 @@
 <main>
 <section class="hero">
   <div class="wrap hero-in">
-    <p class="kicker">Free. Honest. Mean to your code, never to you.</p>
-    <h1 data-v="h">Roast my <span class="burn">vibe-coded</span> <span class="ul">app</span></h1>
-    <p class="lead" data-v="sub">A free security check for apps built with AI or no-code tools, in under a minute. We look for leaked keys, open data and broken pages. Then we roast your app with its own data, and show you the real fix.</p>
-    <p class="path"><b>Live app?</b> Roast it free, then fix it for $10. <a href="#pricing" data-track="hero-fixpath">What the $10 includes</a></p>
+    <p class="kicker">Free outside-in check</p>
+    <h1 data-v="h">Website security and bug check</h1>
+    <p class="lead" data-v="sub">Enter your site's address. In under a minute you get a score, your most important issue and how to fix it. Made for freelancers, agencies and the clients they build for.</p>
     <form id="check" class="url-form" action="#" novalidate>
       <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
-      <label for="url" class="sr">Your app's web address</label>
-      <input id="url" type="url" placeholder="https://your-app.com" required>
-      <button type="submit" class="btn btn-big">Roast it</button>
-      <fieldset class="spice">
-        <legend>Spice level:</legend>
-        <label><input type="radio" name="spice" value="mild" data-track="spice-mild"><span>Mild 🌶️</span></label>
-        <label><input type="radio" name="spice" value="spicy" data-track="spice-spicy" checked><span>Spicy 🌶️🌶️</span></label>
-        <label><input type="radio" name="spice" value="nuclear" data-track="spice-nuclear"><span>Nuclear ☢️</span></label>
-      </fieldset>
+      <label for="url" class="sr">Your website address</label>
+      <input id="url" type="url" placeholder="https://your-site.com" required>
+      <button type="submit" class="btn btn-big">Check my site</button>
     </form>
     <div id="check-result" class="notice" hidden aria-live="polite"></div>
-    <p class="small">Free. No card. Only check sites you own. We roast the app, never you.</p>
-    <p class="selfown">i vibe-coded a website that roasts your vibe-coded website. yes, i see the irony.</p>
-    <p class="tools">Works with <b>Lovable</b> <b>Bolt</b> <b>Replit</b> <b>Cursor</b> <b>v0</b> <b>Bubble</b> <b>Supabase</b></p>
-    <div class="sticker st1" aria-hidden="true">yes, this site was vibe-coded too. we roasted it first.</div>
-    <div class="sticker st2" aria-hidden="true">it didn't have to go that hard 💀</div>
+    <p class="small" style="margin-top:12px">Free, no signup, no card. Only check sites you own or manage for a client. This is not a penetration test.</p>
+    <p class="path">Site already live? Run the free check first. The $10 Fix it pack then lists every issue with fix steps. <a href="#pricing" data-track="hero-fixpath">See what is included</a></p>
   </div>
 </section>
 
-<section class="live" id="board" aria-labelledby="live-h">
+<section id="checks" class="sec">
   <div class="wrap">
-    <p class="eyebrow">Live scoreboard</p>
-    <h2 id="live-h">Hall of Flame. Hall of Fame.</h2>
-    <p id="sb-total" class="total" hidden></p>
-    <div id="sb-err" class="notice err" hidden></div>
-    <div id="ticker" class="ticker" hidden aria-label="Latest roasts"></div>
-    <div class="boards">
-      <section class="board flame" aria-labelledby="hf-h"><h3 id="hf-h">Hall of Flame</h3><p>lowest scores. owners with no shame. respect.</p><div id="flame"><p class="empty">Loading…</p></div></section>
-      <section class="board fame" aria-labelledby="hfa-h"><h3 id="hfa-h">Hall of Fame</h3><p>top scores. apps that somehow survived.</p><div id="fame"><p class="empty">Loading…</p></div></section>
-    </div>
-    <p class="row"><a class="btn btn-line" href="/scoreboard.html">See the full scoreboard</a></p>
-  </div>
-</section>
-
-<section id="checks" class="sec pinkband">
-  <div class="wrap">
-    <p class="eyebrow">What we roast</p>
-    <h2>Everything a stranger could find. Sorry in advance.</h2>
-    <p class="sub">We look at your live site from the outside, the way a stranger would. Each thing we find gets a burn. Then a real fix, because we're not monsters.</p>
+    <p class="eyebrow">What we check</p>
+    <h2>Common problems anyone can see from the outside</h2>
+    <p class="sub">We look at your live site the way an outsider would. Nothing is changed and nothing is logged in to.</p>
     <ul class="burns">
-      <li><span class="tag">Exposed keys</span><p class="burn-l">not the service_role key in the frontend. anyone can copy it, and the bill is yours.</p><p>We search your public JS for keys that belong on a server: Stripe, OpenAI, Supabase service_role and more.</p></li>
-      <li><span class="tag">Open database</span><p class="burn-l">RLS is off. "the AI handled auth." the AI handled nothing.</p><p>We use your public key to test if Row Level Security keeps strangers out.</p></li>
-      <li><span class="tag">Exposed files</span><p class="burn-l">your-app.com/.env returning 200 is crazy. you didn't get hacked bestie, you hosted an open house.</p><p>We look for env files, git folders, backups and admin or API routes with no login.</p></li>
-      <li><span class="tag">Headers</span><p class="burn-l">no CSP, no HSTS, no nothing. "claude said it was secure."</p><p>We check CSP, HSTS, framing and the other headers that block common attacks.</p></li>
-      <li><span class="tag">HTTPS</span><p class="burn-l">HTTPS page, http files. wearing the seatbelt as a scarf.</p><p>We flag missing HTTPS, missing redirects and files loaded over http.</p></li>
-      <li><span class="tag">Broken pages</span><p class="burn-l">"it works on my preview." production would like a word.</p><p>We find broken pages and links before your users do. Plus basic SEO misses.</p></li>
+      <li><span class="tag">Exposed keys and secrets</span><p>Searches your public JavaScript for keys that belong on a server, such as payment, AI and database service keys.</p></li>
+      <li><span class="tag">Open databases</span><p>Tests whether a public database key lets strangers read or write data that should be private.</p></li>
+      <li><span class="tag">Exposed files and routes</span><p>Looks for environment files, git folders, backups and admin or API routes with no login.</p></li>
+      <li><span class="tag">Security headers</span><p>Checks CSP, HSTS, framing protection and other headers that block common attacks.</p></li>
+      <li><span class="tag">HTTPS</span><p>Flags a missing HTTPS redirect, and files loaded over plain http.</p></li>
+      <li><span class="tag">Broken pages and basic SEO</span><p>Finds broken pages and links, and basic search-visibility misses.</p></li>
     </ul>
   </div>
 </section>
 
-<section id="compare" class="sec">
+<section id="compare" class="sec band">
   <div class="wrap">
-    <p class="eyebrow">Free vs full roast</p>
-    <h2>The free roast covers your worst issue. The full roast covers all of them.</h2>
-    <p class="sub">Link your repo or Supabase project for a deeper look. We get read-only access, so we can look but not change things. You get fix prompts to paste into your builder.</p>
+    <p class="eyebrow">Free check and paid reports</p>
+    <h2>The free check shows your top issue. Paid reports show all of them.</h2>
+    <p class="sub">Paid reports can also include a read-only look at a public repository or database project you point us to. We can read but not change anything.</p>
     <div class="tbl-wrap">
     <table class="tbl">
-      <thead><tr><th scope="col">What you get</th><th scope="col">Free roast</th><th scope="col">Scan</th><th scope="col">Fix it pack</th></tr></thead>
+      <thead><tr><th scope="col">What you get</th><th scope="col">Free check</th><th scope="col">Scan</th><th scope="col">Fix it pack</th></tr></thead>
       <tbody>
-        <tr><th scope="row">Outside scan of your live site</th><td class="y">Yes</td><td class="y">Yes</td><td class="y">Yes</td></tr>
-        <tr><th scope="row">Score, grade and roast</th><td class="y">Yes</td><td class="y">Yes</td><td class="y">Yes</td></tr>
-        <tr><th scope="row">Full details and fix</th><td>Worst issue only</td><td class="y">Every issue</td><td class="y">Every issue</td></tr>
-        <tr><th scope="row">Read-only check of repo or Supabase</th><td class="n">No</td><td class="y">Yes</td><td class="y">Yes</td></tr>
-        <tr><th scope="row">Fix prompts for your builder</th><td class="n">No</td><td class="y">Yes</td><td class="y">Yes</td></tr>
-        <tr><th scope="row">PDF report (download from your report page)</th><td class="n">No</td><td class="y">Yes</td><td class="y">Yes</td></tr>
-        <tr><th scope="row">"Did I fix it?" one-click re-checks</th><td class="n">No</td><td class="n">No</td><td class="y">30 days</td></tr>
-        <tr><th scope="row">Scan history + glow-up tracker (cooked → survived) with a share card</th><td class="n">No</td><td class="n">No</td><td class="y">30 days</td></tr>
+        <tr><th scope="row">Outside check of your live site</th><td class="y">Yes</td><td class="y">Yes</td><td class="y">Yes</td></tr>
+        <tr><th scope="row">Score, grade and summary</th><td class="y">Yes</td><td class="y">Yes</td><td class="y">Yes</td></tr>
+        <tr><th scope="row">Details and fix steps</th><td>Top issue only</td><td class="y">Every issue</td><td class="y">Every issue</td></tr>
+        <tr><th scope="row">Read-only check of repository or database project</th><td class="n">No</td><td class="y">Yes</td><td class="y">Yes</td></tr>
+        <tr><th scope="row">Fix prompts you can paste into your builder</th><td class="n">No</td><td class="y">Yes</td><td class="y">Yes</td></tr>
+        <tr><th scope="row">PDF report</th><td class="n">No</td><td class="y">Yes</td><td class="y">Yes</td></tr>
+        <tr><th scope="row">One-click re-checks</th><td class="n">No</td><td class="n">No</td><td class="y">30 days</td></tr>
+        <tr><th scope="row">Score history and before/after tracker</th><td class="n">No</td><td class="n">No</td><td class="y">30 days</td></tr>
       </tbody>
     </table>
     </div>
   </div>
 </section>
 
-<section id="how" class="sec band">
+<section id="how" class="sec">
   <div class="wrap">
     <p class="eyebrow">How it works</p>
-    <h2>Four steps. You pay first.</h2>
-    <p class="sub">For a paid scan, you pay first. Then the scan runs. No surprise charges later.</p>
+    <h2>Four steps. For paid reports you pay first.</h2>
+    <p class="sub">Paid reports are paid for before the scan runs. There are no subscriptions and no later charges.</p>
     <ol class="steps">
-      <li><span class="num">1</span><h3>Drop your URL</h3><p>Type in your app's web address and hit Roast it.</p></li>
-      <li><span class="num">2</span><h3>Take the heat</h3><p>Get a score out of 100, a grade and a roast that hurts a little. The fix sits right under each burn.</p></li>
-      <li><span class="num">3</span><h3>Want the full roast?</h3><p>Pay the price shown up front. Prove you own the site with a DNS TXT record or a meta tag.</p></li>
-      <li><span class="num">4</span><h3>Fix and come back</h3><p>See every issue with fix prompts. Then run it again and watch the score go up.</p></li>
+      <li><span class="num">1</span><h3>Enter your address</h3><p>Type your site's web address and run the free check.</p></li>
+      <li><span class="num">2</span><h3>Read your result</h3><p>Get a score out of 100, a grade, your top issue and the fix for it.</p></li>
+      <li><span class="num">3</span><h3>Get the full report</h3><p>Pay the price shown up front. Confirm you own the site with a DNS record or a meta tag.</p></li>
+      <li><span class="num">4</span><h3>Fix and re-check</h3><p>Work through every issue with fix steps, then run the check again to see the score change.</p></li>
     </ol>
   </div>
 </section>
 
-<section id="pricing" class="sec limeband">
+<section id="pricing" class="sec band">
   <div class="wrap">
     <p class="eyebrow">Pricing</p>
-    <h2>Clear prices. No tricks.</h2>
+    <h2>Clear prices</h2>
     <p class="sub">You see the full cost before you pay.</p>
     <div class="prices">
       <div class="price">
-        <h3>Free roast</h3>
+        <h3>Free check</h3>
         <p class="amt">$0</p>
-        <ul><li>One outside scan per site each month</li><li>Score, grade and roast</li><li>Full details and fix for the worst issue</li></ul>
-        <a href="#url" class="btn btn-line">Roast my app</a>
+        <ul><li>One outside check per site each month</li><li>Score, grade and summary</li><li>Details and fix for the top issue</li></ul>
+        <a href="#url" class="btn btn-line">Check my site</a>
       </div>
       <div class="price pick">
         <span class="badge">One-time</span>
-        <h3>Full roast + fix prompts (Scan)</h3>
+        <h3>Scan</h3>
         <p class="amt">$7 <span>once</span></p>
-        <ul><li>Pay first, then the scan runs</li><li>Every issue, with proof and a fix</li><li>Read-only check of your public repo or Supabase</li><li>Fix prompts for your builder</li><li>PDF report</li></ul>
-        <a href="#buy" class="btn" data-buy="deployvet_scan_once">Get the full roast</a>
+        <ul><li>Pay first, then the scan runs</li><li>Every issue, with evidence and a fix</li><li>Read-only check of a public repository or database project</li><li>Fix prompts for your builder</li><li>PDF report</li></ul>
+        <a href="#buy" class="btn" data-buy="deployvet_scan_once">Get the Scan</a>
       </div>
       <div class="price">
         <span class="badge">One-time</span>
         <h3>Fix it pack</h3>
         <p class="amt">$10 <span>once</span></p>
         <p class="alt">No subscription. Nothing renews.</p>
-        <ul><li>Full roast report for one site</li><li>Every finding with copyable fix prompts</li><li>PDF download</li><li>30 days of "Did I fix it?" re-checks</li><li>30 days of the glow-up tracker (cooked → survived)</li></ul>
+        <ul><li>Full report for one site</li><li>Every finding with copyable fix prompts</li><li>PDF download</li><li>30 days of one-click re-checks</li><li>30 days of score history and before/after tracking</li></ul>
         <a href="#buy" class="btn btn-y" data-buy="deployvet_fix_pack">Get the Fix it pack</a>
       </div>
     </div>
-    <p class="small" style="margin-top:14px;text-align:center"><b>Launching an app too?</b> The <a href="/launch-pack.html" data-track="pricing-launchpack">Launch Pack</a> ($39 once) is a landing-page rewrite, 5 X posts, 2 LinkedIn posts and a launch email, written with AI and delivered in 48 hours. It's marketing copy, not a security scan.</p>
-    <p class="small" style="margin-top:10px;text-align:center"><a href="/sample-report.html" data-track="sample-report-pricing">See a sample paid report</a> (made-up app, real format). Not sure yet? Roast your app free first and see how many issues are hidden.</p>
+    <p class="small" style="margin-top:16px">Launching a site for a client? The <a href="/launch-pack.html" data-track="pricing-launchpack">Launch Pack</a> ($39 once) is launch copy: a landing-page rewrite, social posts and a launch email, written with AI and delivered in 48 hours. It is marketing copy, not a security service.</p>
+    <p class="small" style="margin-top:8px"><a href="/sample-report.html" data-track="sample-report-pricing">See a sample paid report</a> (a made-up example in the real format).</p>
   </div>
 </section>
 
 <section id="agencies" class="sec agency-strip">
   <div class="wrap">
     <p class="eyebrow">For freelancers and agencies</p>
-    <h2>Shipping AI-built sites for clients?</h2>
-    <p class="sub">Roast each client site free before you hand it over. Then add a Launch Pack ($39 per app): a landing-page rewrite, 5 X posts, 2 LinkedIn posts and a launch email, written with AI and delivered by DeployVet in 48 hours, with one revision. It is marketing copy, not a security scan, and we promise no results.</p>
-    <p class="row"><a class="btn btn-y" href="/for/agencies.html" data-track="home-agencies">See the agency page</a></p>
+    <h2>Check each client site before handoff</h2>
+    <p class="sub">Run the free check on every client site before you hand it over, and keep the report as a record. Add a Launch Pack ($39 per site) for launch copy written with AI and delivered in 48 hours, with one revision. The Launch Pack is copy, not a security service, and we make no promises about results.</p>
+    <p class="row"><a class="btn btn-y" href="/for/agencies.html" data-track="home-agencies">Agency page</a></p>
   </div>
 </section>
 
-<section id="faq" class="sec">
+<section id="faq" class="sec band">
   <div class="wrap split">
     <div class="side">
       <p class="eyebrow">FAQ</p>
-      <h2>Fair questions.</h2>
-      <p class="sub">Still stuck? Email <a href="mailto:support@deployvet.com">support@deployvet.com</a>.</p>
+      <h2>Common questions</h2>
+      <p class="sub">Need something else? Email <a href="mailto:support@deployvet.com">support@deployvet.com</a>.</p>
     </div>
     <div class="faq">
-    <details><summary>What is DeployVet?</summary><p>DeployVet checks apps built with AI and no-code tools for security holes and bugs, then roasts them a little. It was made by Hayden Young. It used to be called Launch Guard.</p></details>
-    <details><summary>Will the roast be mean to me?</summary><p>No. We roast the app, never the person. Pick Mild if you want it gentle. Nuclear is louder, but still about the code.</p></details>
-    <details><summary>Which tools do you support?</summary><p>Lovable, Bolt, Replit, Cursor, v0 and Bubble. Apps that use Supabase work too.</p></details>
-    <details><summary>Is this a penetration test?</summary><p>No. DeployVet is not a penetration test. It finds common, known issues. If your app holds very private data or payments, get a pro security review too.</p></details>
-    <details><summary>Do you need my code or database?</summary><p>Not for the free roast. It only looks at your public site. The paid Scan asks for read-only access to your repo or Supabase project. We can read but not change anything.</p></details>
-    <details><summary>Can I check an app I don't own?</summary><p>No. For paid scans and the scoreboard, you must prove you own the site with a DNS TXT record or a meta tag.</p></details>
-    <details><summary>Will you charge me later?</summary><p>No surprise charges. You pay once, up front, for a Scan ($7) or the Fix it pack ($10). Neither one is a subscription, so nothing renews.</p></details>
-    <details><summary>Does a clean report mean my app is safe?</summary><p>No tool can promise that. A clean report means we did not find the issues we check for.</p></details>
-    <details><summary>Does DeployVet fix my app?</summary><p>No. We never change your app. We tell you what is wrong and give you steps and prompts to fix it.</p></details>
+    <details><summary>What is DeployVet?</summary><p>DeployVet runs an outside-in security and bug check on public websites and web apps. It was made by Hayden Young and was previously called Launch Guard.</p></details>
+    <details><summary>Is this a penetration test or an audit?</summary><p>No. DeployVet finds common, known issues from the outside. It is not a penetration test, an audit or a certification. If your site holds very private data or takes payments, get a professional security review as well.</p></details>
+    <details><summary>Do you need my code or database?</summary><p>Not for the free check, which only looks at your public site. The paid Scan can also use read-only access to a repository or database project you choose to share. We can read but not change anything.</p></details>
+    <details><summary>Which sites can you check?</summary><p>Any public website or web app, whether it was hand-coded or built with an AI or no-code tool. Sites that use Supabase get extra database checks.</p></details>
+    <details><summary>Can I check a site I do not own?</summary><p>Only if you manage it for the owner. For paid scans and public score listings, you must prove control of the site with a DNS record or a meta tag.</p></details>
+    <details><summary>Will you charge me later?</summary><p>No. You pay once, up front, for a Scan ($7) or the Fix it pack ($10). Neither is a subscription and nothing renews.</p></details>
+    <details><summary>Does a clean report mean my site is safe?</summary><p>No tool can promise that. A clean report means we did not find the issues we check for.</p></details>
+    <details><summary>Does DeployVet fix my site?</summary><p>No. We never change your site. We tell you what is wrong and give you steps and prompts to fix it.</p></details>
     </div>
-  </div>
-</section>
-
-<section id="hypocrite" class="sec pinkband">
-  <div class="wrap">
-    <p class="eyebrow">Meet the hypocrite</p>
-    <h2>Hi, I'm Hayden. I vibe-coded this whole thing.</h2>
-    <p class="sub">I'm a guy in Oklahoma with a baby and a 3D printer. Between diaper changes and failed prints, I vibe-coded a website that judges other people's vibe-coded websites. Yes, I see the irony. So I ran DeployVet on DeployVet first, and it roasted me too. Now it's your turn.</p>
-    <p class="row"><a class="btn btn-big btn-y" href="#check">Roast my app too</a></p>
   </div>
 </section>
 
@@ -221,16 +183,16 @@
   <div class="wrap">
     <div class="signup">
       <div>
-        <p class="eyebrow">Newsletter</p>
-        <h2>Get the next roast in your inbox</h2>
-        <p>Occasional emails for Lovable, Bolt, Replit, Cursor and Bubble builders: new checks, new guides, and the mistakes AI-built apps keep making. No schedule, no fluff.</p>
+        <p class="eyebrow">Email updates</p>
+        <h2>Security notes by email</h2>
+        <p>Occasional emails about new checks, new guides and common website security mistakes. No schedule and no filler.</p>
       </div>
       <form class="mail-form" action="#">
         <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
         <label for="email" class="sr">Email</label>
         <input id="email" type="email" placeholder="you@email.com" required>
         <button type="submit" class="btn btn-y" data-track="newsletter-site">Email me updates</button>
-        <p class="small">We email once to confirm (check spam/promotions). Unsubscribe any time. <a href="/privacy.html">Privacy</a>.</p>
+        <p class="small">We email once to confirm (check spam or promotions). Unsubscribe any time. <a href="/privacy.html">Privacy</a>.</p>
         <div id="mail-result" class="notice" hidden aria-live="polite"></div>
       </form>
     </div>
@@ -238,12 +200,13 @@
 </section>
 </main>
 
-<p class="guides-link"><a href="/guides/">Free security guides for AI-built apps</a></p>
+<p class="guides-link"><a href="/guides/">Free website security guides</a></p>
 <footer class="foot">
   <div class="wrap foot-in">
-    <div><img src="/assets/logo.svg" alt="DeployVet" width="156" height="40"><p class="small">Made by Hayden Young. DeployVet is not a penetration test.</p></div>
+    <div><img src="/assets/logo-light.svg" alt="DeployVet" width="156" height="40"><p class="small">Made by Hayden Young. DeployVet is not a penetration test or a certification.</p></div>
     <ul class="flinks">
       <li><a href="mailto:support@deployvet.com">support@deployvet.com</a></li>
+      <li><a href="/scoreboard.html">Public scores</a></li>
       <li><a href="/privacy.html">Privacy</a></li><li><a href="/terms.html">Terms</a></li><li><a href="/refunds.html">Refunds</a></li><li><a href="/llms.txt">llms.txt</a></li>
     </ul>
   </div>
@@ -258,9 +221,9 @@
     <input type="hidden" name="product" value="deployvet_scan_once">
     <label for="b-email">Your email <span class="opt">(the report is sent here)</span></label><input id="b-email" name="email" type="email" required placeholder="you@email.com" autocomplete="email">
     <p class="b-for" id="b-for" hidden>For: <b id="b-host"></b> · <button type="button" class="linkbtn" id="b-change">change</button></p>
-    <div id="b-domain-wrap"><label for="b-domain">Your app's address</label><input id="b-domain" name="domain" required placeholder="https://your-app.com"></div>
-    <details class="b-more"><summary>Optional: built with, repo, Supabase</summary>
-    <label for="b-builder">Built with</label>
+    <div id="b-domain-wrap"><label for="b-domain">Your site's address</label><input id="b-domain" name="domain" required placeholder="https://your-site.com"></div>
+    <details class="b-more"><summary>Optional: platform, repository, database project</summary>
+    <label for="b-builder">Built with <span class="opt">(optional)</span></label>
     <select id="b-builder" name="builder"><option value="lovable">Lovable</option><option value="bolt">Bolt</option><option value="replit">Replit</option><option value="cursor">Cursor</option><option value="v0">v0</option><option value="bubble">Bubble</option><option value="other" selected>Other</option></select>
     <label for="b-repo">Public GitHub repo <span class="opt">(optional)</span></label><input id="b-repo" name="repo_url" placeholder="https://github.com/you/app">
     <label for="b-sb">Supabase project URL <span class="opt">(optional)</span></label><input id="b-sb" name="supabase_url" placeholder="https://xxxx.supabase.co">
@@ -273,13 +236,11 @@
   </form>
 </dialog>
 <dialog id="roast" class="roast" aria-labelledby="roast-head">
-  <div class="fx" aria-hidden="true"></div>
-  <button type="button" class="close" aria-label="Close roast" data-track="roast-close">×</button>
+    <button type="button" class="close" aria-label="Close results" data-track="roast-close">×</button>
   <div class="roast-scroll"><div class="roast-in" id="roast-body"></div></div>
 </dialog>
 <script src="/config.js"></script>
 <script src="/app.js" defer></script>
-<script src="/scoreboard.js" defer></script>
 <script src="/nav.js" defer></script>
 <script src="/variants.js"></script>
 <script src="/track.js" defer></script>

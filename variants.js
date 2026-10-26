@@ -1,34 +1,15 @@
 // Headline + sub line per traffic source. Small lookup; unknown or missing source keeps the page's own text.
 // Also remembers utm_source / utm_campaign for the session and carries them on internal links, so events and checkout keep them.
 (function () {
+  var HOME = ["Website security and bug check", "Enter your site's address. In under a minute you get a score, your most important issue and how to fix it. Free, no signup, no card."];
+  var HOMEC = ["Check a client site before you hand it over", "Enter the site's address. You get a score, the most important issue and how to fix it in under a minute. Free, no signup, no card."];
+  var HOMET = ["Outside-in website security and bug check", "Enter a public URL. You get a score and the fix for the top issue. It is not a pentest: it checks common, known problems such as exposed keys, open database tables and public config files."];
+  var AG = ["Check each client site before handoff", "A free outside check per site, plus a $39 Launch Pack for launch copy: landing-page rewrite, social posts and a launch email, written with AI and delivered in 48 hours with one revision. Not a security service."];
+  var BU = ["Check a live site, then fix it for $10", "The free check shows your score and top issue with the fix. The $10 Fix it pack lists every issue with fix steps and prompts you can paste into your builder. One payment, no subscription."];
   var V = {
-    home: {
-      reddit: ["Built your app with AI? See what a stranger can see.", "Paste your live address. You get a free score, your worst issue and the fix in under a minute. No signup, no card."],
-      devto: ["A free outside check for your AI-built app.", "We scan the live site from the outside: exposed keys, open Supabase tables, public .env files, missing headers. You get a score and the fix for the worst issue."],
-      hashnode: ["Ship your AI-built app with fewer surprises.", "Paste the live URL and get a score, a roast built from your own data, and the real fix for your worst issue. Free, no signup."],
-      hn: ["A free outside-in scan for AI-built apps.", "Paste a URL, get a score and the fix for the worst issue. It is not a pentest: it checks common, known problems such as exposed keys, open Supabase tables and public config files."],
-      x: ["Roast my vibe-coded app. Free.", "Paste your live URL. Get a score, a roast built from your own app's data, and the fix for the worst issue. Under a minute."],
-      indiehackers: ["Shipping a side project? Check it before launch day.", "A free outside check for apps built with AI tools: score, worst issue and the fix in under a minute. Fix everything for $10 once, if you want to."],
-      groups: ["Not sure your AI-built app is locked down?", "Paste the live address. The free check looks for exposed keys, open data and broken pages, and shows your worst issue with the fix."]
-    },
-    builders: {
-      reddit: ["Live app built with AI? Roast it free, fix it for $10.", "Free score, your worst issue and its fix. If there is more, $10 once lists every issue with fix prompts to paste into your builder. No subscription."],
-      devto: ["Built it with AI? Check the live site, then fix it for $10.", "The free roast scans from the outside and shows your worst issue with the fix. The $10 Fix it pack lists every issue with paste-ready fix prompts."],
-      hashnode: ["Built it with AI? Check the live site, then fix it for $10.", "The free roast scans from the outside and shows your worst issue with the fix. The $10 Fix it pack lists every issue with paste-ready fix prompts."],
-      hn: ["Outside-in scan for your live AI-built app, free.", "You get a score and the fix for the worst issue. If you want the full list, the $10 pack has every finding with fix prompts. Not a pentest, not a certification."],
-      x: ["Roast your live app. Free. Then fix it for $10.", "Paste the URL, get a score and your worst issue with the fix. The $10 pack lists the rest with prompts you can paste into your builder."],
-      indiehackers: ["Launching soon? Roast your app free, fix it for $10.", "A free outside check shows your score and worst issue. If there is more, $10 once gets every issue with fix prompts. No subscription."],
-      groups: ["Got a live app built with AI? Roast it free.", "Paste the address, see your score and your worst issue with the fix. Want the full list? The $10 Fix it pack has every issue and fix prompts."]
-    },
-    agencies: {
-      reddit: ["Delivering AI-built client sites? Check them free before handoff.", "Roast each client site for free, then order a $39 Launch Pack for the words: landing-page rewrite, social posts and a launch email. Written with AI, 48 hours, one revision."],
-      devto: ["Shipping AI-built client sites? Roast them, then add the copy.", "A free outside check per site, plus a $39 Launch Pack: landing-page rewrite, posts and launch email, written with AI, delivered in 48 hours with one revision."],
-      hashnode: ["Shipping AI-built client sites? Roast them, then add the copy.", "A free outside check per site, plus a $39 Launch Pack: landing-page rewrite, posts and launch email, written with AI, delivered in 48 hours with one revision."],
-      hn: ["Check the AI-built client site before you hand it over.", "A free outside-in scan per site, and a $39 Launch Pack for launch copy (AI-written, 48 hours, one revision). Not a pentest or an audit."],
-      x: ["Client site built with AI? Roast it free, add launch copy for $39.", "Free outside check per site. The Launch Pack is a landing-page rewrite, posts and a launch email, written with AI in 48 hours, one revision."],
-      indiehackers: ["Building sites for clients with AI? Check, then launch.", "Roast each site free. Add a $39 Launch Pack for the copy: landing-page rewrite, posts and launch email, AI-written, 48 hours, one revision."],
-      groups: ["Freelancer shipping AI-built sites? Check them before handoff.", "Free roast per client site, then a $39 Launch Pack for the launch copy. AI-written, 48 hours, one revision. One pack covers one site."]
-    }
+    home: { reddit: HOMEC, groups: HOMEC, indiehackers: HOME, x: HOME, devto: HOMET, hashnode: HOMET, hn: HOMET },
+    builders: { reddit: BU, devto: BU, hashnode: BU, hn: BU, x: BU, indiehackers: BU, groups: BU },
+    agencies: { reddit: AG, devto: AG, hashnode: AG, hn: AG, x: AG, indiehackers: AG, groups: AG }
   };
   var ALIAS = { twitter: "x", "x.com": "x", hackernews: "hn", "news.ycombinator.com": "hn", ycombinator: "hn", "dev.to": "devto", dev: "devto", ih: "indiehackers", "indie-hackers": "indiehackers", group: "groups", facebook: "groups", "facebook-groups": "groups", fb: "groups" };
   var q = new URLSearchParams(location.search), s, c;
