@@ -313,7 +313,16 @@ window.DeployVet = { call, esc, friendly , attrib };
         <div class="offer"><h3 class="o-h">Fix it pack</h3><p class="o-v">${packVal}</p><p class="o-p"><b>$10</b> once</p><div class="o-act"><button type="button" class="btn btn-y offer-btn" data-buy="deployvet_fix_pack" data-domain="${host}" data-track="${where}-fixpack">Get Fix it pack: $10</button></div></div>
       </div>
       <p class="fp-note">One payment, no subscription, nothing renews. A developer's hour costs more than either one. After you pay, you prove you own the site, then the scan runs. <a href="/sample-report.html" target="_blank" rel="noopener" data-track="sample-report">See a sample paid report</a></p>
-      <p class="fp-soft">Launching your app too? The <a href="/launch-pack.html" data-track="${where}-launchpack">Launch Pack</a> ($39 once) is a landing-page rewrite plus social posts and a launch email, written with AI and delivered by DeployVet in 48 hours. It is about marketing, not security.</p></div>`;
+      <p class="fp-soft">Launching your app too? The <a href="/launch-pack.html" data-track="${where}-launchpack">Launch Pack</a> ($39 once) is a landing-page rewrite plus social posts and a launch email, written with AI and delivered by DeployVet in 48 hours. It is about marketing, not security.</p>
+      ${r && r.check_id && top ? `<details class="fu"><summary data-track="${where}-followup-open">Not ready to buy? Email me my fix list</summary>
+        <form class="fu-form" data-check="${esc(r.check_id)}">
+          <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <label for="fu-email-${where}" class="sr">Your email</label>
+          <input id="fu-email-${where}" class="fu-email" type="email" required placeholder="you@email.com" autocomplete="email">
+          <label class="ra-ok"><input type="checkbox" class="fu-consent" required><span><b>Email me my fix list and one reminder.</b> We send a confirm link first. Once you confirm: your fix list for ${host} now, and one reminder 3 days later. Nothing else, and no confirm means no emails. Unsubscribe any time. <a href="/privacy.html">Privacy</a></span></label>
+          <button type="submit" class="btn btn-sm btn-lime" data-track="${where}-followup">Email me my fix list</button>
+          <div class="fu-result notice" data-fu hidden aria-live="polite"></div>
+        </form></details>` : ""}</div>`;
   }
   // Recheck alert (A/B grades): same double opt-in newsletter flow, an unticked box, and a clear sentence of what the person is agreeing to.
   document.addEventListener("submit", async (e) => {
@@ -325,6 +334,18 @@ window.DeployVet = { call, esc, friendly , attrib };
       await call("newsletter", { email: f.querySelector(".ra-email").value, source: "recheck-alert", domain: f.dataset.domain, website: f.querySelector("[name=website]").value || "" });
       msg(res, "Check your inbox (and spam or promotions) for the confirm link. No confirm, no emails.", "ok"); f.querySelector(".ra-email").value = ""; f.querySelector(".ra-consent").checked = false;
     } catch (err) { msg(res, esc(err.status === 400 ? "That email doesn't look right." : friendly(err)), "err"); }
+    busy(btn, false);
+  });
+  // Follow-up (C/D/F): unticked box, double opt-in through the newsletter function, tied to this roast (check_id). Nothing is sent before the person confirms.
+  document.addEventListener("submit", async (e) => {
+    const f = e.target.closest(".fu-form"); if (!f) return;
+    e.preventDefault(); const btn = f.querySelector("button[type=submit]"), res = f.querySelector("[data-fu]");
+    if (!f.querySelector(".fu-consent").checked) { msg(res, "Tick the box so we know you want the emails.", "err"); return; }
+    busy(btn, true, "Sending…");
+    try {
+      await call("newsletter", { email: f.querySelector(".fu-email").value, followup_check_id: f.dataset.check, website: f.querySelector("[name=website]").value || "" });
+      msg(res, "Check your inbox (and spam or promotions) for the confirm link. No confirm, no emails.", "ok"); f.querySelector(".fu-email").value = ""; f.querySelector(".fu-consent").checked = false;
+    } catch (err) { msg(res, esc(err.status === 400 ? "That didn't work. Check the email, or run the check again." : friendly(err)), "err"); }
     busy(btn, false);
   });
   function openRoast(r, spice) {
@@ -639,6 +660,10 @@ window.DeployVet = { call, esc, friendly , attrib };
   });
   const nl = new URLSearchParams(location.search).get("newsletter");
   if (nl) msg(document.getElementById("mail-result"), { confirmed: "You're subscribed. Thanks!", unsubscribed: "You're unsubscribed. Sorry to see you go.", invalid: "That link didn't work. It may have expired." }[nl] || "", nl === "invalid" ? "err" : "ok");
+
+  const fb = new URLSearchParams(location.search).get("followup");
+  if (fb) { const m = { confirmed: ["Confirmed. Your fix list is on its way to your inbox.", "ok"], unsubscribed: ["You're unsubscribed. We won't email you about that roast again.", "ok"], invalid: ["That link didn't work. It may have expired.", "err"] }[fb];
+    if (m) { const n = document.createElement("div"); n.className = "notice co-cancel " + m[1]; n.setAttribute("role", "status"); n.textContent = m[0]; (document.querySelector("main") || document.body).prepend(n); } }
 
   // ---- Checkout (Scan / Fix it pack): email first, domain prefilled, price on the button, short trust line ----
   const dlg = document.getElementById("buy");

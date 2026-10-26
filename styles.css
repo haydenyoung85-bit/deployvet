@@ -419,3 +419,9 @@ form.box h2{font-size:1.4rem}
 .path a{font-weight:800;color:var(--ink);white-space:nowrap}
 .agency-strip{padding:44px 0}
 .agency-strip .sub{margin-bottom:6px}
+
+/* opt-in follow-up (C/D/F): collapsed, same field styles as the A/B recheck box */
+.fu{margin:10px 0 0}.fu summary{cursor:pointer;font-weight:800;font-size:.9rem;min-height:44px;display:flex;align-items:center}
+.fu-form{display:grid;gap:8px;padding-bottom:4px}
+.fu-form input.fu-email{min-width:0;width:100%;box-sizing:border-box;min-height:44px;padding:10px;font-size:16px;border:2px solid #111;border-radius:8px;color:#111;background:#fff}
+.fu-form .btn{min-height:44px}
