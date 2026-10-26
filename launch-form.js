@@ -7,7 +7,7 @@
   f.addEventListener("submit", async (e) => {
     e.preventDefault(); out.hidden = true; const l = btn.innerHTML; btn.disabled = true; btn.textContent = "Opening Stripe…";
     try {
-      const r = await DeployVet.call("create-checkout", { product: "deployvet_launch_pack", email: f.email.value, domain: f.app.value, builder: "other" });
+      const r = await DeployVet.call("create-checkout", { product: "deployvet_launch_pack", email: f.email.value, domain: f.app.value, builder: "other", ...DeployVet.attrib() });
       try { localStorage.setItem("dv_email", f.email.value.trim()); } catch (_) {}
       sessionStorage.setItem("dv_order", JSON.stringify({ order_id: r.order_id, site_id: r.site_id, domain: f.app.value, pack: "launch" }));
       sessionStorage.setItem("dv_lp_app", f.app.value);

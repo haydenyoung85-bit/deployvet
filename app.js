@@ -26,7 +26,8 @@
     if (e.status) return e.message;
     return "Couldn't reach DeployVet. Check your connection and try again.";
   };
-  window.DeployVet = { call, esc, friendly };
+  function attrib() { const o = {}; try { const v = sessionStorage.getItem("dv_v"), s = sessionStorage.getItem("dv_src"), c = sessionStorage.getItem("dv_cmp"); if (v) o.visitor = v; if (s) o.utm_source = s.slice(0, 40); if (c) o.utm_campaign = c.slice(0, 40); } catch (_) {} return o; }
+window.DeployVet = { call, esc, friendly , attrib };
 
   const busy = (btn, on, label) => { if (!btn) return; if (on) { btn.dataset.l = btn.innerHTML; btn.disabled = true; btn.textContent = label; } else { btn.disabled = false; btn.innerHTML = btn.dataset.l || btn.innerHTML; } };
   const msg = (el, text, kind) => { if (!el) return; el.hidden = false; el.className = "notice " + (kind || ""); el.innerHTML = text; };
@@ -672,7 +673,7 @@
     dlg.querySelector("form").addEventListener("submit", async (e) => {
       e.preventDefault();
       const f = new FormData(e.target), btn = e.target.querySelector("button[type=submit]");
-      const body = { product: f.get("product"), email: f.get("email"), domain: f.get("domain"), builder: f.get("builder") };
+      const body = { product: f.get("product"), email: f.get("email"), domain: f.get("domain"), builder: f.get("builder"), ...attrib() };
       if (f.get("repo_url")) body.repo_url = f.get("repo_url");
       if (f.get("supabase_url")) body.supabase_url = f.get("supabase_url");
       busy(btn, true, "Opening Stripe…");
