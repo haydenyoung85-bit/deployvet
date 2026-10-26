@@ -207,9 +207,11 @@
   // Context from the real scan data. Every roast line is built from this.
   const hostOf = (u) => String(u || "").replace(/^[a-z]+:\/\//i, "").replace(/\/.*$/, "").toLowerCase() || "your app";
   const pathOf = (u, host) => { const s = String(u || "").replace(/^[a-z]+:\/\//i, "").replace(/\/$/, ""); return s.includes("/") ? s : (s || host); };
+  // Total issue count: the server sends it as r.total. Older cached responses only carry per-severity counts.
+  const totalOf = (r) => Number.isFinite(Number(r && r.total)) && r.total !== undefined ? Number(r.total) : ["critical", "high", "medium", "low", "info"].reduce((a, k) => a + (Number(((r && r.counts) || {})[k]) || 0), 0);
   function ctx(r) {
     const counts = r.counts || {}, t = r.topIssue || {}, host = hostOf(r.url || r.domain);
-    const total = ["critical", "high", "medium", "low", "info"].reduce((a, k) => a + (Number(counts[k]) || 0), 0);
+    const total = totalOf(r);
     const loc = t.location ? pathOf(t.location, host) : "";
     const guess = { env_exposed: "/.env", git_exposed: "/.git/", admin_open: "/admin", ds_store: "/.DS_Store" }[t.id];
     return { host, score: r.score, total, crit: Number(counts.critical) || 0, high: Number(counts.high) || 0,
@@ -264,7 +266,7 @@
     const tt = top && top.title ? String(top.title).replace(/\.$/, "") : "";
     const tshort = tt.length > 70 ? tt.slice(0, 67) + "…" : tt;
     const head = n ? (n === 1 ? `1 issue found${tshort ? ": " + esc(tshort) : ""}. ${where === "popup" ? "It's shown in full below." : "It's shown in full in your roast."}`
-        : `${n} issues found. Worst${tshort ? ": " + esc(tshort) : ""}. The other ${n - 1} are locked.`)
+        : tshort ? `${n} issues found. Worst: ${esc(tshort)}. The other ${n - 1} are locked.` : `${n} minor notes found. They're locked.`)
       : "No problems found in the free check. The paid options go deeper.";
     const scanVal = n > 1 ? `Unlocks the other ${n - 1} issues, each with proof and a fix. Adds a read-only check of your public repo or Supabase.`
       : n ? "Adds a read-only check of your public repo or Supabase, plus fix prompts and a PDF."
@@ -308,19 +310,21 @@
     const counts = r.counts || {};
     const order = ["critical", "high", "medium", "low", "info"];
     const chips = order.filter((k) => counts[k]).map((k) => `<span class="sev ${k}">${esc(counts[k])} ${esc(k)}</span>`).join("");
-    const total = order.reduce((a, k) => a + (Number(counts[k]) || 0), 0);
+    const total = totalOf(r);
     let burns = "";
     if (t) burns += `<li><span class="sev ${esc(t.severity)}">Worst issue · ${esc(t.category)}</span><p class="burn-l">${esc(topBurn)}</p>
       <p class="what"><b>${esc(t.title)}</b>${t.detail ? ` ${esc(t.detail)}` : ""}</p>
       <div class="fixbox"><b>The fix</b><p>${esc(t.fix || "Open the full roast for step-by-step fix prompts.")}</p></div></li>`;
     // Locked teaser: real counts only. Placeholder rows hold NO finding text.
     const left = {}; order.forEach((k) => { left[k] = Math.max(0, (Number(counts[k]) || 0) - (t && t.severity === k ? 1 : 0)); });
-    const lockedN = t ? Math.max(0, total - 1) : 0;
+    const lockedN = r.locked && Number.isFinite(Number(r.locked.count)) ? Number(r.locked.count) : (t ? Math.max(0, total - 1) : 0);
     const lockChips = order.filter((k) => left[k]).map((k) => `<span class="sev ${k}">${esc(left[k])} ${esc(k)}</span>`).join("");
+    // Locked rows hold NO finding text (the server sends only a count). Tapping one scrolls to the offers; the button opens the $7 Scan.
     const rest = lockedN ? `<li class="locked-teaser" id="locked">
       <p class="lk-h">${esc(lockedN)} more problem${lockedN === 1 ? "" : "s"} hidden 🔒</p>
       <div class="r-counts">${lockChips}</div>
-      <div class="ph-rows" aria-hidden="true">${Array.from({ length: Math.min(lockedN, 3) }, () => '<div class="ph"><i></i><i></i><i></i></div>').join("")}</div>
+      <div class="ph-rows">${Array.from({ length: Math.min(lockedN, 3) }, () => '<button type="button" class="ph" data-track="locked-row" aria-label="Locked issue. Tap to see how to unlock it."><i></i><i></i><i></i><b class="ph-lock" aria-hidden="true">🔒</b></button>').join("")}</div>
+      <button type="button" class="btn btn-y lk-unlock" data-buy="deployvet_scan_once" data-domain="${esc(c.host)}" data-track="locked-unlock">Unlock all ${esc(lockedN)} issue${lockedN === 1 ? "" : "s"}: $7 Scan</button>
       <p class="small">each one comes with plain steps you can copy and paste to whoever built your site (or the tool you used).</p></li>` : "";
     burns += rest;
     if (!burns) burns = `<li><p class="burn-l">${esc(pick(["nothing to burn. we checked twice. we're annoyed.", "zero burns. our roast writers are filing for unemployment.", `${c.host} is clean. our flamethrower is just sitting here.`]))}</p><p class="what">Our outside check found no serious issues. That's not a promise your app is safe, but it's a great start.</p></li>`;
@@ -573,7 +577,7 @@
       }
       openRoast(r, spice);
       // Same two offers inline under the form, so they are still there when the popup closes.
-      const cc = ctx(r), tot = ["critical", "high", "medium", "low", "info"].reduce((a, k) => a + (Number((r.counts || {})[k]) || 0), 0);
+      const cc = ctx(r), tot = totalOf(r);
       out.hidden = false; out.className = "result-offers"; out.innerHTML = `<p class="ro-h">Free check done for ${esc(cc.host)}: ${esc(r.score)}/100.</p>`
         + (r.cached && r.rescan_in_hours ? `<p class="small">This is your latest free check. Rescan available in about ${esc(r.rescan_in_hours)} hour${r.rescan_in_hours === 1 ? "" : "s"}. Fixed something already? The $10 Fix it pack includes re-checks, so you can verify it right now.</p>` : "")
         + (r.incomplete ? `<p class="small">${esc(r.incompleteNote || "Part of your site sits behind a firewall, so this score may be incomplete.")}</p>` : "")
@@ -584,6 +588,13 @@
 
   // When the checkout opens from inside the roast modal, close the roast so only one modal shows.
   document.addEventListener("click", (e) => { if (e.target.closest("#roast [data-buy]") && dlgR.open) dlgR.close(); }, true);
+  // Locked rows: take the person to the two offers in the popup (the Scan / Fix it pack buttons).
+  document.addEventListener("click", (e) => {
+    const row = e.target.closest("#roast .ph"); if (!row) return;
+    const fp = document.getElementById("fixpack"); if (!fp) return;
+    fp.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "center" });
+    fp.classList.remove("pulse"); void fp.offsetWidth; fp.classList.add("pulse");
+  });
 
   // ---- Newsletter ----
   const mailForm = document.querySelector(".mail-form");
