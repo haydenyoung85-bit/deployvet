@@ -1,34 +1,36 @@
 # DeployVet
 
-> DeployVet is a pre-launch security and bug check for web apps built with AI and no-code tools (Lovable, Bolt, Replit, Cursor, v0, Bubble) and apps with Supabase backends. Made by Hayden Young. Formerly called Launch Guard. It is not a penetration test.
+> DeployVet runs outside-in website security and bug checks for freelancers, agencies and the clients they build for. It looks at a live site the way a visitor would and reports common, externally visible problems with a score, a grade, severities and fixes. Run by Hayden Young. It is not a penetration test, an audit or a certification.
 
 ## What it checks
-- DeployVet Free Check: an outside-only scan of the public URL. Covers exposed keys in the JS bundle, the Supabase anon key with a Row Level Security probe, security headers, open admin/API routes, mixed content and broken pages.
-- DeployVet Scan: everything above plus a read-only check of the repo or Supabase project the user connects, and copy-paste fix prompts for their builder.
-- Owners verify their domain with a DNS TXT record or a meta tag. DeployVet only checks sites the user owns.
+- Exposed keys and secrets in public JavaScript and files
+- Open database tables (public Supabase key with anonymous reads)
+- Exposed files and routes (environment files, .git folders, backups, source maps, open admin or API routes)
+- Security headers, HTTPS and mixed content
+- Broken links and basic search-visibility items
+- Findings and scores are rule-based. Fix prompts are templates. Details: https://deployvet.com/methodology.html
 
 ## Pricing (USD)
-- DeployVet Free Check: $0. One outside scan per verified site each month. Shows a "roast": a 0-100 score plus an A-F grade, a playful roast of the app (Mild, Spicy or Nuclear spice level, chosen in the browser), issue counts and full detail and fix for the most serious issue. Results can be shared on X; the checked URL is left out unless the user opts in.
-- DeployVet Scan: $7 one-time. Paid up front, then the scan runs.
-- DeployVet Fix it pack: $10 one-time, one site. Full roast report, every finding with fix prompts, PDF, plus 30 days of "Did I fix it?" re-checks and the glow-up tracker. No subscription.
+- Free check: $0. One outside check per site each month. Score, grade, summary and the most important finding in full with its fix.
+- Scan: $7 one-time. Paid first, then the scan runs. Every finding with evidence and a fix, fix prompts, PDF, read-only check of a public repository or database project.
+- Fix it pack: $10 one-time, one site. The Scan plus 30 days of one-click re-checks and score history. No subscription.
+- Launch Pack: $39 one-time. Launch copy (landing-page rewrite, 5 X posts, 2 LinkedIn posts, a launch email) written with AI and delivered in 48 hours. Marketing copy, not security.
+- Paid reports need proof of site ownership (DNS TXT record or meta tag). Only check sites you own or have permission to check.
 
 ## Who it is for
-- Non-technical founders and solo makers shipping with AI builders
-- Indie hackers using Cursor or v0 with Supabase
-- Agencies shipping AI-built apps for clients
+- Freelancers and agencies checking client sites before handoff
+- Site owners who want a quick outside check
 
 ## Who it is not for
-- Teams that need a formal penetration test, compliance attestation or legal security sign-off
+- Anyone who needs a formal penetration test, compliance attestation or legal security sign-off
 
 ## Links
 - Home: https://deployvet.com/
-- Contact: support@deployvet.com
+- How it works: https://deployvet.com/how-it-works.html
+- Methodology: https://deployvet.com/methodology.html
+- Pricing: https://deployvet.com/pricing.html
+- About: https://deployvet.com/about.html
+- Contact: https://deployvet.com/contact.html (support@deployvet.com)
 
 ## Guides
-- https://deployvet.com/guides/bolt-new-app-security-checklist.html
-- https://deployvet.com/guides/cursor-vibe-coded-app-security.html
-- https://deployvet.com/guides/index.html
-- https://deployvet.com/guides/is-my-lovable-app-secure.html
-- https://deployvet.com/guides/leaked-api-keys-in-frontend.html
-- https://deployvet.com/guides/replit-app-security-before-launch.html
-- https://deployvet.com/guides/supabase-rls-check-for-ai-apps.html
+- https://deployvet.com/guides/

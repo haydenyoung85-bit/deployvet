@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Methodology: what DeployVet checks and what it does not</title>
+<meta name="description" content="What a DeployVet check looks at, what it does not check, how scores and grades are calculated, how AI is used, and the limits of an outside-in check.">
+<link rel="canonical" href="https://deployvet.com/methodology.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="DeployVet">
+<meta property="og:url" content="https://deployvet.com/methodology.html">
+<meta property="og:title" content="Methodology: what DeployVet checks and what it does not">
+<meta property="og:description" content="What a DeployVet check looks at, what it does not check, how scores and grades are calculated, how AI is used, and the limits of an outside-in check.">
+<meta property="og:image" content="https://deployvet.com/assets/og.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="DeployVet: website security and bug check">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Methodology: what DeployVet checks and what it does not">
+<meta name="twitter:description" content="What a DeployVet check looks at, what it does not check, how scores and grades are calculated, how AI is used, and the limits of an outside-in check.">
+<meta name="twitter:image" content="https://deployvet.com/assets/og.png">
+<meta name="theme-color" content="#0b2545">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a href="/" class="brand" aria-label="DeployVet home"><img src="/assets/logo.svg" alt="DeployVet" width="187" height="48"></a>
+    <button type="button" class="menu-btn" aria-expanded="false" aria-controls="main-links"><span class="mb-i" aria-hidden="true"></span><span class="mb-l">Menu</span></button>
+    <nav aria-label="Main"><ul class="links" id="main-links">
+      <li><a href="/how-it-works.html">How it works</a></li>
+      <li><a href="/methodology.html">Methodology</a></li>
+      <li><a href="/pricing.html">Pricing</a></li>
+      <li><a href="/sample-report.html">Sample report</a></li>
+      <li><a href="/guides/">Guides</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul></nav>
+  </div>
+</header>
+<main class="wrap"><article class="legal">
+<p class="eyebrow">Methodology</p>
+<h1>What we check, and what we do not</h1>
+<p class="lead">DeployVet is an outside-in check. It looks only at what a stranger can reach on the public internet, using fixed, rule-based checks. This page explains the scope, the scoring and the limits.</p>
+<h2 id="approach">Approach</h2>
+<ul>
+<li><b>Outside-in.</b> We request your public pages, scripts and well-known file paths. We do not log in, submit forms or change anything.</li>
+<li><b>Light touch.</b> A limited number of requests per check, with a hard time budget. We read your <code>robots.txt</code> and skip probing paths it disallows for our crawler.</li>
+<li><b>Authorised use.</b> Check only sites you own or have permission to check. Paid scans require proof of ownership with a DNS TXT record or a meta tag.</li>
+<li><b>Nothing sensitive is kept.</b> If we find a key, we store only a masked form. If a database table is readable, we record its name and column names, not the rows.</li>
+</ul>
+<h2 id="checked">What is checked</h2>
+<div class="tbl-wrap"><table class="tbl">
+<thead><tr><th scope="col">Area</th><th scope="col">What we look at</th></tr></thead>
+<tbody>
+<tr><th scope="row">Exposed secrets</th><td>Public JavaScript and public files, searched for keys and tokens that belong on a server (payment, AI and database service keys, private keys).</td></tr>
+<tr><th scope="row">Open databases</th><td>Whether a public Supabase key allows anonymous reads of tables, and whether the table schema can be listed.</td></tr>
+<tr><th scope="row">Exposed files and routes</th><td>Environment files, <code>.git</code> folders, backups, source maps, admin and API routes that answer without a login, and common CMS files.</td></tr>
+<tr><th scope="row">Security headers</th><td>Content-Security-Policy, HSTS, framing protection, content-type sniffing protection, referrer policy and CORS settings.</td></tr>
+<tr><th scope="row">HTTPS</th><td>Whether the site is served over HTTPS, redirects from HTTP, and loads files over plain HTTP (mixed content).</td></tr>
+<tr><th scope="row">Links and basic SEO</th><td>Broken pages and links, and basic search-visibility items such as titles, descriptions, <code>robots.txt</code> and sitemaps. These count for much less in the score.</td></tr>
+</tbody></table></div>
+<p class="small">Paid scans can also read a public GitHub repository and a Supabase project you point us to, read-only.</p>
+<h2 id="not-checked">What is not checked</h2>
+<ul>
+<li>Anything behind a login, including user accounts, roles and permissions inside the app.</li>
+<li>Business logic, payment flows and other behaviour that needs a human to test.</li>
+<li>Injection and cross-site scripting testing, fuzzing, brute force or any attempt to break in.</li>
+<li>Servers, networks, open ports, DNS configuration and cloud settings.</li>
+<li>Vulnerabilities in server-side code or dependencies that are not visible from the outside.</li>
+<li>Mobile apps, APIs that need credentials, and third-party services you use.</li>
+<li>Legal and compliance requirements such as GDPR, HIPAA, PCI or SOC 2, and accessibility.</li>
+</ul>
+<h2 id="scoring">How scores and grades work</h2>
+<p>Every check starts at 100 points. Each finding subtracts points by severity:</p>
+<div class="tbl-wrap"><table class="tbl">
+<thead><tr><th scope="col">Severity</th><th scope="col">Security findings</th><th scope="col">SEO findings</th></tr></thead>
+<tbody>
+<tr><th scope="row">Critical</th><td>−40</td><td>−10</td></tr>
+<tr><th scope="row">High</th><td>−20</td><td>−8</td></tr>
+<tr><th scope="row">Medium</th><td>−12</td><td>−4</td></tr>
+<tr><th scope="row">Low</th><td>−5</td><td>−2</td></tr>
+<tr><th scope="row">Info</th><td>0</td><td>0</td></tr>
+</tbody></table></div>
+<ul>
+<li>Any critical security finding caps the score at 35. Any high security finding caps it at 55.</li>
+<li>Grades: <b>A</b> 90 to 100, <b>B</b> 75 to 89, <b>C</b> 60 to 74, <b>D</b> 40 to 59, <b>F</b> below 40.</li>
+<li>If part of your site is behind a firewall or bot challenge, those checks are skipped, the result is marked incomplete and the score cannot be above 89.</li>
+</ul>
+<h2 id="ai">Where AI is and is not used</h2>
+<ul>
+<li><b>Findings and scores are rule-based.</b> They come from fixed checks that we wrote. An AI model does not decide what counts as a finding, its severity or your score.</li>
+<li><b>Fix prompts are templates.</b> They are written by us, to be pasted into your own AI coding tool. Review any change before you apply it and keep a backup.</li>
+<li><b>The Launch Pack is written with AI.</b> The copy is produced with AI assistance from the details you give us and delivered by DeployVet. It is marketing copy, not security advice.</li>
+<li><b>DeployVet is built with AI-assisted tools.</b> That is how we develop the site and the service.</li>
+</ul>
+<h2 id="limits">Limits and accuracy</h2>
+<ul>
+<li>A check is a snapshot of one moment. Sites change, so results go out of date.</li>
+<li>We can miss problems (false negatives) and report things that are intentional (false positives). We mark likely-intentional cases where we can.</li>
+<li>A clean result means we did not find the issues we check for. <b>It is not a guarantee, an audit or a certification</b>, and it should not be presented as one.</li>
+<li>Nothing here is legal advice or a promise about the security of your site.</li>
+</ul>
+<p>Found a mistake in a finding? Email <a href="mailto:support@deployvet.com">support@deployvet.com</a> with the address and the finding, and we will look at it.</p>
+<p><a class="btn" href="/#check" data-track="method-check">Run the free check</a> <a class="btn btn-line" href="/sample-report.html">See a sample report</a></p>
+</article></main>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div class="foot-id"><img src="/assets/logo-light.svg" alt="DeployVet" width="156" height="40"><p class="small">Outside-in website security and bug checks. DeployVet is not a penetration test, an audit or a certification, and a clean result is not a guarantee.</p><p class="small"><a href="mailto:support@deployvet.com">support@deployvet.com</a></p></div>
+    <nav class="foot-nav" aria-label="Footer">
+      <div><h4>Product</h4><ul><li><a href="/#check">Free check</a></li><li><a href="/pricing.html">Pricing</a></li><li><a href="/how-it-works.html">How it works</a></li><li><a href="/sample-report.html">Sample report</a></li><li><a href="/launch-pack.html">Launch Pack</a></li></ul></div>
+      <div><h4>Company</h4><ul><li><a href="/about.html">About</a></li><li><a href="/methodology.html">Methodology</a></li><li><a href="/guides/">Guides</a></li><li><a href="/scoreboard.html">Public scores</a></li><li><a href="/contact.html">Contact</a></li></ul></div>
+      <div><h4>Legal</h4><ul><li><a href="/privacy.html">Privacy</a></li><li><a href="/terms.html">Terms</a></li><li><a href="/refunds.html">Refunds</a></li></ul></div>
+    </nav>
+  </div>
+  <p class="wrap small copy">© 2026 DeployVet</p>
+</footer>
+<script src="/config.js"></script>
+<script src="/nav.js" defer></script>
+<script src="/track.js" defer></script>
+</body>
+</html>

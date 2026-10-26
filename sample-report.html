@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="DeployVet">
-<meta property="og:title" content="Sample report – DeployVet">
-<meta property="og:description" content="Free outside-in website security and bug check. A score, your most important issue and how to fix it.">
+<meta property="og:title" content="Sample report | DeployVet">
+<meta property="og:description" content="A made-up example of a DeployVet paid report: score, grade, findings with severity, evidence and fixes.">
 <meta property="og:image" content="https://deployvet.com/assets/og.png">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="DeployVet: website security and bug check">
@@ -14,7 +14,7 @@
 <meta name="twitter:description" content="Free outside-in website security and bug check. A score, your most important issue and how to fix it.">
 <meta name="twitter:image" content="https://deployvet.com/assets/og.png">
 <meta name="twitter:image:alt" content="DeployVet: website security and bug check">
-<title>Sample report – DeployVet</title>
+<title>Sample report | DeployVet</title>
 <meta name="description" content="A sample DeployVet paid report on a made-up app, so you can see the format before you buy.">
 
 <meta name="theme-color" content="#0b2545">
@@ -29,19 +29,22 @@
     <a href="/" class="brand" aria-label="DeployVet home"><img src="/assets/logo.svg" alt="DeployVet" width="187" height="48"></a>
     <button type="button" class="menu-btn" aria-expanded="false" aria-controls="main-links"><span class="mb-i" aria-hidden="true"></span><span class="mb-l">Menu</span></button>
     <nav aria-label="Main"><ul class="links" id="main-links">
-      <li><a href="/#checks">What we check</a></li>
-      <li><a href="/#pricing">Pricing</a></li>
+      <li><a href="/how-it-works.html">How it works</a></li>
+      <li><a href="/methodology.html">Methodology</a></li>
+      <li><a href="/pricing.html">Pricing</a></li>
+      <li><a href="/sample-report.html" aria-current="page">Sample report</a></li>
       <li><a href="/guides/">Guides</a></li>
-      <li><a href="/#faq">FAQ</a></li>
-      <li><a href="/scoreboard.html">Public scores</a></li>
+      <li><a href="/about.html">About</a></li>
     </ul></nav>
   </div>
 </header>
 <main class="wrap"><article class="legal">
 <p class="eyebrow">Sample report</p>
-<h1>Score 41/100 · Grade F</h1>
-<p class="notice"><b>This is a sample.</b> It is a made-up app (<code>example-bakery.com</code>), not a real customer. The layout and the kind of fixes are real. Your report lists your own findings.</p>
-<p class="small">3 item(s) found. Fix prompts are written for <b>Lovable</b>. You pick your builder at checkout (Lovable, Bolt, Replit, Cursor, v0, Bubble or other).</p>
+<h1>Sample report: example-bakery.com</h1>
+<p class="notice"><b>This is a made-up example.</b> The site (<code>example-bakery.com</code>) is not a real customer and the results are invented. The layout and the kind of fixes are real. Your report lists your own findings.</p>
+<div class="sr-sum"><div><span class="small">Score</span><b>41 / 100</b></div><div><span class="small">Grade</span><b>F</b></div><div><span class="small">Findings</span><b>3</b></div><div><span class="small">Highest severity</span><b>Critical</b></div></div>
+<p class="small">Fix prompts are written for <b>Lovable</b> in this example. You pick your builder at checkout (Lovable, Bolt, Replit, Cursor, v0, Bubble or other).</p>
+<h2>Findings</h2>
 <div class="box finding"><p><span class="sev critical">critical</span> <b>/.env file is publicly downloadable</b></p>
 <p class="small"><b>Proof:</b> Your environment file (often containing secrets) can be downloaded. · <code>https://example-bakery.com/.env</code></p>
 <p class="small"><b>Fix:</b> Remove the file from the public folder, then rotate every key that was in it.</p>
@@ -55,16 +58,17 @@
 <div class="box finding"><p><span class="sev med">medium</span> <b>No Content-Security-Policy</b></p>
 <p class="small"><b>Proof:</b> Response is missing the content-security-policy header. · <code>https://example-bakery.com</code></p>
 <p class="small"><b>Fix:</b> Add a Content-Security-Policy header (start with <code>default-src 'self'</code> and allow only the domains you use).</p></div>
-<p class="small">The Fix it pack also adds a "Did I fix it?" re-check button under each item, a PDF, and 30 days of re-checks. DeployVet is not a penetration test. A clean report means we did not find the issues we check for.</p>
-<p><a class="btn btn-y" href="/#pricing" data-track="sample-to-pricing">See the $7 and $10 options</a> <a class="btn btn-line" href="/" data-track="sample-to-roast">Roast my app free first</a></p>
+<p class="small">The Fix it pack also adds a re-check button under each finding, a PDF, and 30 days of re-checks. DeployVet is not a penetration test. A clean report means we did not find the issues we check for.</p>
+<p><a class="btn btn-y" href="/pricing.html" data-track="sample-to-pricing">See pricing</a> <a class="btn btn-line" href="/#check" data-track="sample-to-check">Run the free check first</a></p>
 </article></main>
 <footer class="foot">
   <div class="wrap foot-in">
-    <div><img src="/assets/logo-light.svg" alt="DeployVet" width="156" height="40"><p class="small">Made by Hayden Young. DeployVet is not a penetration test or a certification.</p></div>
-    <ul class="flinks">
-      <li><a href="mailto:support@deployvet.com">support@deployvet.com</a></li>
-      <li><a href="/privacy.html">Privacy</a></li><li><a href="/terms.html">Terms</a></li><li><a href="/refunds.html">Refunds</a></li><li><a href="/llms.txt">llms.txt</a></li>
-    </ul>
+    <div class="foot-id"><img src="/assets/logo-light.svg" alt="DeployVet" width="156" height="40"><p class="small">Outside-in website security and bug checks. DeployVet is not a penetration test, an audit or a certification, and a clean result is not a guarantee.</p><p class="small"><a href="mailto:support@deployvet.com">support@deployvet.com</a></p></div>
+    <nav class="foot-nav" aria-label="Footer">
+      <div><h4>Product</h4><ul><li><a href="/#check">Free check</a></li><li><a href="/pricing.html">Pricing</a></li><li><a href="/how-it-works.html">How it works</a></li><li><a href="/sample-report.html">Sample report</a></li><li><a href="/launch-pack.html">Launch Pack</a></li></ul></div>
+      <div><h4>Company</h4><ul><li><a href="/about.html">About</a></li><li><a href="/methodology.html">Methodology</a></li><li><a href="/guides/">Guides</a></li><li><a href="/scoreboard.html">Public scores</a></li><li><a href="/contact.html">Contact</a></li></ul></div>
+      <div><h4>Legal</h4><ul><li><a href="/privacy.html">Privacy</a></li><li><a href="/terms.html">Terms</a></li><li><a href="/refunds.html">Refunds</a></li></ul></div>
+    </nav>
   </div>
   <p class="wrap small copy">© 2026 DeployVet</p>
 </footer>

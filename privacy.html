@@ -30,35 +30,36 @@
     <a href="/" class="brand" aria-label="DeployVet home"><img src="/assets/logo.svg" alt="DeployVet" width="187" height="48"></a>
     <button type="button" class="menu-btn" aria-expanded="false" aria-controls="main-links"><span class="mb-i" aria-hidden="true"></span><span class="mb-l">Menu</span></button>
     <nav aria-label="Main"><ul class="links" id="main-links">
-      <li><a href="/#checks">What we check</a></li>
-      <li><a href="/#pricing">Pricing</a></li>
+      <li><a href="/how-it-works.html">How it works</a></li>
+      <li><a href="/methodology.html">Methodology</a></li>
+      <li><a href="/pricing.html">Pricing</a></li>
+      <li><a href="/sample-report.html">Sample report</a></li>
       <li><a href="/guides/">Guides</a></li>
-      <li><a href="/#faq">FAQ</a></li>
-      <li><a href="/scoreboard.html">Public scores</a></li>
+      <li><a href="/about.html">About</a></li>
     </ul></nav>
   </div>
 </header>
 <main class="wrap"><article class="legal">
 <p class="eyebrow">Legal</p>
 <h1>Privacy Policy</h1>
-<p class="small">Last updated: October 20, 2026</p>
+<p class="small">Last updated: October 26, 2026</p>
 <p>This page explains what DeployVet collects, why we collect it and how you can get it deleted. We keep as little as we can.</p>
 <h2>What we collect</h2>
 <ul>
-<li><b>Sites you check:</b> the web address, the results and your score.</li>
+<li><b>Sites you check:</b> the web address, the results and your score. If you opt in to the public scores list, a nickname or the site's name as you choose.</li>
 <li><b>For paid scans:</b> your email, your builder, and the repo or Supabase address you give us. Also the scan report, and your order and payment status from Stripe.</li>
 <li><b>Your network:</b> we keep a scrambled (hashed) version of your IP address to stop abuse. We don't keep the IP itself.</li>
-<li><b>Newsletter:</b> your email, where you signed up and when you confirmed.</li>
+<li><b>Newsletter and follow-ups:</b> your email, where you signed up and when you confirmed. Fix-list follow-up emails are sent only if you tick the box and confirm by email.</li><li><b>Launch Pack:</b> the details you send on the order form, such as what the site does and who it is for.</li><li><b>Page visits:</b> anonymous page-view and click events (page, referrer, campaign tag and a random visitor ID kept in your browser session). We use no cookies and no advertising trackers.</li>
 </ul>
 <h2>What we don't collect</h2>
 <ul><li>Your card details. Stripe handles them, and we never see them.</li><li>Rows from your database. If a table is open, we note its name and columns only.</li><li>Raw secret keys. If we find one, we only store a masked version, like <code>sk_live_…a1b2</code>.</li><li>No ad trackers. We don't sell or rent your data.</li></ul>
 <h2>Who helps us</h2>
 <p>We use a few services to run DeployVet. Each one gets only what it needs:</p>
-<ul><li><b>Supabase:</b> our database and server code.</li><li><b>Stripe:</b> payments.</li><li><b>Resend:</b> sends report and newsletter emails.</li><li><b>GitHub Pages:</b> hosts this website.</li></ul>
+<ul><li><b>Supabase:</b> our database and server code.</li><li><b>Stripe:</b> payments.</li><li><b>Resend:</b> sends report, follow-up and newsletter emails.</li><li><b>GitHub Pages:</b> hosts this website.</li></ul>
 <h2>Emails</h2>
 <p>We email you about your scans and orders. You only get the newsletter if you sign up and confirm. Every newsletter has a one-click unsubscribe link.</p>
 <h2>How long we keep it</h2>
-<p>We keep scan reports and order records while your account or Pro plan is active, and for [DATA_RETENTION_PERIOD] after that. Hashed IPs from free checks are kept for [FREE_CHECK_RETENTION]. You can ask us to delete your data at any time.</p>
+<p>We do not currently delete data on an automatic schedule. We keep scan reports, free-check results (including the hashed network value), order records and emails until you ask us to delete them. We keep payment and order records for as long as the law requires. You can ask us to delete your data at any time.</p>
 <h2>Your choices</h2>
 <p>Email <a href="mailto:support@deployvet.com">support@deployvet.com</a> to see, fix or delete your data. We'll reply within 30 days. We may keep payment records when the law requires it.</p>
 <h2>Changes</h2>
@@ -66,11 +67,12 @@
 </article></main>
 <footer class="foot">
   <div class="wrap foot-in">
-    <div><img src="/assets/logo-light.svg" alt="DeployVet" width="156" height="40"><p class="small">Made by Hayden Young. DeployVet is not a penetration test or a certification.</p></div>
-    <ul class="flinks">
-      <li><a href="mailto:support@deployvet.com">support@deployvet.com</a></li>
-      <li><a href="/privacy.html">Privacy</a></li><li><a href="/terms.html">Terms</a></li><li><a href="/refunds.html">Refunds</a></li><li><a href="/llms.txt">llms.txt</a></li>
-    </ul>
+    <div class="foot-id"><img src="/assets/logo-light.svg" alt="DeployVet" width="156" height="40"><p class="small">Outside-in website security and bug checks. DeployVet is not a penetration test, an audit or a certification, and a clean result is not a guarantee.</p><p class="small"><a href="mailto:support@deployvet.com">support@deployvet.com</a></p></div>
+    <nav class="foot-nav" aria-label="Footer">
+      <div><h4>Product</h4><ul><li><a href="/#check">Free check</a></li><li><a href="/pricing.html">Pricing</a></li><li><a href="/how-it-works.html">How it works</a></li><li><a href="/sample-report.html">Sample report</a></li><li><a href="/launch-pack.html">Launch Pack</a></li></ul></div>
+      <div><h4>Company</h4><ul><li><a href="/about.html">About</a></li><li><a href="/methodology.html">Methodology</a></li><li><a href="/guides/">Guides</a></li><li><a href="/scoreboard.html">Public scores</a></li><li><a href="/contact.html">Contact</a></li></ul></div>
+      <div><h4>Legal</h4><ul><li><a href="/privacy.html">Privacy</a></li><li><a href="/terms.html">Terms</a></li><li><a href="/refunds.html">Refunds</a></li></ul></div>
+    </nav>
   </div>
   <p class="wrap small copy">© 2026 DeployVet</p>
 </footer>

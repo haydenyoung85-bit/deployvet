@@ -38,7 +38,7 @@ h3{font-size:1.1rem}
 .mb-i::before{top:-5px}.mb-i::after{top:5px}
 .nav.open .mb-i{background:transparent}.nav.open .mb-i::before{top:0;transform:rotate(45deg)}.nav.open .mb-i::after{top:0;transform:rotate(-45deg)}
 @media(max-width:900px){.links a{padding:6px 7px;font-size:.9rem}}
-@media(max-width:759.98px){
+@media(max-width:899.98px){
   .nav-in{flex-wrap:wrap}
   .links{flex-wrap:wrap}
   .nav.js .menu-btn{display:inline-flex}
@@ -108,7 +108,8 @@ h3{font-size:1.1rem}
 .tbl .y{font-weight:600;color:var(--good)} .tbl .n{color:var(--muted)}
 
 /* pricing */
-.prices{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-top:22px;align-items:start}
+.prices{display:grid;grid-template-columns:1fr;gap:16px;margin-top:22px;align-items:stretch}
+@media(min-width:760px){.prices{grid-template-columns:repeat(3,1fr)}}
 .price{background:#fff;border:var(--line);border-radius:8px;padding:22px;position:relative}
 .price.pick{border:2px solid var(--accent)}
 .price ul{padding-left:1.1em;color:var(--slate);font-size:.95rem} .price li{margin:.3em 0}
@@ -366,3 +367,20 @@ form.box h2{font-size:1.2rem}
   .steps h3{margin:0 0 2px;font-size:1rem}
   .steps p{font-size:.9rem}
 }
+
+/* header current page, structured footer */
+.links a[aria-current=page]{color:var(--navy);background:var(--bg2);font-weight:600}
+.foot-in{align-items:flex-start}
+.foot-id{max-width:340px}
+.foot-id p{margin:8px 0 0}
+.foot-nav{display:grid;grid-template-columns:repeat(3,auto);gap:8px 40px}
+.foot-nav h4{margin:0 0 6px;font:600 .78rem var(--head);text-transform:uppercase;letter-spacing:.08em;color:#aab6c8}
+.foot-nav ul{list-style:none;margin:0;padding:0}
+.foot-nav a{display:inline-block;padding:5px 0;font-size:.92rem;text-decoration:none}
+.foot-nav a:hover{text-decoration:underline}
+@media(max-width:640px){.foot-nav{grid-template-columns:repeat(3,1fr);gap:8px 14px;width:100%}.foot-nav a{font-size:.88rem}.foot-id{max-width:none}}
+@media(max-width:380px){.foot-nav a{font-size:.84rem}}
+.sr-sum{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:var(--line);border-radius:8px;background:#fff;margin:14px 0}
+.sr-sum div{padding:10px 14px;border-right:var(--line)}.sr-sum div:last-child{border-right:0}
+.sr-sum span{display:block}.sr-sum b{font:650 1.25rem var(--head);color:var(--navy)}
+@media(max-width:640px){.sr-sum{grid-template-columns:1fr 1fr}.sr-sum div:nth-child(2){border-right:0}.sr-sum div:nth-child(-n+2){border-bottom:var(--line)}}
