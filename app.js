@@ -263,7 +263,7 @@
     const n = Number(total) || 0, host = esc(c.host);
     const tt = top && top.title ? String(top.title).replace(/\.$/, "") : "";
     const tshort = tt.length > 70 ? tt.slice(0, 67) + "…" : tt;
-    const head = n ? (n === 1 ? `1 issue found${tshort ? ": " + esc(tshort) : ""}. It's shown in full below.`
+    const head = n ? (n === 1 ? `1 issue found${tshort ? ": " + esc(tshort) : ""}. ${where === "popup" ? "It's shown in full below." : "It's shown in full in your roast."}`
         : `${n} issues found. Worst${tshort ? ": " + esc(tshort) : ""}. The other ${n - 1} are locked.`)
       : "No problems found in the free check. The paid options go deeper.";
     const scanVal = n > 1 ? `Unlocks the other ${n - 1} issues, each with proof and a fix. Adds a read-only check of your public repo or Supabase.`
@@ -577,7 +577,7 @@
       out.hidden = false; out.className = "result-offers"; out.innerHTML = `<p class="ro-h">Free check done for ${esc(cc.host)}: ${esc(r.score)}/100.</p>`
         + (r.cached && r.rescan_in_hours ? `<p class="small">This is your latest free check. Rescan available in about ${esc(r.rescan_in_hours)} hour${r.rescan_in_hours === 1 ? "" : "s"}. Fixed something already? The $10 Fix it pack includes re-checks, so you can verify it right now.</p>` : "")
         + (r.incomplete ? `<p class="small">${esc(r.incompleteNote || "Part of your site sits behind a firewall, so this score may be incomplete.")}</p>` : "")
-        + offersBlock(cc, tot, "result");
+        + offersBlock(cc, tot, "result", r.topIssue);
     } catch (err) { msg(out, esc(err.message), "err"); }
     busy(btn, false);
   });
