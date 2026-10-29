@@ -35,4 +35,11 @@
 - Contact: https://deployvet.com/contact.html (support@deployvet.com)
 
 ## Guides
-- https://deployvet.com/guides/
+- https://deployvet.com/guides/ (all guides)
+- Supabase service_role key exposed: what to do: https://deployvet.com/guides/supabase-service-role-key-exposed.html
+- Stripe success page is not proof of payment: https://deployvet.com/guides/stripe-success-page-is-not-proof-of-payment.html
+- Why does my website say "Not secure"?: https://deployvet.com/guides/why-does-my-website-say-not-secure.html
+- How do I know if my website was hacked?: https://deployvet.com/guides/how-do-i-know-if-my-website-was-hacked.html
+- Is my website secure? A 15-minute check: https://deployvet.com/guides/is-my-website-secure.html
+- My SSL certificate expired: what to do: https://deployvet.com/guides/ssl-certificate-expired-what-to-do.html
+- Exposed JavaScript source maps: how to check and fix: https://deployvet.com/guides/exposed-javascript-source-maps.html

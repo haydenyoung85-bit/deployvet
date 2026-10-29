@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stripe Success Page Is Not Proof of Payment (and How to Fix It) | DeployVet</title>
+<meta name="description" content="Many AI-built apps unlock paid features when someone opens /success. Here is how to test yours and move the check to a signed Stripe webhook.">
+<link rel="canonical" href="https://deployvet.com/guides/stripe-success-page-is-not-proof-of-payment.html">
+<meta property="og:description" content="Free outside-in website security and bug check. A score, your most important issue and how to fix it.">
+<meta property="og:image" content="https://deployvet.com/assets/og.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="DeployVet: website security and bug check">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:description" content="Free outside-in website security and bug check. A score, your most important issue and how to fix it.">
+<meta name="twitter:image" content="https://deployvet.com/assets/og.png">
+<meta name="twitter:image:alt" content="DeployVet: website security and bug check">
+<meta name="theme-color" content="#0b2545">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="DeployVet">
+<link rel="stylesheet" href="/styles.css">
+<meta property="og:url" content="https://deployvet.com/guides/stripe-success-page-is-not-proof-of-payment.html">
+<meta property="og:title" content="Stripe Success Page Is Not Proof of Payment (and How to Fix It) | DeployVet">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "Article",
+   "headline": "Stripe success page is not proof of payment",
+   "description": "Many AI-built apps unlock paid features when someone opens /success. Here is how to test yours and move the check to a signed Stripe webhook.",
+   "url": "https://deployvet.com/guides/stripe-success-page-is-not-proof-of-payment.html",
+   "author": {
+    "@type": "Person",
+    "name": "Hayden Young"
+   },
+   "publisher": {
+    "@type": "Organization",
+    "name": "DeployVet",
+    "logo": {
+     "@type": "ImageObject",
+     "url": "https://deployvet.com/assets/logo-520.png"
+    }
+   }
+  },
+  {
+   "@type": "FAQPage",
+   "mainEntity": [
+    {
+     "@type": "Question",
+     "name": "Is the Stripe publishable key safe to show?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Yes. pk_ keys are meant for the browser. The sk_ secret key is not."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Can I just check session_id on the success page?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Only if your server looks that session up with Stripe and checks it. Even then you still need the webhook, because some customers never reach the page."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Does DeployVet test my payments?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "No. It checks your public site from the outside, for things like keys in your JavaScript and exposed files. It does not test checkout or webhook logic."
+     }
+    }
+   ]
+  }
+ ]
+}
+</script>
+<style>
+.guide{max-width:760px}.guide h1{margin:0 0 18px}.guide h2{margin:48px 0 14px}
+.guide .answer{font-size:19px;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:18px 22px}
+.guide ol.do{padding-left:22px}.guide ol.do li{margin:0 0 14px}.guide code{font-family:var(--mono);font-size:.92em}
+.cta-box{margin:48px 0 0;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:24px 26px}
+.glist{list-style:none;padding:0;margin:24px 0 0;display:grid;gap:16px}
+.glist li{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:20px 22px}
+.glist h2,.glist h3{margin:0 0 6px;font-size:20px}
+.guide pre{margin:14px 0}.guide pre code{background:none;border:0;padding:0;font-size:1em;color:inherit}.guide blockquote{margin:16px 0;padding:4px 18px;border-left:3px solid var(--line);color:var(--slate)}.guide .note{font-size:.95em;color:var(--slate);border-top:1px solid var(--line);padding-top:14px;margin-top:28px}.guide h3{margin:28px 0 8px}.guide{overflow-wrap:break-word}
+</style>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a href="/" class="brand" aria-label="DeployVet home"><img src="/assets/logo.svg" alt="DeployVet" width="187" height="48"></a>
+    <button type="button" class="menu-btn" aria-expanded="false" aria-controls="main-links"><span class="mb-i" aria-hidden="true"></span><span class="mb-l">Menu</span></button>
+    <nav aria-label="Main"><ul class="links" id="main-links">
+      <li><a href="/how-it-works.html">How it works</a></li>
+      <li><a href="/methodology.html">Methodology</a></li>
+      <li><a href="/pricing.html">Pricing</a></li>
+      <li><a href="/sample-report.html">Sample report</a></li>
+      <li><a href="/guides/" aria-current="page">Guides</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul></nav>
+  </div>
+</header>
+<main>
+<section class="sec"><div class="wrap guide">
+<p class="eyebrow"><a href="/guides/">Guides</a></p>
+<h1>Stripe success page is not proof of payment</h1>
+<p class="answer">If your app unlocks paid features because someone reached the success page, anyone can type that address and get the features for free. A payment is real only when your server receives a signed message from Stripe (a webhook) and marks the order paid. The success page should only read that status.</p>
+<h2>The problem</h2>
+<p>You asked your AI builder to add Stripe. You paid with a test card, landed on <code>/success</code>, and the app unlocked the paid features. It looks finished.</p>
+<p>Many AI-built apps do exactly that: they unlock things because the success page loaded. Anyone can type <code>/success</code> into the address bar. Stripe's documentation also says you cannot rely on the landing page alone, because a customer can pay and lose their connection before the page loads. Webhooks are required for fulfilment. So the success page can unlock things for people who did not pay, and miss people who did.</p>
+<h2>The 30-second test</h2>
+<ol>
+<li>Sign in as a free user, or open a private window.</li>
+<li>Type your success URL by hand, such as <code>yourapp.com/success</code> or <code>yourapp.com/success?session_id=anything</code>.</li>
+<li>See whether anything unlocks: a Pro badge, credits, a download, an order marked paid.</li>
+</ol>
+<p>If something unlocks, fix it before you launch.</p>
+<h2>How it should work</h2>
+<pre><code>Customer pays on Stripe Checkout
+  -&gt; Stripe sends a signed webhook to YOUR server
+  -&gt; Your server verifies the signature
+  -&gt; Your server checks payment_status
+  -&gt; Your server marks the order paid in the database
+  -&gt; The success page only READS that status
+</code></pre>
+<p>The browser never decides who paid. Your server does, based on a message only Stripe can sign.</p>
+<h2>The fix, step by step</h2>
+<h3>1. Move "mark as paid" to a webhook</h3>
+<p>In Supabase this is an Edge Function, for example <code>stripe-webhook</code>. Have it handle <code>checkout.session.completed</code>, and <code>checkout.session.async_payment_succeeded</code> for payment methods that clear later.</p>
+<h3>2. Verify the signature every time</h3>
+<p>Use Stripe's library to check the <code>Stripe-Signature</code> header against your webhook secret (it starts with <code>whsec_</code>). In a Supabase Edge Function (Deno), use the raw request body:</p>
+<pre><code class="language-ts">const body = await req.text(); // raw body, not req.json()
+const sig = req.headers.get(&quot;Stripe-Signature&quot;)!;
+const event = await stripe.webhooks.constructEventAsync(
+  body, sig, Deno.env.get(&quot;STRIPE_WEBHOOK_SECRET&quot;)!,
+  undefined, Stripe.createSubtleCryptoProvider()
+);
+</code></pre>
+<p>If verification fails, return 400 and do nothing. Without this, anyone can send your webhook a fake "they paid" message.</p>
+<p>Stripe cannot send a Supabase login token, so this one function usually runs with JWT verification off. That is acceptable only because the signature check does the security work. Do not turn JWT checks off on your other functions to fix a 401 error.</p>
+<h3>3. Check payment_status</h3>
+<p>A completed session is not always a paid one. Only fulfil when <code>payment_status</code> shows the payment went through, as in Stripe's own fulfilment example.</p>
+<h3>4. Make it safe to run twice</h3>
+<p>Stripe can send the same event more than once. Save the Checkout Session ID with the order and skip it if you already fulfilled it.</p>
+<h3>5. Lock the "paid" columns</h3>
+<p>If a table has <code>is_paid</code>, <code>plan</code> or <code>credits</code>, users must not be able to update those columns. With Supabase Row Level Security, do not give users an UPDATE policy that covers them. Only the webhook, using the secret key on the server, should change them. See <a href="/guides/supabase-rls-check-for-ai-apps.html">Supabase RLS check for AI-built apps</a>.</p>
+<h3>6. Keep secret keys out of the frontend</h3>
+<p>Your Stripe secret key (<code>sk_live_...</code>) and webhook secret belong in server-side environment variables, never in <code>VITE_</code> or <code>NEXT_PUBLIC_</code> variables. The publishable key (<code>pk_...</code>) is the only Stripe key the browser should see. See <a href="/guides/leaked-api-keys-in-frontend.html">Leaked API keys in your frontend</a>.</p>
+<h3>7. Turn the success page into a thank-you page</h3>
+<p>It can show a spinner and read the order status from your database. It should never write "paid" anywhere.</p>
+<h2>A prompt you can paste into your builder</h2>
+<blockquote>
+<p>Do not mark orders or plans as paid from the success page. Create a Supabase Edge Function that receives Stripe webhooks, verifies the Stripe-Signature header with constructEventAsync on the raw body, handles checkout.session.completed and checkout.session.async_payment_succeeded, checks payment_status, and updates the order using the server-side key. Skip sessions that were already fulfilled. Make sure users cannot update is_paid, plan or credits through RLS. Show me the changes before applying them.</p>
+</blockquote>
+<p>Read what it changes before you accept it. AI tools sometimes fix an error by turning a check off.</p>
+<h2>Quick checklist</h2>
+<ul>
+<li>Typing <code>/success</code> by hand unlocks nothing.</li>
+<li>The webhook verifies the Stripe signature using the raw body.</li>
+<li>The webhook checks <code>payment_status</code>.</li>
+<li>Receiving the same event twice does not credit twice.</li>
+<li>Users cannot edit <code>is_paid</code>, <code>plan</code> or <code>credits</code>.</li>
+<li>No <code>sk_</code> key or <code>whsec_</code> secret appears in frontend code.</li>
+<li>Live mode has its own webhook endpoint and secret. Test-mode ones do not carry over.</li>
+</ul>
+<h2>How DeployVet fits</h2><p>DeployVet does not test payment flows or log in to your app, so it cannot tell you whether your success page is safe. That needs the manual test above. What the free check can do is look for Stripe secret keys in your public JavaScript and files, which is the mistake in step 6.</p>
+<h2>FAQ</h2>
+<div class="faq"><details><summary>Is the Stripe publishable key safe to show?</summary><p>Yes. pk_ keys are meant for the browser. The sk_ secret key is not.</p></details><details><summary>Can I just check session_id on the success page?</summary><p>Only if your server looks that session up with Stripe and checks it. Even then you still need the webhook, because some customers never reach the page.</p></details><details><summary>Does DeployVet test my payments?</summary><p>No. It checks your public site from the outside, for things like keys in your JavaScript and exposed files. It does not test checkout or webhook logic.</p></details></div>
+<div class="cta-box"><h2>Check your site for free</h2><p>DeployVet checks your live site from the outside, like a stranger would. You get a score out of 100 and the most important finding with a fix.</p><p>DeployVet has three plans. The <b>Free check is $0</b>. A one-time <b>Scan is $7</b>. <b>The Fix it pack is $10 once</b> and adds 30 days of "Did I fix it?" re-checks and score history. For paid plans you pay first, then the scan runs.</p><p><a href="/#check" class="btn">Run the free check</a></p></div><p class="note">DeployVet is an outside-in check, not an audit, a penetration test or a certification. It sees only what a stranger can reach from the public internet, and a clean result is not a guarantee. Only check sites you own or have permission to check. See the <a href="/methodology.html">methodology</a> for what is and is not checked.</p>
+<h2>More guides</h2><ul><li><a href="/guides/leaked-api-keys-in-frontend.html">Leaked API keys in your frontend</a></li><li><a href="/guides/supabase-rls-check-for-ai-apps.html">Supabase RLS check for AI-built apps</a></li><li><a href="/guides/supabase-service-role-key-exposed.html">Supabase service_role key exposed: what to do</a></li><li><a href="/guides/bolt-new-app-security-checklist.html">Bolt.new app security checklist</a></li></ul><p><a href="/guides/">All guides</a></p>
+</div></section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div class="foot-id"><img src="/assets/logo-light.svg" alt="DeployVet" width="156" height="40"><p class="small">Outside-in website security and bug checks. DeployVet is not a penetration test, an audit or a certification, and a clean result is not a guarantee.</p><p class="small"><a href="mailto:support@deployvet.com">support@deployvet.com</a></p></div>
+    <nav class="foot-nav" aria-label="Footer">
+      <div><h4>Product</h4><ul><li><a href="/#check">Free check</a></li><li><a href="/pricing.html">Pricing</a></li><li><a href="/how-it-works.html">How it works</a></li><li><a href="/sample-report.html">Sample report</a></li><li><a href="/launch-pack.html">Launch Pack</a></li><li><a href="/badge.html">Get a badge</a></li></ul></div>
+      <div><h4>Company</h4><ul><li><a href="/about.html">About</a></li><li><a href="/methodology.html">Methodology</a></li><li><a href="/how-we-grade.html">How we grade</a></li><li><a href="/guides/">Guides</a></li><li><a href="/scoreboard.html">Public scores</a></li><li><a href="/contact.html">Contact</a></li><li><a href="/fixes.html">Flat-price fixes</a></li></ul></div>
+      <div><h4>Legal</h4><ul><li><a href="/privacy.html">Privacy</a></li><li><a href="/terms.html">Terms</a></li><li><a href="/refunds.html">Refunds</a></li></ul></div>
+    </nav>
+  </div>
+  <p class="wrap small listed"><span>Listed on</span> <span class="lbadges"><a href="https://theaitoolsdir.com/product/deployvet?ref=badge" rel="dofollow" target="_blank"><img src="https://theaitoolsdir.com/badge/deployvet.svg" alt="Featured on TheAIToolsDir" width="182" height="46"></a><a href="https://thesaasdir.com/product/deployvet?ref=badge" rel="dofollow" target="_blank"><img src="https://thesaasdir.com/badge/deployvet.svg" alt="Featured on TheSaaSDir" width="182" height="46"></a><a class="fz" href="https://fazier.com" target="_blank" rel="noopener"><img src="https://fazier.com/api/v1//public/badges/launch_badges.svg?badge_type=launched&theme=dark" width="120" alt="Fazier badge"></a></span> <a class="rw" href="https://launchfree.io/listings/deployvet.html" target="_blank" rel="noopener"><img src="https://launchfree.io/badge-dark.svg" alt="Listed on The Runway - LaunchFree.io" width="250" height="56" /></a> <a href="https://twelve.tools/" rel="noopener" target="_blank">Twelve Tools</a> <a href="https://dang.ai/" rel="noopener" target="_blank">Dang.ai</a> <a href="https://www.toolpilot.ai/" rel="noopener" target="_blank">ToolPilot</a> <a href="https://saasvault.pro/" rel="noopener" target="_blank">SaaSVault</a></p>
+  <p class="wrap small copy">© 2026 DeployVet</p>
+</footer>
+<script src="/config.js"></script>
+<script src="/nav.js" defer></script>
+<script src="/signup.js" defer></script>
+<script src="/track.js" defer></script>
+</body>
+</html>

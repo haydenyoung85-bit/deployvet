@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exposed JavaScript Source Maps: How to Check and Fix Them | DeployVet</title>
+<meta name="description" content="A public source map lets anyone read your original source code. How to check your own site in a minute, and how to turn maps off in Vite, Next.js and webpack or CRA.">
+<link rel="canonical" href="https://deployvet.com/guides/exposed-javascript-source-maps.html">
+<meta property="og:description" content="Free outside-in website security and bug check. A score, your most important issue and how to fix it.">
+<meta property="og:image" content="https://deployvet.com/assets/og.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="DeployVet: website security and bug check">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:description" content="Free outside-in website security and bug check. A score, your most important issue and how to fix it.">
+<meta name="twitter:image" content="https://deployvet.com/assets/og.png">
+<meta name="twitter:image:alt" content="DeployVet: website security and bug check">
+<meta name="theme-color" content="#0b2545">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="DeployVet">
+<link rel="stylesheet" href="/styles.css">
+<meta property="og:url" content="https://deployvet.com/guides/exposed-javascript-source-maps.html">
+<meta property="og:title" content="Exposed JavaScript Source Maps: How to Check and Fix Them | DeployVet">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "Article",
+   "headline": "Exposed JavaScript source maps: how to check and fix",
+   "description": "A public source map lets anyone read your original source code. How to check your own site in a minute, and how to turn maps off in Vite, Next.js and webpack or CRA.",
+   "url": "https://deployvet.com/guides/exposed-javascript-source-maps.html",
+   "author": {
+    "@type": "Person",
+    "name": "Hayden Young"
+   },
+   "publisher": {
+    "@type": "Organization",
+    "name": "DeployVet",
+    "logo": {
+     "@type": "ImageObject",
+     "url": "https://deployvet.com/assets/logo-520.png"
+    }
+   }
+  },
+  {
+   "@type": "FAQPage",
+   "mainEntity": [
+    {
+     "@type": "Question",
+     "name": "Is a public source map a security hole?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "It is an exposure, not a break-in. Your minified code is already public, but a map makes it much easier to read and search, and may include comments and files that are not in the bundle. We rate it medium."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Do hidden source maps fix it?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Only if you do not publish the map files. Hidden maps remove the comment from your JavaScript, but a map file in your public folder can still be requested by anyone who guesses the address."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Will turning source maps off break my site?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "No. Maps are only used for debugging. Your site runs the same without them."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Can I keep maps for error tracking?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Yes. Upload the maps to your error-tracking tool during the build, and do not publish them with the site."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Does DeployVet check for source maps?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Yes, the check looks for them as described above. It can miss some, so check yourself too."
+     }
+    }
+   ]
+  }
+ ]
+}
+</script>
+<style>
+.guide{max-width:760px}.guide h1{margin:0 0 18px}.guide h2{margin:48px 0 14px}
+.guide .answer{font-size:19px;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:18px 22px}
+.guide ol.do{padding-left:22px}.guide ol.do li{margin:0 0 14px}.guide code{font-family:var(--mono);font-size:.92em}
+.cta-box{margin:48px 0 0;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:24px 26px}
+.glist{list-style:none;padding:0;margin:24px 0 0;display:grid;gap:16px}
+.glist li{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:20px 22px}
+.glist h2,.glist h3{margin:0 0 6px;font-size:20px}
+.guide pre{margin:14px 0}.guide pre code{background:none;border:0;padding:0;font-size:1em;color:inherit}.guide blockquote{margin:16px 0;padding:4px 18px;border-left:3px solid var(--line);color:var(--slate)}.guide .note{font-size:.95em;color:var(--slate);border-top:1px solid var(--line);padding-top:14px;margin-top:28px}.guide h3{margin:28px 0 8px}.guide{overflow-wrap:break-word}
+</style>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a href="/" class="brand" aria-label="DeployVet home"><img src="/assets/logo.svg" alt="DeployVet" width="187" height="48"></a>
+    <button type="button" class="menu-btn" aria-expanded="false" aria-controls="main-links"><span class="mb-i" aria-hidden="true"></span><span class="mb-l">Menu</span></button>
+    <nav aria-label="Main"><ul class="links" id="main-links">
+      <li><a href="/how-it-works.html">How it works</a></li>
+      <li><a href="/methodology.html">Methodology</a></li>
+      <li><a href="/pricing.html">Pricing</a></li>
+      <li><a href="/sample-report.html">Sample report</a></li>
+      <li><a href="/guides/" aria-current="page">Guides</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul></nav>
+  </div>
+</header>
+<main>
+<section class="sec"><div class="wrap guide">
+<p class="eyebrow"><a href="/guides/">Guides</a></p>
+<h1>Exposed JavaScript source maps: how to check and fix</h1>
+<p class="answer">A source map is a file that turns your minified JavaScript back into the original code. If your production site serves it publicly, anyone can read your source files, comments and file structure. To check, look at the end of your main JavaScript file for a sourceMappingURL line, then open that address or add .map to the file name. To fix it, stop generating maps for production, or do not upload them.</p>
+<h2>What a source map is</h2>
+<p>When you build a site, tools such as Vite, webpack and Next.js combine and minify your code into a few hard-to-read JavaScript files. A source map is a separate file, usually ending in <code>.js.map</code>, that records how to turn that output back into your original files. Browser developer tools use it so you can debug the code you wrote instead of the minified version.</p>
+<p>Most source maps are JSON with fields such as <code>version</code>, <code>sources</code>, <code>sourcesContent</code> and <code>mappings</code>. The <code>sourcesContent</code> field often holds the full text of every original source file.</p>
+<p>A JavaScript file points to its map with a comment on its last line, for example <code>//# sourceMappingURL=index-4f2a9c.js.map</code>, or with a <code>SourceMap</code> HTTP header.</p>
+<h2>How to check your own site</h2>
+<ol>
+<li>Open your live site in Chrome or Firefox and open developer tools (F12, or right-click and Inspect).</li>
+<li>Go to the Network tab, reload the page, and click your main <code>.js</code> file (often in <code>/assets/</code> or <code>/_next/static/</code>).</li>
+<li>Open the Response and scroll to the very end. Look for a line starting <code>//# sourceMappingURL=</code>. If it is there, copy the file name.</li>
+<li>Open that address in a new tab, for example <code>https://your-site.com/assets/index-4f2a9c.js.map</code>. If there is no comment, try the script address with <code>.map</code> added at the end.</li>
+<li>If you see a large block of JSON starting with <code>{"version":3</code>, your map is public.</li>
+</ol>
+<p>A terminal check does the same thing:</p>
+<pre><code class="language-bash">curl -s https://your-site.com/assets/index-4f2a9c.js.map | head -c 200
+</code></pre>
+<p>Be careful with one trap. Many single-page apps answer every unknown address with the home page and a 200 status. A 200 is not proof. The response must be the JSON map, not your HTML.</p>
+<p>You can also open the Sources tab in developer tools. If you see your original folders and files (such as <code>src/App.tsx</code>) and not just minified bundles, a map was loaded. Check each of the main JavaScript files, not only one.</p>
+<h2>Why a public source map matters</h2>
+<p>Your JavaScript is already public, so a map does not reveal something that was fully hidden. What it changes is how easy your code is to read and search:</p>
+<ul>
+<li>It exposes original file names, folder structure, variable names and comments.</li>
+<li>It exposes internal API routes, admin pages, feature flags and business logic that are hard to find in minified code.</li>
+<li>It can include things developers leave in source: commented-out keys, test credentials, internal URLs and TODO notes.</li>
+<li>It makes it quicker for someone to look for weaknesses in your code.</li>
+</ul>
+<p>Keys are the part to be careful with. A secret that your code uses in the browser is already in the bundle, and the map is not the only way it leaks. But a map can contain hard-coded values and comments that never reached the bundle. If you find a secret in a map, rotate it. See <a href="/guides/leaked-api-keys-in-frontend.html">Leaked API keys in your frontend</a>.</p>
+<h2>How to fix it</h2>
+<p>The aim is simple: do not publish <code>.map</code> files for production. Then redeploy and check again.</p>
+<h3>Vite (including many Lovable and Bolt projects)</h3>
+<p>Vite does not generate maps by default, so someone or something turned them on. In <code>vite.config.ts</code>:</p>
+<pre><code class="language-ts">export default defineConfig({
+  build: { sourcemap: false },
+})
+</code></pre>
+<p>The value <code>'hidden'</code> still creates map files but leaves out the comment in the JavaScript. If the files are in your deploy folder they are still public. Only use <code>'hidden'</code> if you upload the maps to an error-tracking tool and do not publish them.</p>
+<h3>Next.js</h3>
+<p>Maps for browser code are off by default. Look in <code>next.config.js</code> (or <code>.mjs</code>, <code>.ts</code>) and remove this setting if it is there:</p>
+<pre><code class="language-js">module.exports = {
+  productionBrowserSourceMaps: false, // or delete the line
+}
+</code></pre>
+<p>If you use an error-tracking plugin that uploads maps, check its settings for an option to delete the maps after upload, so they are not left in the build output.</p>
+<h3>webpack and Create React App</h3>
+<p>For webpack, set <code>devtool</code> so production builds do not ship maps:</p>
+<pre><code class="language-js">module.exports = {
+  mode: &quot;production&quot;,
+  devtool: false, // or &quot;hidden-source-map&quot; if you upload maps elsewhere
+}
+</code></pre>
+<p>For Create React App, turn maps off in the build command:</p>
+<pre><code class="language-bash">GENERATE_SOURCEMAP=false npm run build
+</code></pre>
+<h3>Any other setup</h3>
+<ul>
+<li>Delete maps from the folder you deploy: <code>find dist -name '*.map' -delete</code> (use your real output folder name).</li>
+<li>Or have your host or server return 404 for any address ending in <code>.map</code>.</li>
+</ul>
+<h3>After you change it</h3>
+<ol>
+<li>Build and redeploy.</li>
+<li>Repeat the check above. The <code>.map</code> address should return 404, not JSON.</li>
+<li>Purge your CDN cache if you use one, since an old map can stay cached.</li>
+<li>If you found anything sensitive in the map, rotate it.</li>
+</ol>
+<h2>How DeployVet fits</h2><p>The free check looks at your site's main JavaScript files (up to the first three from your own domain). For each, it reads the sourceMappingURL comment, or tries the script address with .map added, and requests the file. If the response is a real source map, it reports "JavaScript source maps are public" as a medium finding. The Free check shows your single most important finding in full and counts the rest, so if source maps are not your biggest issue, the full detail is in the paid Scan.</p><p>This check has limits. It looks at only a few scripts, it does not read the SourceMap HTTP header, and it can miss some source maps, so a clean result does not prove your maps are private. Use the manual check above as well.</p>
+<h2>FAQ</h2>
+<div class="faq"><details><summary>Is a public source map a security hole?</summary><p>It is an exposure, not a break-in. Your minified code is already public, but a map makes it much easier to read and search, and may include comments and files that are not in the bundle. We rate it medium.</p></details><details><summary>Do hidden source maps fix it?</summary><p>Only if you do not publish the map files. Hidden maps remove the comment from your JavaScript, but a map file in your public folder can still be requested by anyone who guesses the address.</p></details><details><summary>Will turning source maps off break my site?</summary><p>No. Maps are only used for debugging. Your site runs the same without them.</p></details><details><summary>Can I keep maps for error tracking?</summary><p>Yes. Upload the maps to your error-tracking tool during the build, and do not publish them with the site.</p></details><details><summary>Does DeployVet check for source maps?</summary><p>Yes, the check looks for them as described above. It can miss some, so check yourself too.</p></details></div>
+<div class="cta-box"><h2>Check your site for free</h2><p>DeployVet checks your live site from the outside, like a stranger would. You get a score out of 100 and the most important finding with a fix.</p><p>DeployVet has three plans. The <b>Free check is $0</b>. A one-time <b>Scan is $7</b>. <b>The Fix it pack is $10 once</b> and adds 30 days of "Did I fix it?" re-checks and score history. For paid plans you pay first, then the scan runs.</p><p><a href="/#check" class="btn">Run the free check</a></p></div><p class="note">DeployVet is an outside-in check, not an audit, a penetration test or a certification. It sees only what a stranger can reach from the public internet, and a clean result is not a guarantee. Only check sites you own or have permission to check. See the <a href="/methodology.html">methodology</a> for what is and is not checked.</p>
+<h2>More guides</h2><ul><li><a href="/guides/leaked-api-keys-in-frontend.html">Leaked API keys in your frontend</a></li><li><a href="/guides/supabase-service-role-key-exposed.html">Supabase service_role key exposed: what to do</a></li><li><a href="/guides/is-my-lovable-app-secure.html">Is my Lovable app secure?</a></li><li><a href="/guides/cursor-app-security.html">Security for apps built with Cursor</a></li></ul><p><a href="/guides/">All guides</a></p>
+</div></section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div class="foot-id"><img src="/assets/logo-light.svg" alt="DeployVet" width="156" height="40"><p class="small">Outside-in website security and bug checks. DeployVet is not a penetration test, an audit or a certification, and a clean result is not a guarantee.</p><p class="small"><a href="mailto:support@deployvet.com">support@deployvet.com</a></p></div>
+    <nav class="foot-nav" aria-label="Footer">
+      <div><h4>Product</h4><ul><li><a href="/#check">Free check</a></li><li><a href="/pricing.html">Pricing</a></li><li><a href="/how-it-works.html">How it works</a></li><li><a href="/sample-report.html">Sample report</a></li><li><a href="/launch-pack.html">Launch Pack</a></li><li><a href="/badge.html">Get a badge</a></li></ul></div>
+      <div><h4>Company</h4><ul><li><a href="/about.html">About</a></li><li><a href="/methodology.html">Methodology</a></li><li><a href="/how-we-grade.html">How we grade</a></li><li><a href="/guides/">Guides</a></li><li><a href="/scoreboard.html">Public scores</a></li><li><a href="/contact.html">Contact</a></li><li><a href="/fixes.html">Flat-price fixes</a></li></ul></div>
+      <div><h4>Legal</h4><ul><li><a href="/privacy.html">Privacy</a></li><li><a href="/terms.html">Terms</a></li><li><a href="/refunds.html">Refunds</a></li></ul></div>
+    </nav>
+  </div>
+  <p class="wrap small listed"><span>Listed on</span> <span class="lbadges"><a href="https://theaitoolsdir.com/product/deployvet?ref=badge" rel="dofollow" target="_blank"><img src="https://theaitoolsdir.com/badge/deployvet.svg" alt="Featured on TheAIToolsDir" width="182" height="46"></a><a href="https://thesaasdir.com/product/deployvet?ref=badge" rel="dofollow" target="_blank"><img src="https://thesaasdir.com/badge/deployvet.svg" alt="Featured on TheSaaSDir" width="182" height="46"></a><a class="fz" href="https://fazier.com" target="_blank" rel="noopener"><img src="https://fazier.com/api/v1//public/badges/launch_badges.svg?badge_type=launched&theme=dark" width="120" alt="Fazier badge"></a></span> <a class="rw" href="https://launchfree.io/listings/deployvet.html" target="_blank" rel="noopener"><img src="https://launchfree.io/badge-dark.svg" alt="Listed on The Runway - LaunchFree.io" width="250" height="56" /></a> <a href="https://twelve.tools/" rel="noopener" target="_blank">Twelve Tools</a> <a href="https://dang.ai/" rel="noopener" target="_blank">Dang.ai</a> <a href="https://www.toolpilot.ai/" rel="noopener" target="_blank">ToolPilot</a> <a href="https://saasvault.pro/" rel="noopener" target="_blank">SaaSVault</a></p>
+  <p class="wrap small copy">© 2026 DeployVet</p>
+</footer>
+<script src="/config.js"></script>
+<script src="/nav.js" defer></script>
+<script src="/signup.js" defer></script>
+<script src="/track.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Supabase service_role Key Exposed? What to Do, in Order | DeployVet</title>
+<meta name="description" content="Found a Supabase service_role or sb_secret key in your frontend, repo or a screenshot? Fix the cause first, then rotate, then check for misuse.">
+<link rel="canonical" href="https://deployvet.com/guides/supabase-service-role-key-exposed.html">
+<meta property="og:description" content="Free outside-in website security and bug check. A score, your most important issue and how to fix it.">
+<meta property="og:image" content="https://deployvet.com/assets/og.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="DeployVet: website security and bug check">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:description" content="Free outside-in website security and bug check. A score, your most important issue and how to fix it.">
+<meta name="twitter:image" content="https://deployvet.com/assets/og.png">
+<meta name="twitter:image:alt" content="DeployVet: website security and bug check">
+<meta name="theme-color" content="#0b2545">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="DeployVet">
+<link rel="stylesheet" href="/styles.css">
+<meta property="og:url" content="https://deployvet.com/guides/supabase-service-role-key-exposed.html">
+<meta property="og:title" content="Supabase service_role Key Exposed? What to Do, in Order | DeployVet">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "Article",
+   "headline": "Supabase service_role key exposed: what to do, in order",
+   "description": "Found a Supabase service_role or sb_secret key in your frontend, repo or a screenshot? Fix the cause first, then rotate, then check for misuse.",
+   "url": "https://deployvet.com/guides/supabase-service-role-key-exposed.html",
+   "author": {
+    "@type": "Person",
+    "name": "Hayden Young"
+   },
+   "publisher": {
+    "@type": "Organization",
+    "name": "DeployVet",
+    "logo": {
+     "@type": "ImageObject",
+     "url": "https://deployvet.com/assets/logo-520.png"
+    }
+   }
+  },
+  {
+   "@type": "FAQPage",
+   "mainEntity": [
+    {
+     "@type": "Question",
+     "name": "Is the Supabase anon key a leaked key?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "No. It is built to be public. Your protection comes from Row Level Security."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "I removed the key from my code. Am I safe?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Not yet. It may still be in git history, old deployments or cached files. Rotate the key."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Do I need to rotate if nobody seems to have used it?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Yes. You cannot tell who copied a public file. Rotating is the only way to be sure the old key stops working."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Does DeployVet find an exposed service_role key?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "If it is in a public script or file on your live site, yes. The Free check reports it as a critical finding."
+     }
+    }
+   ]
+  }
+ ]
+}
+</script>
+<style>
+.guide{max-width:760px}.guide h1{margin:0 0 18px}.guide h2{margin:48px 0 14px}
+.guide .answer{font-size:19px;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:18px 22px}
+.guide ol.do{padding-left:22px}.guide ol.do li{margin:0 0 14px}.guide code{font-family:var(--mono);font-size:.92em}
+.cta-box{margin:48px 0 0;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:24px 26px}
+.glist{list-style:none;padding:0;margin:24px 0 0;display:grid;gap:16px}
+.glist li{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:20px 22px}
+.glist h2,.glist h3{margin:0 0 6px;font-size:20px}
+.guide pre{margin:14px 0}.guide pre code{background:none;border:0;padding:0;font-size:1em;color:inherit}.guide blockquote{margin:16px 0;padding:4px 18px;border-left:3px solid var(--line);color:var(--slate)}.guide .note{font-size:.95em;color:var(--slate);border-top:1px solid var(--line);padding-top:14px;margin-top:28px}.guide h3{margin:28px 0 8px}.guide{overflow-wrap:break-word}
+</style>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a href="/" class="brand" aria-label="DeployVet home"><img src="/assets/logo.svg" alt="DeployVet" width="187" height="48"></a>
+    <button type="button" class="menu-btn" aria-expanded="false" aria-controls="main-links"><span class="mb-i" aria-hidden="true"></span><span class="mb-l">Menu</span></button>
+    <nav aria-label="Main"><ul class="links" id="main-links">
+      <li><a href="/how-it-works.html">How it works</a></li>
+      <li><a href="/methodology.html">Methodology</a></li>
+      <li><a href="/pricing.html">Pricing</a></li>
+      <li><a href="/sample-report.html">Sample report</a></li>
+      <li><a href="/guides/" aria-current="page">Guides</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul></nav>
+  </div>
+</header>
+<main>
+<section class="sec"><div class="wrap guide">
+<p class="eyebrow"><a href="/guides/">Guides</a></p>
+<h1>Supabase service_role key exposed: what to do, in order</h1>
+<p class="answer">A Supabase service_role key (or a newer sb_secret_ key) bypasses Row Level Security. Anyone who holds one can read, change or delete any row in your database. If one ever reached a browser bundle, a public repo or a screenshot, treat it as compromised. Move it to server-side code first, then rotate it, then look for misuse.</p>
+<h2>How it usually happens in AI-built apps</h2>
+<ul>
+<li>The key is put in a public environment variable, such as <code>VITE_SUPABASE_SERVICE_ROLE_KEY</code> (Vite, Lovable, Bolt) or <code>NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY</code> (Next.js, v0). Those prefixes exist to ship values to the browser.</li>
+<li>An AI agent swaps in the service key to make a permissions error go away.</li>
+<li>A <code>.env</code> file is committed to git once, then deleted later. It stays in the history.</li>
+<li>A host serves <code>/.env</code> or <code>/.git/</code> by mistake.</li>
+</ul>
+<p>The normal <code>anon</code> or publishable key is different. It is meant to be public, and your Row Level Security policies decide what it can reach. See <a href="/guides/supabase-rls-check-for-ai-apps.html">Supabase RLS check for AI-built apps</a>.</p>
+<h2>Step 1: Confirm what is exposed</h2>
+<p>Find your bundle file names in the page source, then search them from a terminal:</p>
+<pre><code class="language-bash">curl -s https://your-app.com/assets/index-XXXX.js \
+  | grep -Eo &quot;sb_secret_[A-Za-z0-9_-]+|eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+&quot;
+</code></pre>
+<p>If you find a token starting with <code>eyJ</code>, decode the middle part (it is base64 JSON) and read the <code>"role"</code> field. <code>anon</code> is expected. <code>service_role</code> is the emergency.</p>
+<p>Check git history too:</p>
+<pre><code class="language-bash">git log -S &quot;sb_secret_&quot; --all --oneline
+git log -S &quot;service_role&quot; --all --oneline
+git log --all --oneline -- .env .env.local
+</code></pre>
+<h2>Step 2: Fix the cause first</h2>
+<p>Move every use of the secret key into server-side code (Edge Functions, API routes, server actions), stored in a variable without a public prefix. Redeploy the frontend so the key is no longer in the bundle. If you rotate first, the replacement key will leak the same way.</p>
+<h2>Step 3: Rotate the key</h2>
+<p>Follow Supabase's own documentation for rotating a leaked key, since the dashboard changes over time. The order that works:</p>
+<ol>
+<li>Create a new secret key in your project's API key settings.</li>
+<li>Replace the old key everywhere: host environment variables, CI secrets and Edge Function secrets.</li>
+<li>Confirm each part of the app works on the new key.</li>
+<li>Retire the old key. A secret key can be deleted, and legacy JWT keys can be deactivated.</li>
+<li>Verify that a request with the old key now fails.</li>
+</ol>
+<h2>Step 4: Rotate everything nearby</h2>
+<p>If a <code>.env</code> file was exposed, assume every key in it leaked: Stripe, OpenAI, email providers and so on. Rotate each one at its own provider.</p>
+<h2>Step 5: Look for misuse</h2>
+<p>Check your Supabase API logs for requests that do not match normal app traffic during the time the key was exposed. If personal data may have been read, treat it as a possible breach and look up your notification duties where you and your users live. This page is not legal advice.</p>
+<h2>Step 6: Prevent a repeat</h2>
+<ul>
+<li>Add a build check that fails if <code>sb_secret_</code> or a service_role token appears in the build output.</li>
+<li>Turn on GitHub secret scanning and push protection if you use GitHub.</li>
+<li>Use a secret-scanning pre-commit hook such as gitleaks.</li>
+<li>Re-check your RLS policies. A leaked secret key often means the app was relying on it instead of policies.</li>
+<li>Check that <a href="/guides/exposed-javascript-source-maps.html">source maps</a> are not public, since they make code easier to search.</li>
+</ul>
+<h2>How DeployVet fits</h2><p>The free check searches your public JavaScript files for secret-looking keys, including Supabase service_role tokens and sb_secret_ keys, and reports them as critical findings. It cannot see keys that never reach the browser, your git history, or your server logs. The paid Scan can also read a public GitHub repository you point it to.</p>
+<h2>FAQ</h2>
+<div class="faq"><details><summary>Is the Supabase anon key a leaked key?</summary><p>No. It is built to be public. Your protection comes from Row Level Security.</p></details><details><summary>I removed the key from my code. Am I safe?</summary><p>Not yet. It may still be in git history, old deployments or cached files. Rotate the key.</p></details><details><summary>Do I need to rotate if nobody seems to have used it?</summary><p>Yes. You cannot tell who copied a public file. Rotating is the only way to be sure the old key stops working.</p></details><details><summary>Does DeployVet find an exposed service_role key?</summary><p>If it is in a public script or file on your live site, yes. The Free check reports it as a critical finding.</p></details></div>
+<div class="cta-box"><h2>Check your site for free</h2><p>DeployVet checks your live site from the outside, like a stranger would. You get a score out of 100 and the most important finding with a fix.</p><p>DeployVet has three plans. The <b>Free check is $0</b>. A one-time <b>Scan is $7</b>. <b>The Fix it pack is $10 once</b> and adds 30 days of "Did I fix it?" re-checks and score history. For paid plans you pay first, then the scan runs.</p><p><a href="/#check" class="btn">Run the free check</a></p></div><p class="note">DeployVet is an outside-in check, not an audit, a penetration test or a certification. It sees only what a stranger can reach from the public internet, and a clean result is not a guarantee. Only check sites you own or have permission to check. See the <a href="/methodology.html">methodology</a> for what is and is not checked.</p>
+<h2>More guides</h2><ul><li><a href="/guides/leaked-api-keys-in-frontend.html">Leaked API keys in your frontend</a></li><li><a href="/guides/supabase-rls-check-for-ai-apps.html">Supabase RLS check for AI-built apps</a></li><li><a href="/guides/exposed-javascript-source-maps.html">Exposed JavaScript source maps: how to check and fix</a></li><li><a href="/guides/is-my-lovable-app-secure.html">Is my Lovable app secure?</a></li></ul><p><a href="/guides/">All guides</a></p>
+</div></section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div class="foot-id"><img src="/assets/logo-light.svg" alt="DeployVet" width="156" height="40"><p class="small">Outside-in website security and bug checks. DeployVet is not a penetration test, an audit or a certification, and a clean result is not a guarantee.</p><p class="small"><a href="mailto:support@deployvet.com">support@deployvet.com</a></p></div>
+    <nav class="foot-nav" aria-label="Footer">
+      <div><h4>Product</h4><ul><li><a href="/#check">Free check</a></li><li><a href="/pricing.html">Pricing</a></li><li><a href="/how-it-works.html">How it works</a></li><li><a href="/sample-report.html">Sample report</a></li><li><a href="/launch-pack.html">Launch Pack</a></li><li><a href="/badge.html">Get a badge</a></li></ul></div>
+      <div><h4>Company</h4><ul><li><a href="/about.html">About</a></li><li><a href="/methodology.html">Methodology</a></li><li><a href="/how-we-grade.html">How we grade</a></li><li><a href="/guides/">Guides</a></li><li><a href="/scoreboard.html">Public scores</a></li><li><a href="/contact.html">Contact</a></li><li><a href="/fixes.html">Flat-price fixes</a></li></ul></div>
+      <div><h4>Legal</h4><ul><li><a href="/privacy.html">Privacy</a></li><li><a href="/terms.html">Terms</a></li><li><a href="/refunds.html">Refunds</a></li></ul></div>
+    </nav>
+  </div>
+  <p class="wrap small listed"><span>Listed on</span> <span class="lbadges"><a href="https://theaitoolsdir.com/product/deployvet?ref=badge" rel="dofollow" target="_blank"><img src="https://theaitoolsdir.com/badge/deployvet.svg" alt="Featured on TheAIToolsDir" width="182" height="46"></a><a href="https://thesaasdir.com/product/deployvet?ref=badge" rel="dofollow" target="_blank"><img src="https://thesaasdir.com/badge/deployvet.svg" alt="Featured on TheSaaSDir" width="182" height="46"></a><a class="fz" href="https://fazier.com" target="_blank" rel="noopener"><img src="https://fazier.com/api/v1//public/badges/launch_badges.svg?badge_type=launched&theme=dark" width="120" alt="Fazier badge"></a></span> <a class="rw" href="https://launchfree.io/listings/deployvet.html" target="_blank" rel="noopener"><img src="https://launchfree.io/badge-dark.svg" alt="Listed on The Runway - LaunchFree.io" width="250" height="56" /></a> <a href="https://twelve.tools/" rel="noopener" target="_blank">Twelve Tools</a> <a href="https://dang.ai/" rel="noopener" target="_blank">Dang.ai</a> <a href="https://www.toolpilot.ai/" rel="noopener" target="_blank">ToolPilot</a> <a href="https://saasvault.pro/" rel="noopener" target="_blank">SaaSVault</a></p>
+  <p class="wrap small copy">© 2026 DeployVet</p>
+</footer>
+<script src="/config.js"></script>
+<script src="/nav.js" defer></script>
+<script src="/signup.js" defer></script>
+<script src="/track.js" defer></script>
+</body>
+</html>
