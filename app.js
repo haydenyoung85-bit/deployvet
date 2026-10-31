@@ -111,10 +111,9 @@ window.DeployVet = { call, esc, friendly , attrib };
     return `<div class="fixpack"${where === "popup" ? ' id="fixpack"' : ""}>
       <p class="fp-h">${head}</p>
       <div class="offers">
-        <div class="offer offer-main"><h3 class="o-h">Scan</h3><p class="o-v">${scanVal}</p><p class="o-p"><b>$7</b> once</p><div class="o-act"><button type="button" class="btn offer-btn" data-buy="deployvet_scan_once" data-domain="${host}" data-track="${where}-scan">Get the Scan: $7</button></div></div>
-        <div class="offer"><h3 class="o-h">Fix it pack</h3><p class="o-v">${packVal}</p><p class="o-p"><b>$10</b> once</p><div class="o-act"><button type="button" class="btn btn-y offer-btn" data-buy="deployvet_fix_pack" data-domain="${host}" data-track="${where}-fixpack">Get Fix it pack: $10</button></div></div>
+        <div class="offer offer-main"><h3 class="o-h">DeployVet Pro</h3><p class="o-v">Every issue with its fix, for up to 5 sites. A check every week, with an email when something new shows up. Score history, fix prompts and PDFs.</p><p class="o-p"><b>$29</b>/month, cancel any time</p><div class="o-act"><a class="btn offer-btn" href="https://buy.stripe.com/14A4gz2vR4zU2qG2GLes001" data-track="${where}-pro">Unlock all fixes: $29/mo</a></div></div>
       </div>
-      <p class="fp-note">One payment, no subscription, nothing renews. After you pay, you confirm you own the site, then the scan runs. <a href="/sample-report.html" target="_blank" rel="noopener" data-track="sample-report">See a sample paid report</a></p>
+      <p class="fp-note">Just one site, one time? <a href="#buy" data-buy="deployvet_scan_once" data-domain="${host}" data-track="${where}-scan">$7 Scan</a> or <a href="#buy" data-buy="deployvet_fix_pack" data-domain="${host}" data-track="${where}-fixpack">$10 Fix it pack</a> (with 30 days of re-checks). Nothing renews. <a href="/sample-report.html" target="_blank" rel="noopener" data-track="sample-report">See a sample report</a></p>
       <p class="fp-soft">Launching a site for a client? The <a href="/launch-pack.html" data-track="${where}-launchpack">Launch Pack</a> ($39 once) is launch copy: a landing-page rewrite, social posts and a launch email, written with AI and delivered in 48 hours. It is marketing copy, not a security service.</p>
       ${r && r.check_id && top ? `<details class="fu"><summary data-track="${where}-followup-open">Not ready to buy? Email me the fix for this issue</summary>
         <form class="fu-form" data-check="${esc(r.check_id)}">
@@ -171,12 +170,13 @@ window.DeployVet = { call, esc, friendly , attrib };
     // Locked teaser: real counts only. Placeholder rows hold NO finding text.
     const li = lockInfo(r), lockedN = li.locked, left = li.left;
     const lockChips = li.chipsOk ? order.filter((k) => left[k]).map((k) => `<span class="sev ${k}">${esc(left[k])} ${esc(SEVNAME[k])}</span>`).join("") : "";
-    // Locked rows hold NO finding text (the server sends only a count). Tapping one scrolls to the offers; the button opens the $7 Scan.
+    // Locked rows hold NO finding text (the server sends only a count). Tapping one scrolls to the offers; the button goes to the $29/mo Pro checkout.
     const rest = lockedN && good ? `<li><p class="small">${esc(lockedN)} smaller note${lockedN === 1 ? " is" : "s are"} not listed in the free check.</p></li>` : lockedN ? `<li class="locked-teaser" id="locked">
       <p class="lk-h">${esc(lockedN)} more issue${lockedN === 1 ? "" : "s"} in the full report</p>
       <div class="r-counts">${lockChips}</div>
       <div class="ph-rows">${Array.from({ length: Math.min(lockedN, 3) }, () => '<button type="button" class="ph" data-track="locked-row" aria-label="Locked issue. Select to see how to get the full report."><i></i><i></i><i></i><b class="ph-lock" aria-hidden="true">Locked</b></button>').join("")}</div>
-      <button type="button" class="btn btn-y lk-unlock" data-buy="deployvet_scan_once" data-domain="${esc(c.host)}" data-track="locked-unlock">Get all ${esc(lockedN)} issue${lockedN === 1 ? "" : "s"}: $7 Scan</button>
+      <a class="btn btn-y lk-unlock" href="https://buy.stripe.com/14A4gz2vR4zU2qG2GLes001" data-track="locked-unlock">Unlock all fixes, $29/mo</a>
+      <p class="small">Or get them for this one site once: <a href="#buy" data-buy="deployvet_scan_once" data-domain="${esc(c.host)}" data-track="locked-scan">$7 Scan</a>.</p>
       <p class="small">Each one comes with plain fix steps you can pass to whoever built the site.</p></li>` : "";
     burns += rest;
     dlgR.className = "roast g-" + g;

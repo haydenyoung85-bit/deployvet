@@ -39,6 +39,13 @@
   </div>
 </header>
 <main class="wrap"><article class="legal">
+<div id="pro-box" hidden>
+<p class="eyebrow">DeployVet Pro</p>
+<h1>You're on Pro. Thank you.</h1>
+<p>Your receipt from Stripe is on its way to your email. Within one business day we turn on Pro for the site you entered at checkout and email you its full report with every fix.</p>
+<p>Have more sites (up to 5 in total)? Email the addresses to <a href="mailto:support@deployvet.com?subject=DeployVet%20Pro%20sites">support@deployvet.com</a> from the email you paid with.</p>
+<p>To cancel, email the same address. You keep Pro until the end of the month you paid for.</p>
+</div>
 <div id="lp-box" hidden>
 <p class="eyebrow" id="lp-eyebrow">Launch Pack</p>
 <h1 id="lp-h">Tell us about your app</h1>
@@ -84,6 +91,7 @@
 <script src="/app.js"></script>
 <script>
 (function(){
+  if (new URLSearchParams(location.search).get("p") === "pro") { document.getElementById("pro-box").hidden = false; const sb = document.getElementById("scan-box"); if (sb) sb.hidden = true; document.title = "Welcome to Pro – DeployVet"; return; }
   const o = JSON.parse(sessionStorage.getItem("dv_order") || "{}");
   const isLaunch = ["launch"].includes(new URLSearchParams(location.search).get("p")) || new URLSearchParams(location.search).get("pack") === "launch" || o.pack === "launch";
   if (isLaunch) {
