@@ -14,6 +14,7 @@
 - Free check: $0. One outside check per site each month. Score, grade, summary and the most important finding in full with its fix.
 - Scan: $7 one-time. Paid first, then the scan runs. Every finding with evidence and a fix, fix prompts, PDF, read-only check of a public repository or database project.
 - Fix it pack: $10 one-time, one site. The Scan plus 30 days of one-click re-checks and score history. No subscription.
+- DeployVet Pro: $29/month for teams and agencies, up to 5 sites, weekly checks with email alerts. Start by emailing hello@deployvet.com. Cancel any time.
 - Launch Pack: $39 one-time. Launch copy (landing-page rewrite, 5 X posts, 2 LinkedIn posts, a launch email) written with AI and delivered in 48 hours. Marketing copy, not security.
 - Paid reports need proof of site ownership (DNS TXT record or meta tag). Only check sites you own or have permission to check.
 
