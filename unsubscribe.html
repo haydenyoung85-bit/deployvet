@@ -1,0 +1,9 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Unsubscribe | DeployVet</title><meta name="robots" content="noindex">
+<style>body{font:16px/1.5 system-ui,sans-serif;max-width:520px;margin:40px auto;padding:16px;color:#111}</style></head><body>
+<h1>Unsubscribe</h1><p id="s">Working...</p>
+<script>
+var t=new URLSearchParams(location.search).get("t")||"",s=document.getElementById("s");
+if(!/^[a-z0-9]{8,40}$/.test(t))s.textContent="This link is not valid. Email hello@deployvet.com with the word unsubscribe and we'll remove you.";
+else fetch("https://xlbjkhhcaqqxdviagymp.supabase.co/functions/v1/outbound?action=unsub&t="+t,{method:"POST"}).then(function(r){return r.json()}).then(function(d){
+ s.textContent=d.ok?"Done. You won't get any more emails from DeployVet.":"We couldn't find that link. Email hello@deployvet.com with the word unsubscribe and we'll remove you."}).catch(function(){s.textContent="Something went wrong. Please refresh, or email hello@deployvet.com."});
+</script></body></html>

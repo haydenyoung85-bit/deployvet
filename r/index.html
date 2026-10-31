@@ -1,0 +1,36 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Your fix | DeployVet</title><meta name="robots" content="noindex,nofollow"><link rel="icon" href="/favicon.svg">
+<style>
+*{box-sizing:border-box}body{margin:0;font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:#f6f7f9;color:#111}
+.w{max-width:640px;margin:0 auto;padding:16px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.top a{color:#111;font-weight:700;text-decoration:none}.c{background:#fff;border:1px solid #e3e5e8;border-radius:12px;padding:16px;margin-bottom:12px}
+h1{font-size:20px;margin:0 0 4px}.m{color:#555;font-size:14px}.sev{display:inline-block;font-size:12px;font-weight:700;padding:2px 8px;border-radius:99px;background:#fde8e8;color:#9b1c1c;text-transform:uppercase}
+.sev.medium,.sev.low{background:#fff4d6;color:#7a5200}h2{font-size:17px;margin:8px 0}pre{white-space:pre-wrap;word-break:break-word;background:#f3f4f6;border-radius:8px;padding:12px;font-size:14px;margin:8px 0}
+button{font:inherit;border:0;border-radius:8px;padding:10px 14px;background:#111;color:#fff;cursor:pointer;width:100%}
+.lk{filter:blur(4px);user-select:none;pointer-events:none;padding:8px 0;border-top:1px solid #eee}.cta{display:block;text-align:center;background:#2563eb;color:#fff;border-radius:8px;padding:12px;text-decoration:none;font-weight:700;margin-top:10px}
+.f{font-size:13px;color:#666;text-align:center}
+</style></head><body><div class="w">
+<div class="top"><a href="/">DeployVet</a><span class="m">Free fix</span></div>
+<div id="app" class="c">Loading your fix...</div>
+<p class="f">Questions? Just reply to the email or write to hello@deployvet.com.</p></div>
+<script>
+(function(){
+var F="https://xlbjkhhcaqqxdviagymp.supabase.co/functions/v1/outbound";
+var t=new URLSearchParams(location.search).get("t")||(location.pathname.match(/\/r\/([a-z0-9]+)/)||[])[1]||"";
+var el=document.getElementById("app");
+function e(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+if(!/^[a-z0-9]{8,40}$/.test(t)){el.textContent="This link is not valid.";return}
+fetch(F+"?action=r&t="+t).then(function(r){return r.json()}).then(function(d){
+ if(!d.issue){el.textContent="We couldn't find this fix. It may have expired.";return}
+ var i=d.issue,host=d.url.replace(/^https?:\/\//,"");
+ var h='<h1>'+e(host)+'</h1><div class="m">Checked '+e(new Date(d.scannedAt).toLocaleDateString())+(d.platform&&d.platform!="Unknown"?' · Built on '+e(d.platform):'')+'</div></div>';
+ h+='<div class="c"><span class="sev '+e(i.severity)+'">'+e(i.severity)+'</span><h2>'+e(i.title)+'</h2><p>In plain English: '+e(i.plain)+'.</p>'+(i.location?'<div class="m">Where: '+e(i.location)+'</div>':'');
+ h+='<h2>How to fix it</h2><p>'+e(i.fix)+'</p><h2>Or paste this into your AI builder</h2><pre id="p">'+e(i.prompt)+'</pre><button id="cp">Copy fix</button></div>';
+ if(d.locked>0){h+='<div class="c"><h2>'+d.locked+' more thing'+(d.locked>1?'s':'')+' we found</h2>';
+  for(var k=0;k<Math.min(d.locked,4);k++)h+='<div class="lk"><b>'+e(d.lockedSev[k])+'</b> · Hidden issue title goes here and the fix</div>';
+  h+='<a class="cta" href="/pricing.html?src=outbound">See every fix: $29/mo</a><div class="m" style="text-align:center;margin-top:6px">The fix above is free. No signup needed.</div>';}
+ el.outerHTML='<div class="c">'+h+'</div>';
+ var b=document.getElementById("cp");b.onclick=function(){navigator.clipboard.writeText(document.getElementById("p").textContent).then(function(){b.textContent="Copied"})};
+}).catch(function(){el.textContent="Something went wrong loading this fix. Please refresh."});
+})();
+</script></body></html>
