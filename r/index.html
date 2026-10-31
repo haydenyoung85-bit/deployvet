@@ -28,7 +28,7 @@ fetch(F+"?action=r&t="+t).then(function(r){return r.json()}).then(function(d){
  h+='<h2>How to fix it</h2><p>'+e(i.fix)+'</p><h2>Or paste this into your AI builder</h2><pre id="p">'+e(i.prompt)+'</pre><button id="cp">Copy fix</button></div>';
  if(d.locked>0){h+='<div class="c"><h2>'+d.locked+' more thing'+(d.locked>1?'s':'')+' we found</h2>';
   for(var k=0;k<Math.min(d.locked,4);k++)h+='<div class="lk"><b>'+e(d.lockedSev[k])+'</b> · Hidden issue title goes here and the fix</div>';
-  h+='<a class="cta" href="https://buy.stripe.com/14A4gz2vR4zU2qG2GLes001">Unlock every fix: $29/mo</a><div class="m" style="text-align:center;margin-top:6px">The fix above is free. No signup needed.</div>';}
+  h+='<a class="cta" href="/pricing.html#pro">Unlock every fix: $29/mo</a><div class="m" style="text-align:center;margin-top:6px">The fix above is free. No signup needed.</div>';}
  el.outerHTML='<div class="c">'+h+'</div>';
  var b=document.getElementById("cp");b.onclick=function(){navigator.clipboard.writeText(document.getElementById("p").textContent).then(function(){b.textContent="Copied"})};
 }).catch(function(){el.textContent="Something went wrong loading this fix. Please refresh."});

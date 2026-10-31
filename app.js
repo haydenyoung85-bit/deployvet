@@ -111,7 +111,7 @@ window.DeployVet = { call, esc, friendly , attrib };
     return `<div class="fixpack"${where === "popup" ? ' id="fixpack"' : ""}>
       <p class="fp-h">${head}</p>
       <div class="offers">
-        <div class="offer offer-main"><h3 class="o-h">DeployVet Pro</h3><p class="o-v">Every issue with its fix, for up to 5 sites. A check every week, with an email when something new shows up. Score history, fix prompts and PDFs.</p><p class="o-p"><b>$29</b>/month, cancel any time</p><div class="o-act"><a class="btn offer-btn" href="https://buy.stripe.com/14A4gz2vR4zU2qG2GLes001" data-track="${where}-pro">Unlock all fixes: $29/mo</a></div></div>
+        <div class="offer offer-main"><h3 class="o-h">DeployVet Pro</h3><p class="o-v">Every issue with its fix, for up to 5 sites. A check every week, with an email when something new shows up. Score history, fix prompts and PDFs.</p><p class="o-p"><b>$29</b>/month, cancel any time</p><div class="o-act"><a class="btn offer-btn" href="#buy" data-buy="deployvet_pro_29" data-domain="${host}" data-fallback="https://buy.stripe.com/14A4gz2vR4zU2qG2GLes001" data-track="${where}-pro">Unlock all fixes: $29/mo</a></div></div>
       </div>
       <p class="fp-note">Just one site, one time? <a href="#buy" data-buy="deployvet_scan_once" data-domain="${host}" data-track="${where}-scan">$7 Scan</a> or <a href="#buy" data-buy="deployvet_fix_pack" data-domain="${host}" data-track="${where}-fixpack">$10 Fix it pack</a> (with 30 days of re-checks). Nothing renews. <a href="/sample-report.html" target="_blank" rel="noopener" data-track="sample-report">See a sample report</a></p>
       <p class="fp-soft">Launching a site for a client? The <a href="/launch-pack.html" data-track="${where}-launchpack">Launch Pack</a> ($39 once) is launch copy: a landing-page rewrite, social posts and a launch email, written with AI and delivered in 48 hours. It is marketing copy, not a security service.</p>
@@ -175,7 +175,7 @@ window.DeployVet = { call, esc, friendly , attrib };
       <p class="lk-h">${esc(lockedN)} more issue${lockedN === 1 ? "" : "s"} in the full report</p>
       <div class="r-counts">${lockChips}</div>
       <div class="ph-rows">${Array.from({ length: Math.min(lockedN, 3) }, () => '<button type="button" class="ph" data-track="locked-row" aria-label="Locked issue. Select to see how to get the full report."><i></i><i></i><i></i><b class="ph-lock" aria-hidden="true">Locked</b></button>').join("")}</div>
-      <a class="btn btn-y lk-unlock" href="https://buy.stripe.com/14A4gz2vR4zU2qG2GLes001" data-track="locked-unlock">Unlock all fixes, $29/mo</a>
+      <a class="btn btn-y lk-unlock" href="#buy" data-buy="deployvet_pro_29" data-domain="${host}" data-fallback="https://buy.stripe.com/14A4gz2vR4zU2qG2GLes001" data-track="locked-unlock">Unlock all fixes, $29/mo</a>
       <p class="small">Or get them for this one site once: <a href="#buy" data-buy="deployvet_scan_once" data-domain="${esc(c.host)}" data-track="locked-scan">$7 Scan</a>.</p>
       <p class="small">Each one comes with plain fix steps you can pass to whoever built the site.</p></li>` : "";
     burns += rest;
@@ -406,7 +406,7 @@ window.DeployVet = { call, esc, friendly , attrib };
       // Same two offers inline under the form, so they are still there when the popup closes.
       const cc = ctx(r), tot = totalOf(r);
       out.hidden = false; out.className = "result-offers"; out.innerHTML = `<p class="ro-h">Free check done for ${esc(cc.host)}: ${esc(r.score)}/100.</p>`
-        + (r.cached && r.rescan_in_hours ? `<p class="small">This is your latest free check. A new free check is available in about ${esc(r.rescan_in_hours)} hour${r.rescan_in_hours === 1 ? "" : "s"}. Fixed something already? The $10 Fix it pack includes re-checks, so you can verify it right away.</p>` : "")
+        + (r.cached && r.rescan_in_hours ? `<p class="small">This is your latest free check. A new free check is available in about ${esc(r.rescan_in_hours)} hour${r.rescan_in_hours === 1 ? "" : "s"}. Fixed something already? DeployVet Pro ($29/mo) re-checks every week and you can re-check any time, so you can confirm the fix right away.</p>` : "")
         + (r.incomplete ? `<p class="small">${esc(r.incompleteNote || "Part of your site sits behind a firewall, so this score may be incomplete.")}</p>` : "")
         + offersBlock(cc, tot, "result", r.topIssue, r);
     } catch (err) { msg(out, esc(err.message), "err"); }
@@ -445,6 +445,7 @@ window.DeployVet = { call, esc, friendly , attrib };
   // ---- Checkout (Scan / Fix it pack): email first, domain prefilled, price on the button, short trust line ----
   const dlg = document.getElementById("buy");
   const OFFER = {
+    deployvet_pro_29: { name: "DeployVet Pro", price: "$29/mo", what: "Every issue with its fix for up to 5 sites, a check every week, and an email when something new shows up.", trust: "$29 a month. Cancel any time from your account." },
     deployvet_scan_once: { name: "DeployVet Scan", price: "$7", what: "Every issue with evidence and a fix, fix prompts for your builder, and a PDF.", trust: "One-time $7. No subscription, nothing renews." },
     deployvet_fix_pack: { name: "DeployVet Fix it pack", price: "$10", what: "The full report with copyable fix prompts, a PDF, and 30 days of re-checks.", trust: "One-time $10. No subscription, nothing renews." },
   };
@@ -455,9 +456,9 @@ window.DeployVet = { call, esc, friendly , attrib };
     e.preventDefault();
     const product = OFFER[a.dataset.buy] ? a.dataset.buy : "deployvet_scan_once", o = OFFER[product];
     dlg.querySelector("[name=product]").value = product;
-    dlg.querySelector("#buy-title").textContent = `${o.name.replace("DeployVet ", "")} · ${o.price} once`;
+    dlg.querySelector("#buy-title").textContent = `${o.name.replace("DeployVet ", "")} · ${o.price}${o.price.includes("/") ? "" : " once"}`;
     dlg.querySelector("#buy-what").textContent = "You get: " + o.what;
-    dlg.querySelector("#buy-trust").innerHTML = `${o.trust} We only take a read-only look at your public site. After you pay on Stripe, you confirm you own the site (one DNS record or meta tag), then the scan runs.`;
+    dlg.querySelector("#buy-trust").innerHTML = `${o.trust} We only take a read-only look at your public site. After you pay on Stripe, you confirm you own the site (one DNS record or meta tag), then ${product === "deployvet_pro_29" ? "Pro turns on" : "the scan runs"}.`;
     dlg.querySelector("#buy-pay").innerHTML = `Pay ${o.price} on Stripe <span aria-hidden="true">→</span>`;
     const u = a.dataset.domain || document.getElementById("url")?.value || "";
     const dom = dlg.querySelector("[name=domain]"); dom.value = u;
@@ -484,7 +485,9 @@ window.DeployVet = { call, esc, friendly , attrib };
         try { localStorage.setItem("dv_email", String(body.email || "").trim()); } catch (_) {}
         sessionStorage.setItem("dv_order", JSON.stringify({ order_id: r.order_id, site_id: r.site_id, verify_token: r.verify_token, domain: body.domain }));
         location.href = r.url; // Stripe Checkout. The scan runs only after payment and domain proof.
-      } catch (err) { msg(document.getElementById("buy-result"), esc(err.message), "err"); busy(btn, false); }
+      } catch (err) {
+        if (body.product === "deployvet_pro_29" && !(err.status >= 400 && err.status < 500)) { location.href = "https://buy.stripe.com/14A4gz2vR4zU2qG2GLes001"; return; } // backend down: fall back to the Stripe Payment Link
+        msg(document.getElementById("buy-result"), esc(err.message), "err"); busy(btn, false); }
     });
   }
   // Back from Stripe without paying: say so plainly.
