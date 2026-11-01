@@ -14,7 +14,7 @@
 <meta name="twitter:description" content="Free outside-in website security and bug check. A score, your most important issue and how to fix it.">
 <meta name="twitter:image" content="https://deployvet.com/assets/og.png">
 <meta name="twitter:image:alt" content="DeployVet: website security and bug check">
-<meta name="theme-color" content="#0b2545">
+<meta name="theme-color" content="#fbfaf7">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -23,8 +23,9 @@
 <meta property="og:url" content="https://deployvet.com/">
 <meta property="og:title" content="DeployVet: website security and bug check">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&family=Source+Serif+4:opsz,wght@8..60,600&display=swap">
 <link rel="stylesheet" href="/styles.css">
+<link rel="stylesheet" href="/home.css">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
 {"@type":"SoftwareApplication","name":"DeployVet","url":"https://deployvet.com/","applicationCategory":"SecurityApplication","operatingSystem":"Web","creator":{"@type":"Person","name":"Hayden Young"},
@@ -33,7 +34,7 @@
 ]}
 </script>
 </head>
-<body data-board-limit="5" class="b2b">
+<body data-board-limit="5" class="indie">
 <header class="nav">
   <div class="wrap nav-in">
     <a href="/" class="brand" aria-label="DeployVet home"><img src="/assets/logo.svg" alt="DeployVet" width="187" height="48"></a>
@@ -50,208 +51,63 @@
 </header>
 
 <main>
-<section class="hero hx">
-  <div class="wrap hx-in">
-    <div class="hx-copy">
-      <p class="kicker">For agencies and teams that run several sites</p>
-      <h1 data-v="h">Catch security and launch problems across all your client sites</h1>
-      <p class="lead" data-v="sub">Check any public site from the outside in under a minute: exposed keys, open database tables, missing HTTPS and headers, broken pages. You get a grade, the most important issue and how to fix it.</p>
-      <form id="check" class="url-form" action="#" novalidate>
-        <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
-        <label for="url" class="sr">Website address</label>
-        <input id="url" type="url" placeholder="https://client-site.com" required>
-        <button type="submit" class="btn btn-big btn-sig">Run a free check</button>
-      </form>
-      <div id="check-result" class="notice" hidden aria-live="polite"></div>
-      <p class="hx-sub"><a class="btn btn-ghost" href="/pricing.html" data-track="hero-pricing">See pricing</a><span>Free, no signup, no card. Only check sites you own or manage for a client. Not a penetration test.</span></p>
-    </div>
-    <aside class="rp" aria-label="Example report, sample data">
-      <p class="rp-label">Example report, sample data</p>
-      <div class="rp-head">
-        <div class="rp-grade" aria-label="Grade C, score 64 out of 100"><b>C</b><span>64/100</span></div>
-        <div><p class="rp-site">shop.example-client.com</p><p class="rp-meta">7 findings: 1 high, 3 medium, 3 low</p></div>
-      </div>
-      <ol class="rp-list">
-        <li class="rp-f open"><span class="sev s-high">High</span><div><p class="rp-t">Database table readable with the public key</p><p class="rp-d">The <code>orders</code> table returns rows to anyone with the key in your JavaScript.</p><p class="rp-fix"><b>Fix:</b> turn on row level security for <code>orders</code> and add a policy so users read only their own rows.</p></div></li>
-        <li class="rp-f"><span class="sev s-med">Medium</span><p class="rp-t">JavaScript source maps are public</p></li>
-        <li class="rp-f"><span class="sev s-med">Medium</span><p class="rp-t">No Content-Security-Policy header</p></li>
-        <li class="rp-f"><span class="sev s-low">Low</span><p class="rp-t">Session cookie missing the Secure flag</p></li>
+<section class="in-hero">
+  <h1>Find the boring problems on your client sites before someone else does.</h1>
+  <p class="lead">DeployVet checks your client sites for the boring stuff that gets people hacked or embarrassed: leaked keys, open databases, missing HTTPS, broken pages. The first check is free. $29 a month watches up to 5 sites.</p>
+  <form id="check" class="url-form in-form" action="#" novalidate>
+    <label for="url" class="sr">Site address</label>
+    <input id="url" type="url" placeholder="https://client-site.com" required>
+    <button type="submit" class="btn">Check it free</button>
+  </form>
+  <div id="check-result" class="notice" hidden aria-live="polite"></div>
+  <p class="fine">No signup or card. Please only check sites you own or look after for a client. It is not a penetration test. So far it has checked more than 600 sites, and our first paying customer signed up this October.</p>
+  <figure class="shot" aria-label="Example report">
+    <div class="shot-bar"><span></span><span></span><span></span><em>deployvet.com/report</em></div>
+    <div class="shot-body">
+      <p class="shot-h"><b>shop.example-client.com</b> <span>62 / 100</span></p>
+      <ol>
+        <li><b>High:</b> the database answers to anyone with the public key. <i>Fix: turn on row level security for the orders table.</i></li>
+        <li><b>Medium:</b> JavaScript source maps are public.</li>
+        <li><b>Low:</b> no Content-Security-Policy header.</li>
       </ol>
-      <p class="rp-foot"><a href="/sample-report.html" data-track="hero-sample">Open the full sample report</a></p>
-    </aside>
-  </div>
+    </div>
+    <figcaption>Example data, not a real customer. <a href="/sample-report.html">See a full sample report</a>.</figcaption>
+  </figure>
 </section>
 
-<section class="trust" aria-label="Facts about DeployVet">
-  <ul class="wrap trust-in">
-    <li><b>600+</b> sites checked</li>
-    <li><b>First paying customer</b> October 2026</li>
-    <li><b>Read-only</b> outside-in checks</li>
-    <li><b>Payments</b> handled by Stripe</li>
+<section class="in-sec" id="checks">
+  <h2>What it checks</h2>
+  <ul class="plain">
+    <li>API keys and secrets left in the page code</li>
+    <li>Supabase or Firebase databases that anyone can read</li>
+    <li>HTTPS, redirects and certificate problems</li>
+    <li>Missing security headers and exposed files such as <code>.env</code> or <code>.git</code></li>
+    <li>Broken links, missing pages and source maps that show your code</li>
   </ul>
+  <p class="more"><a href="/methodology.html">Every check, explained</a></p>
 </section>
 
-<section id="teams" class="sec tm">
-  <div class="wrap">
-    <p class="eyebrow">For teams and agencies</p>
-    <h2>One place to check every client site</h2>
-    <div class="tm-grid">
-      <div class="tm-c"><h3>Check each client site</h3><p>Run the free check on any site you manage. One free check per site each month.</p></div>
-      <div class="tm-c"><h3>Weekly rescans</h3><p>DeployVet Pro checks up to 5 sites every week and emails you when something new shows up.</p></div>
-      <div class="tm-c"><h3>Before and after</h3><p>Score history for each site, so you can show a client what changed after a fix.</p></div>
-      <div class="tm-c"><h3>Hand off the fix</h3><p>Every finding comes with fix steps, prompts you can paste into a builder, and a PDF report.</p></div>
-    </div>
-    <p class="tm-cta"><a class="btn" href="/pricing.html#pro" data-track="home-teams-pro">DeployVet Pro: $29/mo</a> <a href="/for/agencies.html" data-track="home-agencies">Agency page</a></p>
-    <p class="small">Pro covers up to 5 sites. Tell us your other sites after you subscribe and we add them within one business day. Cancel any time.</p>
-  </div>
+<section class="in-sec" id="pricing">
+  <h2>Pricing</h2>
+  <p class="pline"><b>$7 once</b> for a full scan of one site, with every issue and how to fix it. <a href="#buy" data-buy="deployvet_scan_once">Buy a scan</a></p>
+  <p class="pline"><b>$29 a month</b> for Pro, which checks up to 5 sites every week and emails you when something new turns up. <a href="#buy" data-buy="deployvet_pro_29" data-fallback="https://buy.stripe.com/14A4gz2vR4zU2qG2GLes001" data-track="home-pro-card">Start Pro</a></p>
+  <p class="more"><a href="/pricing.html">Full pricing and plan details</a></p>
 </section>
 
-<section id="checks" class="sec">
-  <div class="wrap">
-    <p class="eyebrow">What we check</p>
-    <h2>Common problems anyone can see from the outside</h2>
-    <p class="sub">We look at your live site the way an outsider would. Nothing is changed and nothing is logged in to.</p>
-    <ul class="burns">
-      <li><span class="tag">Exposed keys and secrets</span><p>Searches your public JavaScript for keys that belong on a server, such as payment, AI and database service keys.</p></li>
-      <li><span class="tag">Open databases</span><p>Tests whether a public database key lets strangers read or write data that should be private.</p></li>
-      <li><span class="tag">Exposed files and routes</span><p>Looks for environment files, git folders, backups and admin or API routes with no login.</p></li>
-      <li><span class="tag">Security headers</span><p>Checks CSP, HSTS, framing protection and other headers that block common attacks.</p></li>
-      <li><span class="tag">HTTPS</span><p>Flags a missing HTTPS redirect, and files loaded over plain http.</p></li>
-      <li><span class="tag">Broken pages and basic SEO</span><p>Finds broken pages and links, and basic search-visibility misses.</p></li>
-    </ul>
-  </div>
-</section>
-
-<section id="compare" class="sec band">
-  <div class="wrap">
-    <p class="eyebrow">Free check and paid reports</p>
-    <h2>The free check shows your top issue. Paid reports show all of them.</h2>
-    <p class="sub">Paid reports can also include a read-only look at a public repository or database project you point us to. We can read but not change anything.</p>
-    <p class="cmp-link"><a href="/pricing.html" data-track="home-compare">Compare all plans on the pricing page</a></p>
-    <details class="cmp"><summary>Show the comparison table</summary>
-    <div class="tbl-wrap">
-    <table class="tbl">
-      <thead><tr><th scope="col">What you get</th><th scope="col">Free check</th><th scope="col">Scan</th><th scope="col">Fix it pack</th></tr></thead>
-      <tbody>
-        <tr><th scope="row">Outside check of your live site</th><td class="y">Yes</td><td class="y">Yes</td><td class="y">Yes</td></tr>
-        <tr><th scope="row">Score, grade and summary</th><td class="y">Yes</td><td class="y">Yes</td><td class="y">Yes</td></tr>
-        <tr><th scope="row">Details and fix steps</th><td>Top issue only</td><td class="y">Every issue</td><td class="y">Every issue</td></tr>
-        <tr><th scope="row">Read-only check of repository or database project</th><td class="n">No</td><td class="y">Yes</td><td class="y">Yes</td></tr>
-        <tr><th scope="row">Fix prompts you can paste into your builder</th><td class="n">No</td><td class="y">Yes</td><td class="y">Yes</td></tr>
-        <tr><th scope="row">PDF report</th><td class="n">No</td><td class="y">Yes</td><td class="y">Yes</td></tr>
-        <tr><th scope="row">One-click re-checks</th><td class="n">No</td><td class="n">No</td><td class="y">30 days</td></tr>
-        <tr><th scope="row">Score history and before/after tracker</th><td class="n">No</td><td class="n">No</td><td class="y">30 days</td></tr>
-      </tbody>
-    </table>
-    </div>
-    </details>
-  </div>
-</section>
-
-<section id="how" class="sec">
-  <div class="wrap">
-    <p class="eyebrow">How it works</p>
-    <h2>Four steps. For paid reports you pay first.</h2>
-    <p class="sub">One-time reports are paid for before the scan runs and never renew. DeployVet Pro is $29 a month and you can cancel any time.</p>
-    <ol class="steps">
-      <li><span class="num">1</span><h3>Enter your address</h3><p>Type your site's web address and run the free check.</p></li>
-      <li><span class="num">2</span><h3>Read your result</h3><p>Get a score out of 100, a grade, your top issue and the fix for it.</p></li>
-      <li><span class="num">3</span><h3>Get the full report</h3><p>Pay the price shown up front. Confirm you own the site with a DNS record or a meta tag.</p></li>
-      <li><span class="num">4</span><h3>Fix and re-check</h3><p>Work through every issue with fix steps, then run the check again to see the score change.</p></li>
-    </ol>
-  </div>
-</section>
-
-<section id="pricing" class="sec band">
-  <div class="wrap">
-    <p class="eyebrow">Pricing</p>
-    <h2>Clear prices</h2>
-    <p class="sub">You see the full cost before you pay.</p>
-    <div class="prices">
-      <div class="price pick">
-        <span class="badge">Teams</span>
-        <h3>DeployVet Pro</h3>
-        <p class="amt">$29 <span>/mo</span></p>
-        <ul><li>Every finding and fix, for up to 5 sites</li><li>A check every week, with an email when something new shows up</li><li>Score history and before/after tracking</li><li>Fix prompts and PDF reports</li></ul>
-        <a href="#buy" class="btn" data-buy="deployvet_pro_29" data-fallback="https://buy.stripe.com/14A4gz2vR4zU2qG2GLes001" data-track="home-pro-card">Start Pro</a>
-      </div>
-      <div class="price">
-        <h3>Free check</h3>
-        <p class="amt">$0</p>
-        <ul><li>One outside check per site each month</li><li>Score, grade and summary</li><li>Details and fix for the top issue</li></ul>
-        <a href="#url" class="btn btn-line">Run a free check</a>
-      </div>
-      <div class="price">
-        <span class="badge">One-time</span>
-        <h3>Scan</h3>
-        <p class="amt">$7 <span>once</span></p>
-        <ul><li>Pay first, then the scan runs</li><li>Every issue, with evidence and a fix</li><li>Read-only check of a public repository or database project</li><li>Fix prompts for your builder</li><li>PDF report</li></ul>
-        <a href="#buy" class="btn" data-buy="deployvet_scan_once">Get the Scan</a>
-      </div>
-      <div class="price">
-        <span class="badge">One-time</span>
-        <h3>Fix it pack</h3>
-        <p class="amt">$10 <span>once</span></p>
-        <p class="alt">No subscription. Nothing renews.</p>
-        <ul><li>Full report for one site</li><li>Every finding with copyable fix prompts</li><li>PDF download</li><li>30 days of one-click re-checks</li><li>30 days of score history and before/after tracking</li></ul>
-        <a href="#buy" class="btn btn-y" data-buy="deployvet_fix_pack">Get the Fix it pack</a>
-      </div>
-    </div>
-    <p class="small" style="margin-top:8px">Launching a site for a client? The <a href="/launch-pack.html" data-track="pricing-launchpack">Launch Pack</a> ($39 once) is launch copy: a landing-page rewrite, social posts and a launch email, written with AI and delivered in 48 hours. It is marketing copy, not a security service.</p>
-    <p class="small" style="margin-top:8px"><a href="/sample-report.html" data-track="sample-report-pricing">See a sample paid report</a> (a made-up example in the real format).</p>
-  </div>
-</section>
-
-<section id="faq" class="sec band">
-  <div class="wrap split">
-    <div class="side">
-      <p class="eyebrow">FAQ</p>
-      <h2>Common questions</h2>
-      <p class="sub">Need something else? Email <a href="mailto:support@deployvet.com">support@deployvet.com</a>.</p>
-    </div>
-    <div class="faq">
-    <details><summary>What is DeployVet?</summary><p>DeployVet runs an outside-in security and bug check on public websites and web apps. It was made by Hayden Young and was previously called Launch Guard.</p></details>
-    <details><summary>Is this a penetration test or an audit?</summary><p>No. DeployVet finds common, known issues from the outside. It is not a penetration test, an audit or a certification. If your site holds very private data or takes payments, get a professional security review as well.</p></details>
-    <details><summary>Can I check a site I do not own?</summary><p>Only if you manage it for the owner. For paid scans and public score listings, you must prove control of the site with a DNS record or a meta tag.</p></details>
-    <details><summary>Will you charge me later?</summary><p>Only if you choose DeployVet Pro, which is $29 a month until you cancel. The Scan ($7) and the Fix it pack ($10) are paid once, up front, and never renew.</p></details>
-    <p class="faq-more"><a href="/pricing.html#more-faq" data-track="home-faq-more">More questions</a></p>
-    </div>
-  </div>
-</section>
-
-<section id="signup" class="sec">
-  <div class="wrap">
-    <div class="signup">
-      <div>
-        <p class="eyebrow">Email updates</p>
-        <h2>Security notes by email</h2>
-        <p>Occasional emails about new checks, new guides and common website security mistakes. No schedule and no filler.</p>
-      </div>
-      <form class="mail-form" action="#">
-        <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
-        <label for="email" class="sr">Email</label>
-        <input id="email" type="email" placeholder="you@email.com" required>
-        <button type="submit" class="btn btn-y" data-track="newsletter-site">Email me updates</button>
-        <p class="small">We email once to confirm (check spam or promotions). Unsubscribe any time. <a href="/privacy.html">Privacy</a>.</p>
-        <div id="mail-result" class="notice" hidden aria-live="polite"></div>
-      </form>
-    </div>
-  </div>
+<section class="in-sec" id="faq">
+  <h2>Questions</h2>
+  <details><summary>Is this a penetration test?</summary><p>No. DeployVet only looks at what anyone on the internet can already see. It finds common, real mistakes, but a clean result is not a guarantee that a site is safe.</p></details>
+  <details><summary>Can I check a site I don't own?</summary><p>Only if you look after it, for example for a client. Please don't check other people's sites.</p></details>
+  <details><summary>Will you charge me later?</summary><p>The free check never charges you. A scan is a one-time $7. Pro is $29 a month and you can cancel any time. Canceling stops the next renewal.</p></details>
+  <p class="more"><a href="/pricing.html#more-faq">More questions</a></p>
 </section>
 </main>
 
-<p class="guides-link"><a href="/guides/">Free website security guides</a></p>
-<footer class="foot">
-  <div class="wrap foot-in">
-    <div class="foot-id"><img src="/assets/logo-light.svg" alt="DeployVet" width="156" height="40"><p class="small">Outside-in website security and bug checks. DeployVet is not a penetration test, an audit or a certification, and a clean result is not a guarantee.</p><p class="small"><a href="mailto:support@deployvet.com">support@deployvet.com</a></p></div>
-    <nav class="foot-nav" aria-label="Footer">
-      <div><h4>Product</h4><ul><li><a href="/#check">Free check</a></li><li><a href="/pricing.html">Pricing</a></li><li><a href="/how-it-works.html">How it works</a></li><li><a href="/sample-report.html">Sample report</a></li><li><a href="/launch-pack.html">Launch Pack</a></li><li><a href="/badge.html">Get a badge</a></li></ul></div>
-      <div><h4>Company</h4><ul><li><a href="/about.html">About</a></li><li><a href="/methodology.html">Methodology</a></li><li><a href="/how-we-grade.html">How we grade</a></li><li><a href="/guides/">Guides</a></li><li><a href="/scoreboard.html">Public scores</a></li><li><a href="/contact.html">Contact</a></li><li><a href="/fixes.html">Flat-price fixes</a></li></ul></div>
-      <div><h4>Legal</h4><ul><li><a href="/privacy.html">Privacy</a></li><li><a href="/terms.html">Terms</a></li><li><a href="/refunds.html">Refunds</a></li></ul></div>
-    </nav>
-  </div>
-  <p class="wrap small listed"><span>Listed on</span> <span class="lbadges"><a href="https://theaitoolsdir.com/product/deployvet?ref=badge" rel="dofollow" target="_blank"><img src="https://theaitoolsdir.com/badge/deployvet.svg" alt="Featured on TheAIToolsDir" width="182" height="46"></a><a href="https://thesaasdir.com/product/deployvet?ref=badge" rel="dofollow" target="_blank"><img src="https://thesaasdir.com/badge/deployvet.svg" alt="Featured on TheSaaSDir" width="182" height="46"></a><a class="fz" href="https://fazier.com" target="_blank" rel="noopener"><img src="https://fazier.com/api/v1//public/badges/launch_badges.svg?badge_type=launched&theme=dark" width="120" alt="Fazier badge"></a></span> <span class="lbadges6"><a href="https://indielineup.com/product/deployvet?ref=badge" rel="dofollow"><img src="https://indielineup.com/badge/deployvet.svg" alt="Featured on IndieLineup" width="182" height="46"></a><a href="https://saaslineup.com/product/deployvet?ref=badge" rel="dofollow"><img src="https://saaslineup.com/badge/deployvet.svg" alt="Featured on SaaSLineup" width="182" height="46"></a><a href="https://themicrosaasdir.com/product/deployvet?ref=badge" rel="dofollow"><img src="https://themicrosaasdir.com/badge/deployvet.svg" alt="Featured on TheMicroSaaSDir" width="182" height="46"></a><a href="https://thedevtoolsdir.com/product/deployvet?ref=badge" rel="dofollow"><img src="https://thedevtoolsdir.com/badge/deployvet.svg" alt="Featured on TheDevToolsDir" width="182" height="46"></a><a href="https://thedevtoolsindex.com/product/deployvet?ref=badge" rel="dofollow"><img src="https://thedevtoolsindex.com/badge/deployvet.svg" alt="Featured on TheDevToolsIndex" width="182" height="46"></a><a href="https://thedevtoolslist.com/product/deployvet?ref=badge" rel="dofollow"><img src="https://thedevtoolslist.com/badge/deployvet.svg" alt="Featured on TheDevToolsList" width="182" height="46"></a></span> <a class="rw" href="https://launchfree.io/listings/deployvet.html" target="_blank" rel="noopener"><img src="https://launchfree.io/badge-dark.svg" alt="Listed on The Runway - LaunchFree.io" width="250" height="56" /></a> <a class="fd" href="https://findly.tools/deployvet?utm_source=deployvet" target="_blank" rel="noopener noreferrer"><img src="https://findly.tools/badges/findly-tools-badge-light.svg" alt="Featured on Findly.tools" width="175" height="55" /></a> <a href="https://twelve.tools/" rel="noopener" target="_blank">Twelve Tools</a> <a href="https://dang.ai/" rel="noopener" target="_blank">Dang.ai</a> <a href="https://www.toolpilot.ai/" rel="noopener" target="_blank">ToolPilot</a> <a href="https://saasvault.pro/" rel="noopener" target="_blank">SaaSVault</a></p>
-  <p class="wrap small copy">© 2026 DeployVet</p>
+<footer class="in-foot">
+  <p>DeployVet is made by Hayden Young. Write to <a href="mailto:support@deployvet.com">support@deployvet.com</a>.</p>
+  <p class="fl"><a href="/how-it-works.html">How it works</a> <a href="/sample-report.html">Sample report</a> <a href="/guides/">Guides</a> <a href="/for/agencies.html">Agencies</a> <a href="/about.html">About</a> <a href="/privacy.html">Privacy</a> <a href="/terms.html">Terms</a> <a href="/refunds.html">Refunds</a></p>
+  <details class="listed"><summary>Directories that list DeployVet</summary><p> <span class="lbadges"><a href="https://theaitoolsdir.com/product/deployvet?ref=badge" rel="dofollow" target="_blank"><img src="https://theaitoolsdir.com/badge/deployvet.svg" alt="Featured on TheAIToolsDir" width="182" height="46"></a><a href="https://thesaasdir.com/product/deployvet?ref=badge" rel="dofollow" target="_blank"><img src="https://thesaasdir.com/badge/deployvet.svg" alt="Featured on TheSaaSDir" width="182" height="46"></a><a class="fz" href="https://fazier.com" target="_blank" rel="noopener"><img src="https://fazier.com/api/v1//public/badges/launch_badges.svg?badge_type=launched&theme=dark" width="120" alt="Fazier badge"></a></span> <span class="lbadges6"><a href="https://indielineup.com/product/deployvet?ref=badge" rel="dofollow"><img src="https://indielineup.com/badge/deployvet.svg" alt="Featured on IndieLineup" width="182" height="46"></a><a href="https://saaslineup.com/product/deployvet?ref=badge" rel="dofollow"><img src="https://saaslineup.com/badge/deployvet.svg" alt="Featured on SaaSLineup" width="182" height="46"></a><a href="https://themicrosaasdir.com/product/deployvet?ref=badge" rel="dofollow"><img src="https://themicrosaasdir.com/badge/deployvet.svg" alt="Featured on TheMicroSaaSDir" width="182" height="46"></a><a href="https://thedevtoolsdir.com/product/deployvet?ref=badge" rel="dofollow"><img src="https://thedevtoolsdir.com/badge/deployvet.svg" alt="Featured on TheDevToolsDir" width="182" height="46"></a><a href="https://thedevtoolsindex.com/product/deployvet?ref=badge" rel="dofollow"><img src="https://thedevtoolsindex.com/badge/deployvet.svg" alt="Featured on TheDevToolsIndex" width="182" height="46"></a><a href="https://thedevtoolslist.com/product/deployvet?ref=badge" rel="dofollow"><img src="https://thedevtoolslist.com/badge/deployvet.svg" alt="Featured on TheDevToolsList" width="182" height="46"></a></span> <a class="rw" href="https://launchfree.io/listings/deployvet.html" target="_blank" rel="noopener"><img src="https://launchfree.io/badge-dark.svg" alt="Listed on The Runway - LaunchFree.io" width="250" height="56" /></a> <a class="fd" href="https://findly.tools/deployvet?utm_source=deployvet" target="_blank" rel="noopener noreferrer"><img src="https://findly.tools/badges/findly-tools-badge-light.svg" alt="Featured on Findly.tools" width="175" height="55" /></a> <a href="https://twelve.tools/" rel="noopener" target="_blank">Twelve Tools</a> <a href="https://dang.ai/" rel="noopener" target="_blank">Dang.ai</a> <a href="https://www.toolpilot.ai/" rel="noopener" target="_blank">ToolPilot</a> <a href="https://saasvault.pro/" rel="noopener" target="_blank">SaaSVault</a></p></details>
+  <p class="copy">© 2026 DeployVet</p>
 </footer>
 <dialog id="buy" class="buy" aria-labelledby="buy-title">
   <button type="button" class="close" aria-label="Close" data-track="buy-close">×</button>
