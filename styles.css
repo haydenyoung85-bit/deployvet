@@ -480,3 +480,67 @@ body.b2b .sec{padding:40px 0}
   .trust-in li{padding:10px 8px 10px 0;font-size:.8rem}.trust-in li:nth-child(even){padding-left:10px}
   body.b2b .faq details p{font-size:.92rem}
 }
+/* homepage compact */
+body.b2b .cmp>summary{cursor:pointer;font-weight:600;color:var(--accent);margin:10px 0}
+body.b2b .cmp-link{display:none}
+body.b2b .faq-more{margin:12px 0 0;font-weight:600}
+@media(min-width:601px){body.b2b .cmp{display:block}body.b2b .cmp>summary{display:none}}
+@media(max-width:600px){
+  body.b2b .cmp,body.b2b #compare .sub{display:none}
+  body.b2b .cmp-link{display:block;margin:6px 0 0}
+  body.b2b #compare h2{font-size:1.15rem;margin:0}
+  body.b2b .sec{padding:22px 0}
+  body.b2b h2{font-size:1.3rem;margin-bottom:.35em}
+  body.b2b .sub{font-size:.92rem;margin:0 0 4px}
+  .hx-in{padding-top:18px;padding-bottom:18px;gap:16px}
+  .hx .kicker{font-size:.7rem;margin-bottom:6px}
+  .hx h1{font-size:1.7rem}
+  .hx .lead{font-size:.93rem;line-height:1.5}
+  .rp-f:nth-child(4){display:none}
+  .rp-f{padding:7px 0}.rp-head{padding-bottom:8px}.rp-grade{width:54px;height:54px}
+  .tm-grid{margin-top:10px;gap:8px}.tm-c p{line-height:1.4}
+  #teams>.wrap>.small{display:none}
+  .tm-cta{margin:12px 0 0}
+  body.b2b #checks .sub,body.b2b #pricing .sub{display:none}
+  body.b2b .burns,body.b2b .steps,body.b2b .prices{margin-top:12px}
+  body.b2b .burns li,body.b2b .steps li{padding:12px 14px}
+  body.b2b .price{padding:14px}body.b2b .price ul{font-size:.86rem;margin:.4em 0 .8em}body.b2b .price .amt{margin:.1em 0}
+  body.b2b #pricing .wrap>p.small{font-size:.8rem;margin-top:8px!important}
+  body.b2b #pricing .wrap>p.small:nth-of-type(n+2){display:none}
+  body.b2b #faq .split{display:block}body.b2b #faq .side .sub{display:none}
+  body.b2b .faq summary{padding-top:10px;padding-bottom:10px}
+  body.b2b .signup{padding:14px;gap:8px}body.b2b .signup p{font-size:.88rem;margin:.3em 0}body.b2b .signup h2{font-size:1.15rem}
+  body.b2b .foot{padding:20px 0 12px}
+  body.b2b .foot-nav{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:100%}
+  body.b2b .foot-nav h4{margin:0 0 4px;font-size:.8rem}body.b2b .foot-nav ul{padding:0;margin:0;list-style:none}body.b2b .foot-nav li{font-size:.78rem;margin:0 0 2px}
+  body.b2b .foot-id .small{font-size:.76rem;margin:.4em 0}
+  body.b2b .guides-link{padding:10px}
+}
+@media(max-width:600px){
+  body.b2b #how{display:none}
+  body.b2b .foot .listed{margin-top:8px}body.b2b .foot .listed>span:first-child{display:none}
+  body.b2b .foot .listed .lbadges a{flex-basis:0}
+  body.b2b .foot-in{gap:10px}body.b2b .foot-id img{height:28px;width:auto}
+  body.b2b .signup>div>p{display:none}body.b2b .signup .eyebrow{display:none}
+  body.b2b .mail-form .small{font-size:.76rem}
+  .trust-in li{padding-top:8px;padding-bottom:8px}
+}
+@media(max-width:600px){
+  body.b2b .foot-nav{display:block}
+  body.b2b .foot-nav>div{display:block}
+  body.b2b .foot-nav h4{display:none}
+  body.b2b .foot-nav ul{display:flex;flex-wrap:wrap;gap:2px 12px;margin-bottom:4px}
+  body.b2b .foot-nav li{margin:0}
+  body.b2b .foot-nav a{display:inline-block;padding:3px 0}
+  body.b2b .price li:nth-child(n+4),body.b2b .price .alt{display:none}
+  body.b2b .foot .listed .lbadges{max-width:300px}
+}
+@media(max-width:600px){
+  body.b2b .guides-link{display:none}
+  .tm-c{padding:10px}.tm-c p{font-size:.8rem}.tm-c h3{font-size:.9rem;margin-bottom:2px}
+  body.b2b .faq summary{padding-top:7px;padding-bottom:7px;font-size:.95rem}
+  .hx .lead{margin-bottom:10px}.hx .url-form{gap:8px}.hx-sub{margin-top:10px;font-size:.78rem}
+  .rp-t{font-size:.86rem}.rp-fix{font-size:.8rem}
+  body.b2b .signup .btn{min-height:44px}
+}
+@media(max-width:600px){body.b2b #checks .eyebrow,body.b2b #pricing .eyebrow,body.b2b #faq .eyebrow{display:none}body.b2b .burns li p{font-size:.85rem}}
