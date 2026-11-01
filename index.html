@@ -22,6 +22,8 @@
 <meta property="og:site_name" content="DeployVet">
 <meta property="og:url" content="https://deployvet.com/">
 <meta property="og:title" content="DeployVet: website security and bug check">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="/styles.css">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
@@ -31,7 +33,7 @@
 ]}
 </script>
 </head>
-<body data-board-limit="5">
+<body data-board-limit="5" class="b2b">
 <header class="nav">
   <div class="wrap nav-in">
     <a href="/" class="brand" aria-label="DeployVet home"><img src="/assets/logo.svg" alt="DeployVet" width="187" height="48"></a>
@@ -48,20 +50,59 @@
 </header>
 
 <main>
-<section class="hero">
-  <div class="wrap hero-in">
-    <p class="kicker">Free check for common problems anyone can see from the outside</p>
-    <h1 data-v="h">Website security and bug check</h1>
-    <p class="lead" data-v="sub">Enter your site's address. In under a minute you get a score, your most important issue and how to fix it. Made for freelancers, agencies and the clients they build for.</p>
-    <form id="check" class="url-form" action="#" novalidate>
-      <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
-      <label for="url" class="sr">Your website address</label>
-      <input id="url" type="url" placeholder="https://your-site.com" required>
-      <button type="submit" class="btn btn-big">Check my site</button>
-    </form>
-    <div id="check-result" class="notice" hidden aria-live="polite"></div>
-    <p class="small" style="margin-top:12px">Free, no signup, no card. Only check sites you own or manage for a client. This is not a penetration test.</p>
-    <p class="path">Site already live? Run the free check first. If it finds more than one issue, you can unlock every fix after. <a href="#pricing" data-track="hero-fixpath">See pricing</a></p>
+<section class="hero hx">
+  <div class="wrap hx-in">
+    <div class="hx-copy">
+      <p class="kicker">For agencies and teams that run several sites</p>
+      <h1 data-v="h">Catch security and launch problems across all your client sites</h1>
+      <p class="lead" data-v="sub">Check any public site from the outside in under a minute: exposed keys, open database tables, missing HTTPS and headers, broken pages. You get a grade, the most important issue and how to fix it.</p>
+      <form id="check" class="url-form" action="#" novalidate>
+        <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <label for="url" class="sr">Website address</label>
+        <input id="url" type="url" placeholder="https://client-site.com" required>
+        <button type="submit" class="btn btn-big btn-sig">Run a free check</button>
+      </form>
+      <div id="check-result" class="notice" hidden aria-live="polite"></div>
+      <p class="hx-sub"><a class="btn btn-ghost" href="/pricing.html" data-track="hero-pricing">See pricing</a><span>Free, no signup, no card. Only check sites you own or manage for a client. Not a penetration test.</span></p>
+    </div>
+    <aside class="rp" aria-label="Example report, sample data">
+      <p class="rp-label">Example report, sample data</p>
+      <div class="rp-head">
+        <div class="rp-grade" aria-label="Grade C, score 64 out of 100"><b>C</b><span>64/100</span></div>
+        <div><p class="rp-site">shop.example-client.com</p><p class="rp-meta">7 findings: 1 high, 3 medium, 3 low</p></div>
+      </div>
+      <ol class="rp-list">
+        <li class="rp-f open"><span class="sev s-high">High</span><div><p class="rp-t">Database table readable with the public key</p><p class="rp-d">The <code>orders</code> table returns rows to anyone with the key in your JavaScript.</p><p class="rp-fix"><b>Fix:</b> turn on row level security for <code>orders</code> and add a policy so users read only their own rows.</p></div></li>
+        <li class="rp-f"><span class="sev s-med">Medium</span><p class="rp-t">JavaScript source maps are public</p></li>
+        <li class="rp-f"><span class="sev s-med">Medium</span><p class="rp-t">No Content-Security-Policy header</p></li>
+        <li class="rp-f"><span class="sev s-low">Low</span><p class="rp-t">Session cookie missing the Secure flag</p></li>
+      </ol>
+      <p class="rp-foot"><a href="/sample-report.html" data-track="hero-sample">Open the full sample report</a></p>
+    </aside>
+  </div>
+</section>
+
+<section class="trust" aria-label="Facts about DeployVet">
+  <ul class="wrap trust-in">
+    <li><b>600+</b> sites checked</li>
+    <li><b>First paying customer</b> October 2026</li>
+    <li><b>Read-only</b> outside-in checks</li>
+    <li><b>Payments</b> handled by Stripe</li>
+  </ul>
+</section>
+
+<section id="teams" class="sec tm">
+  <div class="wrap">
+    <p class="eyebrow">For teams and agencies</p>
+    <h2>One place to check every client site</h2>
+    <div class="tm-grid">
+      <div class="tm-c"><h3>Check each client site</h3><p>Run the free check on any site you manage. One free check per site each month.</p></div>
+      <div class="tm-c"><h3>Weekly rescans</h3><p>DeployVet Pro checks up to 5 sites every week and emails you when something new shows up.</p></div>
+      <div class="tm-c"><h3>Before and after</h3><p>Score history for each site, so you can show a client what changed after a fix.</p></div>
+      <div class="tm-c"><h3>Hand off the fix</h3><p>Every finding comes with fix steps, prompts you can paste into a builder, and a PDF report.</p></div>
+    </div>
+    <p class="tm-cta"><a class="btn" href="/pricing.html#pro" data-track="home-teams-pro">DeployVet Pro: $29/mo</a> <a href="/for/agencies.html" data-track="home-agencies">Agency page</a></p>
+    <p class="small">Pro covers up to 5 sites. Tell us your other sites after you subscribe and we add them within one business day. Cancel any time.</p>
   </div>
 </section>
 
@@ -124,13 +165,20 @@
     <h2>Clear prices</h2>
     <p class="sub">You see the full cost before you pay.</p>
     <div class="prices">
+      <div class="price pick">
+        <span class="badge">Teams</span>
+        <h3>DeployVet Pro</h3>
+        <p class="amt">$29 <span>/mo</span></p>
+        <ul><li>Every finding and fix, for up to 5 sites</li><li>A check every week, with an email when something new shows up</li><li>Score history and before/after tracking</li><li>Fix prompts and PDF reports</li></ul>
+        <a href="#buy" class="btn" data-buy="deployvet_pro_29" data-fallback="https://buy.stripe.com/14A4gz2vR4zU2qG2GLes001" data-track="home-pro-card">Start Pro</a>
+      </div>
       <div class="price">
         <h3>Free check</h3>
         <p class="amt">$0</p>
         <ul><li>One outside check per site each month</li><li>Score, grade and summary</li><li>Details and fix for the top issue</li></ul>
-        <a href="#url" class="btn btn-line">Check my site</a>
+        <a href="#url" class="btn btn-line">Run a free check</a>
       </div>
-      <div class="price pick">
+      <div class="price">
         <span class="badge">One-time</span>
         <h3>Scan</h3>
         <p class="amt">$7 <span>once</span></p>
@@ -146,18 +194,8 @@
         <a href="#buy" class="btn btn-y" data-buy="deployvet_fix_pack">Get the Fix it pack</a>
       </div>
     </div>
-    <p class="small" style="margin-top:16px">Look after several sites? <a href="/pricing.html#pro" data-track="home-pro">DeployVet Pro</a> is $29/mo for up to 5 sites with weekly checks.</p>
     <p class="small" style="margin-top:8px">Launching a site for a client? The <a href="/launch-pack.html" data-track="pricing-launchpack">Launch Pack</a> ($39 once) is launch copy: a landing-page rewrite, social posts and a launch email, written with AI and delivered in 48 hours. It is marketing copy, not a security service.</p>
     <p class="small" style="margin-top:8px"><a href="/sample-report.html" data-track="sample-report-pricing">See a sample paid report</a> (a made-up example in the real format).</p>
-  </div>
-</section>
-
-<section id="agencies" class="sec agency-strip">
-  <div class="wrap">
-    <p class="eyebrow">For freelancers and agencies</p>
-    <h2>Check each client site before handoff</h2>
-    <p class="sub">Run the free check on every client site before you hand it over, and keep the report as a record. Add a Launch Pack ($39 per site) for launch copy written with AI and delivered in 48 hours, with one revision. The Launch Pack is copy, not a security service, and we make no promises about results.</p>
-    <p class="row"><a class="btn btn-y" href="/for/agencies.html" data-track="home-agencies">Agency page</a></p>
   </div>
 </section>
 
