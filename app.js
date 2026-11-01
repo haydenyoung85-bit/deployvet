@@ -175,7 +175,7 @@ window.DeployVet = { call, esc, friendly , attrib };
       <p class="lk-h">${esc(lockedN)} more issue${lockedN === 1 ? "" : "s"} in the full report</p>
       <div class="r-counts">${lockChips}</div>
       <div class="ph-rows">${Array.from({ length: Math.min(lockedN, 3) }, () => '<button type="button" class="ph" data-track="locked-row" aria-label="Locked issue. Select to see how to get the full report."><i></i><i></i><i></i><b class="ph-lock" aria-hidden="true">Locked</b></button>').join("")}</div>
-      <a class="btn btn-y lk-unlock" href="#buy" data-buy="deployvet_pro_29" data-domain="${host}" data-fallback="https://buy.stripe.com/14A4gz2vR4zU2qG2GLes001" data-track="locked-unlock">Unlock all fixes, $29/mo</a>
+      <a class="btn btn-y lk-unlock" href="#buy" data-buy="deployvet_pro_29" data-domain="${esc(c.host)}" data-fallback="https://buy.stripe.com/14A4gz2vR4zU2qG2GLes001" data-track="locked-unlock">Unlock all fixes, $29/mo</a>
       <p class="small">Or get them for this one site once: <a href="#buy" data-buy="deployvet_scan_once" data-domain="${esc(c.host)}" data-track="locked-scan">$7 Scan</a>.</p>
       <p class="small">Each one comes with plain fix steps you can pass to whoever built the site.</p></li>` : "";
     burns += rest;
