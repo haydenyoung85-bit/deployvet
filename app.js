@@ -112,7 +112,7 @@ window.DeployVet = { call, esc, friendly , attrib };
     return `<div class="fixpack${locked ? " quiet" : ""}"${where === "popup" ? ' id="fixpack"' : ""}>
       ${locked ? "" : `<p class="fp-h">${head}</p>
       <p class="fp-note">${n ? scanVal : "If you want a closer look, the $7 deep scan also checks your public repository or database project read-only. No pressure."} <a class="btn btn-sm${n ? " btn-y" : " btn-line"}" href="#buy" data-buy="deployvet_scan_once" data-domain="${host}" data-track="${where}-scan">${n ? "Get the full report · $7" : "Run the $7 deep scan"}</a></p>
-      <p class="lk-say">“DeployVet is one of those tools I can keep in my back pocket…” <span>Michael Frew, Frew Labs</span></p>
+      <p class="lk-say"><i class="av" aria-hidden="true">MF</i><q>DeployVet is one of those tools I can keep in my back pocket…</q> <span>Michael Frew, Frew Labs</span></p>
       <p class="fp-soft">Several sites? <a href="#buy" data-buy="deployvet_pro_29" data-domain="${host}" data-fallback="https://buy.stripe.com/14A4gz2vR4zU2qG2GLes001" data-track="${where}-pro">Pro is $29/mo</a> for up to 5, checked weekly. <a href="/sample-report.html" target="_blank" rel="noopener" data-track="sample-report">Sample report</a></p>`}
       ${r && r.check_id && top ? `<div class="fu"><p class="fu-h">Email me my results <span>(optional)</span></p>
         <form class="fu-form" data-check="${esc(r.check_id)}">
@@ -173,10 +173,10 @@ window.DeployVet = { call, esc, friendly , attrib };
     const rest = lockedN && good ? `<li><p class="small">${esc(lockedN)} smaller note${lockedN === 1 ? " is" : "s are"} not listed in the free check.</p></li>` : lockedN ? `<li class="locked-teaser" id="locked">
       <p class="lk-h">${esc(lockedN)} more issue${lockedN === 1 ? "" : "s"} found, locked</p>
       <div class="r-counts">${lockChips}</div>
-      <div class="ph-rows">${Array.from({ length: Math.min(lockedN, 3) }, () => '<button type="button" class="ph" data-track="locked-row" aria-label="Locked issue. Select to see how to get the full report."><i></i><i></i><i></i><b class="ph-lock" aria-hidden="true">Locked</b></button>').join("")}</div>
+      <div class="ph-rows">${Array.from({ length: Math.min(lockedN, 3) }, () => '<button type="button" class="ph" data-track="locked-row" aria-label="Locked issue. Select to see how to get the full report."><i></i><i></i><i></i><b class="ph-lock" aria-hidden="true"><svg viewBox="0 0 16 16" width="12" height="12"><path fill="currentColor" d="M4 7V5a4 4 0 1 1 8 0v2h1v8H3V7h1zm2 0h4V5a2 2 0 1 0-4 0v2z"/></svg>Locked</b></button>').join("")}</div>
       <p class="lk-what">The full report has the exact fix for each one, with the evidence we saw, fix prompts for your builder, and a PDF.</p>
       <a class="btn btn-y lk-unlock" href="#buy" data-buy="deployvet_scan_once" data-domain="${esc(c.host)}" data-track="locked-scan7">Get the full report · $7</a>
-      <p class="lk-say">“DeployVet is one of those tools I can keep in my back pocket…” <span>Michael Frew, Frew Labs</span></p>
+      <p class="lk-say"><i class="av" aria-hidden="true">MF</i><q>DeployVet is one of those tools I can keep in my back pocket…</q> <span>Michael Frew, Frew Labs</span></p>
       <p class="small">One-time, nothing renews. Want weekly checks on up to 5 sites instead? <a href="#buy" data-buy="deployvet_pro_29" data-domain="${esc(c.host)}" data-fallback="https://buy.stripe.com/14A4gz2vR4zU2qG2GLes001" data-track="locked-unlock">Pro is $29/mo</a>.</p>
       </li>` : "";
     burns += rest;
@@ -184,7 +184,7 @@ window.DeployVet = { call, esc, friendly , attrib };
     document.getElementById("roast-body").innerHTML = `
       <div class="r-card">
         <p class="r-label">Free check · ${esc(r.url || c.host)}</p>
-        <div class="r-top"><span class="r-score">${esc(r.score)}<small>/100</small></span><span class="r-grade" aria-label="Grade ${esc(g)}">${esc(g)}</span></div>
+        <div class="r-top"><div class="r-ring" style="--p:${Math.max(0, Math.min(100, Number(r.score) || 0))}"><span class="r-score">${esc(r.score)}<small>/100</small></span></div><span class="r-grade" aria-label="Grade ${esc(g)}">${esc(g)}</span></div>
         <h2 class="r-head" id="roast-head">${esc(head)}</h2>
         <p class="r-sub">${esc(sub)}</p>
         <div class="r-counts">${chips || '<span class="sev low">0 issues</span>'}</div>
