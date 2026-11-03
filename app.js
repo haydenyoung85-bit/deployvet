@@ -114,15 +114,15 @@ window.DeployVet = { call, esc, friendly , attrib };
       <p class="fp-note">${n ? scanVal : "If you want a closer look, the $7 deep scan also checks your public repository or database project read-only. No pressure."} <a class="btn btn-sm${n ? " btn-y" : " btn-line"}" href="#buy" data-buy="deployvet_scan_once" data-domain="${host}" data-track="${where}-scan">${n ? "Get the full report · $7" : "Run the $7 deep scan"}</a></p>
       <p class="lk-say">“DeployVet is one of those tools I can keep in my back pocket…” <span>Michael Frew, Frew Labs</span></p>
       <p class="fp-soft">Several sites? <a href="#buy" data-buy="deployvet_pro_29" data-domain="${host}" data-fallback="https://buy.stripe.com/14A4gz2vR4zU2qG2GLes001" data-track="${where}-pro">Pro is $29/mo</a> for up to 5, checked weekly. <a href="/sample-report.html" target="_blank" rel="noopener" data-track="sample-report">Sample report</a></p>`}
-      ${r && r.check_id && top ? `<details class="fu"><summary data-track="${where}-followup-open">Not ready to buy? Email me the fix for this issue</summary>
+      ${r && r.check_id && top ? `<div class="fu"><p class="fu-h">Email me my results <span>(optional)</span></p>
         <form class="fu-form" data-check="${esc(r.check_id)}">
           <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
           <label for="fu-email-${where}" class="sr">Your email</label>
           <input id="fu-email-${where}" class="fu-email" type="email" required placeholder="you@email.com" autocomplete="email">
-          <label class="ra-ok"><input type="checkbox" class="fu-consent" required><span><b>Email me this fix and one reminder.</b> We send a confirm link first. Once you confirm: the issue and fix from your check of ${host} now, and one reminder 3 days later. Nothing else, and no confirm means no emails. Unsubscribe any time. <a href="/privacy.html">Privacy</a></span></label>
-          <button type="submit" class="btn btn-sm btn-lime" data-track="${where}-followup">Email me the fix</button>
+          <label class="ra-ok"><input type="checkbox" class="fu-consent" required><span>Send my ${host} result and the fix above to this address, plus one reminder in 3 days. We send a confirm link first. Nothing else, and no confirm means no emails. Unsubscribe any time. <a href="/privacy.html">Privacy</a></span></label>
+          <button type="submit" class="btn btn-sm btn-lime" data-track="${where}-followup">Email me my results</button>
           <div class="fu-result notice" data-fu hidden aria-live="polite"></div>
-        </form></details>` : ""}</div>`;
+        </form></div>` : ""}</div>`;
   }
   // Re-check alert (A/B grades): same double opt-in newsletter flow, an unticked box, and a clear sentence of what the person is agreeing to.
   document.addEventListener("submit", async (e) => {

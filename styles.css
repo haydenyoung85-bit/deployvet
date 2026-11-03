@@ -553,3 +553,4 @@ body.b2b .faq-more{margin:12px 0 0;font-weight:600}
 .fixpack.quiet{padding:6px 14px;border-style:dashed}
 .fixpack.quiet:empty{display:none}
 .lk-unlock,.fixpack .btn-y{color:#fff!important}
+.fu .fu-h{margin:6px 0 6px;font-weight:600;color:var(--navy);font-size:.95rem}.fu .fu-h span{font-weight:400;color:#6b7080;font-size:.85rem}
