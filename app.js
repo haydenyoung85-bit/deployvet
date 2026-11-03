@@ -103,18 +103,17 @@ window.DeployVet = { call, esc, friendly , attrib };
     const tshort = tt.length > 70 ? tt.slice(0, 67) + "…" : tt;
     const head = n ? (n === 1 ? `1 issue found${tshort ? ": " + esc(tshort) : ""}. ${where === "popup" ? "It is shown in full below." : "It is shown in full in your result."}`
         : tshort ? `${n} issues found. Most important: ${esc(tshort)}. The other ${n - 1} are in the full report.` : `${n} minor notes found. They are in the full report.`)
-      : "No issues found in the free check. The paid options go deeper.";
+      : "Nothing to fix from the outside check.";
     const scanVal = n > 1 ? `Lists the other ${n - 1} issues, each with evidence and a fix. Adds a read-only check of your public repository or database project.`
       : n ? "Adds a read-only check of your public repository or database project, plus fix prompts and a PDF."
       : "Adds a read-only check of your public repository or database project, which the free check does not do. Fix prompts and a PDF included.";
     const packVal = "Full report for one site with copyable fix prompts, a PDF, and 30 days of re-checks and score tracking.";
-    return `<div class="fixpack"${where === "popup" ? ' id="fixpack"' : ""}>
-      <p class="fp-h">${head}</p>
-      <div class="offers">
-        <div class="offer offer-main"><h3 class="o-h">DeployVet Pro</h3><p class="o-v">Every issue with its fix, for up to 5 sites. A check every week, with an email when something new shows up. Score history, fix prompts and PDFs.</p><p class="o-p"><b>$29</b>/month, cancel any time</p><div class="o-act"><a class="btn offer-btn" href="#buy" data-buy="deployvet_pro_29" data-domain="${host}" data-fallback="https://buy.stripe.com/14A4gz2vR4zU2qG2GLes001" data-track="${where}-pro">Unlock all fixes: $29/mo</a></div></div>
-      </div>
-      <p class="fp-note">Just one site, one time? <a href="#buy" data-buy="deployvet_scan_once" data-domain="${host}" data-track="${where}-scan">$7 Scan</a> or <a href="#buy" data-buy="deployvet_fix_pack" data-domain="${host}" data-track="${where}-fixpack">$10 Fix it pack</a> (with 30 days of re-checks). Nothing renews. <a href="/sample-report.html" target="_blank" rel="noopener" data-track="sample-report">See a sample report</a></p>
-      <p class="fp-soft">Launching a site for a client? The <a href="/launch-pack.html" data-track="${where}-launchpack">Launch Pack</a> ($39 once) is launch copy: a landing-page rewrite, social posts and a launch email, written with AI and delivered in 48 hours. It is marketing copy, not a security service.</p>
+    const locked = where === "popup" && n > 1;
+    return `<div class="fixpack${locked ? " quiet" : ""}"${where === "popup" ? ' id="fixpack"' : ""}>
+      ${locked ? "" : `<p class="fp-h">${head}</p>
+      <p class="fp-note">${n ? scanVal : "If you want a closer look, the $7 deep scan also checks your public repository or database project read-only. No pressure."} <a class="btn btn-sm${n ? " btn-y" : " btn-line"}" href="#buy" data-buy="deployvet_scan_once" data-domain="${host}" data-track="${where}-scan">${n ? "Get the full report · $7" : "Run the $7 deep scan"}</a></p>
+      <p class="lk-say">“DeployVet is one of those tools I can keep in my back pocket…” <span>Michael Frew, Frew Labs</span></p>
+      <p class="fp-soft">Several sites? <a href="#buy" data-buy="deployvet_pro_29" data-domain="${host}" data-fallback="https://buy.stripe.com/14A4gz2vR4zU2qG2GLes001" data-track="${where}-pro">Pro is $29/mo</a> for up to 5, checked weekly. <a href="/sample-report.html" target="_blank" rel="noopener" data-track="sample-report">Sample report</a></p>`}
       ${r && r.check_id && top ? `<details class="fu"><summary data-track="${where}-followup-open">Not ready to buy? Email me the fix for this issue</summary>
         <form class="fu-form" data-check="${esc(r.check_id)}">
           <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
@@ -160,9 +159,9 @@ window.DeployVet = { call, esc, friendly , attrib };
     const g = band(r.grade, r.score), c = ctx(r), t = r.topIssue, total = totalOf(r), good = isGood(r);
     const counts = r.counts || {}, order = ["critical", "high", "medium", "low", "info"];
     const chips = order.filter((k) => counts[k]).map((k) => `<span class="sev ${k}">${esc(counts[k])} ${esc(SEVNAME[k])}</span>`).join("");
-    const head = HEADS[g];
+    const head = !t && !total ? "No issues found in the free check" : HEADS[g];
     const sub = !t ? `${c.host} scored ${r.score}/100. Our outside check found no serious issues. That is not a promise the site is safe. It means we did not find the issues we check for.`
-      : `${c.host} scored ${r.score}/100 with ${S(total, "finding")}. The most important one is shown below with the fix.`;
+      : `${c.host} scored ${r.score}/100. We found ${S(total, "issue")}. Here is the most important one in full${total > 1 ? ". The rest are in the full report" : ""}.`;
     let burns = "";
     if (t) burns += `<li><span class="sev ${esc(t.severity)}">${esc(SEVNAME[t.severity] || t.severity)}</span> <span class="small">${esc(t.category)}</span><p class="burn-l">${esc(t.title)}</p>
       ${t.detail ? `<p class="what">${esc(t.detail)}</p>` : ""}
@@ -172,12 +171,14 @@ window.DeployVet = { call, esc, friendly , attrib };
     const lockChips = li.chipsOk ? order.filter((k) => left[k]).map((k) => `<span class="sev ${k}">${esc(left[k])} ${esc(SEVNAME[k])}</span>`).join("") : "";
     // Locked rows hold NO finding text (the server sends only a count). Tapping one scrolls to the offers; the button goes to the $29/mo Pro checkout.
     const rest = lockedN && good ? `<li><p class="small">${esc(lockedN)} smaller note${lockedN === 1 ? " is" : "s are"} not listed in the free check.</p></li>` : lockedN ? `<li class="locked-teaser" id="locked">
-      <p class="lk-h">${esc(lockedN)} more issue${lockedN === 1 ? "" : "s"} in the full report</p>
+      <p class="lk-h">${esc(lockedN)} more issue${lockedN === 1 ? "" : "s"} found, locked</p>
       <div class="r-counts">${lockChips}</div>
       <div class="ph-rows">${Array.from({ length: Math.min(lockedN, 3) }, () => '<button type="button" class="ph" data-track="locked-row" aria-label="Locked issue. Select to see how to get the full report."><i></i><i></i><i></i><b class="ph-lock" aria-hidden="true">Locked</b></button>').join("")}</div>
-      <a class="btn btn-y lk-unlock" href="#buy" data-buy="deployvet_pro_29" data-domain="${esc(c.host)}" data-fallback="https://buy.stripe.com/14A4gz2vR4zU2qG2GLes001" data-track="locked-unlock">Unlock all fixes, $29/mo</a>
-      <p class="small">Or get them for this one site once: <a href="#buy" data-buy="deployvet_scan_once" data-domain="${esc(c.host)}" data-track="locked-scan">$7 Scan</a>.</p>
-      <p class="small">Each one comes with plain fix steps you can pass to whoever built the site.</p></li>` : "";
+      <p class="lk-what">The full report has the exact fix for each one, with the evidence we saw, fix prompts for your builder, and a PDF.</p>
+      <a class="btn btn-y lk-unlock" href="#buy" data-buy="deployvet_scan_once" data-domain="${esc(c.host)}" data-track="locked-scan7">Get the full report · $7</a>
+      <p class="lk-say">“DeployVet is one of those tools I can keep in my back pocket…” <span>Michael Frew, Frew Labs</span></p>
+      <p class="small">One-time, nothing renews. Want weekly checks on up to 5 sites instead? <a href="#buy" data-buy="deployvet_pro_29" data-domain="${esc(c.host)}" data-fallback="https://buy.stripe.com/14A4gz2vR4zU2qG2GLes001" data-track="locked-unlock">Pro is $29/mo</a>.</p>
+      </li>` : "";
     burns += rest;
     dlgR.className = "roast g-" + g;
     document.getElementById("roast-body").innerHTML = `

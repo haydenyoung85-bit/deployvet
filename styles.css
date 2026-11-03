@@ -544,3 +544,12 @@ body.b2b .faq-more{margin:12px 0 0;font-weight:600}
   body.b2b .signup .btn{min-height:44px}
 }
 @media(max-width:600px){body.b2b #checks .eyebrow,body.b2b #pricing .eyebrow,body.b2b #faq .eyebrow{display:none}body.b2b .burns li p{font-size:.85rem}}
+
+/* free-check paywall, Nov 3 */
+.lk-what{margin:6px 0 10px;font-size:.92rem;line-height:1.4}
+.lk-say{margin:4px 0 8px;font-size:.88rem;font-style:italic;color:#4a4f5c;border-left:3px solid #e2c24a;padding:2px 0 2px 9px}
+.lk-say span{display:block;font-style:normal;font-size:.8rem;color:#6b7080;margin-top:2px}
+.lk-say span:before{content:"— "}
+.fixpack.quiet{padding:6px 14px;border-style:dashed}
+.fixpack.quiet:empty{display:none}
+.lk-unlock,.fixpack .btn-y{color:#fff!important}
