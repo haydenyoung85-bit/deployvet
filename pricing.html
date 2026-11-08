@@ -60,7 +60,7 @@
         <span class="badge">One-time</span>
         <h3>Scan</h3>
         <p class="amt">$7 <span>once</span></p>
-        <ul><li>Pay first, then the scan runs</li><li>Every finding, with evidence and a fix</li><li>Read-only check of a public repository or database project</li><li>Fix prompts for your builder</li><li>PDF report</li></ul>
+        <ul><li>You pay first on Stripe</li><li>You prove you own the site, unless we already verified it</li><li>An automated check runs after that</li><li>Every finding, with evidence and a fix</li><li>Read-only check of a public repository or database project</li><li>Fix prompts for your builder</li><li>We email a link to the report. You can print or save a PDF from that page</li></ul>
         <a href="#buy" class="btn" data-buy="deployvet_scan_once">Get the Scan</a>
       </div>
       <div class="price pick">
@@ -71,7 +71,7 @@
         <a href="#buy" class="btn btn-y" data-buy="deployvet_fix_pack">Get the Fix it pack</a>
       </div>
     </div>
-    <p class="small" style="margin-top:16px">Prices are in US dollars. Payment is on Stripe, so we never see your card. Paid reports need proof that you own the site (a DNS TXT record or a meta tag) before the scan runs.</p>
+    <p class="small" style="margin-top:16px">Prices are in US dollars. Payment is on Stripe, so we never see your card. For a Scan or Fix it pack you pay, prove you own the site (a DNS TXT record or a meta tag) unless we already verified it, then an automated check runs. We email a link to the report. You can print or save a PDF from that page.</p>
   </div>
 </section>
 <section id="compare" class="sec band">
@@ -86,7 +86,7 @@
         <tr><th scope="row">Details and fix steps</th><td>Top finding only</td><td class="y">Every finding</td><td class="y">Every finding</td></tr>
         <tr><th scope="row">Read-only check of repository or database project</th><td class="n">No</td><td class="y">Yes</td><td class="y">Yes</td></tr>
         <tr><th scope="row">Fix prompts for your builder</th><td class="n">No</td><td class="y">Yes</td><td class="y">Yes</td></tr>
-        <tr><th scope="row">PDF report</th><td class="n">No</td><td class="y">Yes</td><td class="y">Yes</td></tr>
+        <tr><th scope="row">Print or save a PDF from the report page</th><td class="n">No</td><td class="y">Yes</td><td class="y">Yes</td></tr>
         <tr><th scope="row">One-click re-checks</th><td class="n">No</td><td class="n">No</td><td class="y">30 days</td></tr>
         <tr><th scope="row">Score history and before/after tracker</th><td class="n">No</td><td class="n">No</td><td class="y">30 days</td></tr>
       </tbody>
@@ -118,7 +118,7 @@
     <span id="more-faq"></span>
     <details><summary>Is there a subscription?</summary><p>Only if you choose DeployVet Pro ($29/mo, cancel any time). The Scan and the Fix it pack are one-time payments and nothing renews.</p></details>
     <details><summary>What is the difference between the Scan and the Fix it pack?</summary><p>The Scan is the full report once. The Fix it pack is the same report plus 30 days of one-click re-checks and score history, so you can fix issues and watch the score change.</p></details>
-    <details><summary>Do I need to prove I own the site?</summary><p>Yes, for paid reports. After you pay, you add a DNS TXT record or a meta tag, then the scan runs. The free check does not need it.</p></details>
+    <details><summary>Do I need to prove I own the site?</summary><p>For a paid Scan or Fix it pack, yes, unless we already verified the site. After you pay, you add a DNS TXT record or a meta tag. An automated check runs after that. We email a link to the report. You can print or save a PDF from that page. The free check does not need this.</p></details>
     <details><summary>Can I get a refund?</summary><p>Ask within 7 days of paying by emailing <a href="mailto:support@deployvet.com">support@deployvet.com</a>. Refunds are not automatic. See the <a href="/refunds.html">refund policy</a>.</p></details>
     <details><summary>Do you need my code or database?</summary><p>Not for the free check, which only looks at your public site. The paid Scan can also use read-only access to a repository or database project you choose to share. We can read but not change anything.</p></details>
     <details><summary>Which sites can you check?</summary><p>Any public website or web app, whether it was hand-coded or built with an AI or no-code tool. Sites that use Supabase get extra database checks.</p></details>
@@ -147,7 +147,7 @@
   <p class="small" id="buy-what"></p>
   <form>
     <input type="hidden" name="product" value="deployvet_scan_once">
-    <label for="b-email">Your email <span class="opt">(the report is sent here)</span></label><input id="b-email" name="email" type="email" required placeholder="you@email.com" autocomplete="email">
+    <label for="b-email">Your email <span class="opt" id="b-email-hint">(we email a link to the report here)</span></label><input id="b-email" name="email" type="email" required placeholder="you@email.com" autocomplete="email">
     <p class="b-for" id="b-for" hidden>For: <b id="b-host"></b> · <button type="button" class="linkbtn" id="b-change">change</button></p>
     <div id="b-domain-wrap"><label for="b-domain">Your site's address</label><input id="b-domain" name="domain" required placeholder="https://your-site.com"></div>
     <details class="b-more"><summary>Optional: platform, repository, database project</summary>

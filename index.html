@@ -89,7 +89,7 @@
 
 <section class="in-sec" id="pricing">
   <h2>Pricing</h2>
-  <p class="pline"><b>$7 once</b> for a full scan of one site, with every issue and how to fix it. <a href="#buy" data-buy="deployvet_scan_once">Buy a scan</a></p>
+  <p class="pline"><b>$7 once</b> for a deeper check of one site. You pay, prove you own the site unless we already verified it, then an automated check runs. We email a link to the report. You can print or save a PDF from that page. <a href="#buy" data-buy="deployvet_scan_once">Buy a scan</a></p>
   <p class="pline"><b>$29 a month</b> for Pro, which checks up to 5 sites every week and emails you when something new turns up. <a href="#buy" data-buy="deployvet_pro_29" data-fallback="https://buy.stripe.com/14A4gz2vR4zU2qG2GLes001" data-track="home-pro-card">Start Pro</a></p>
   <figure class="say">
     <blockquote>
@@ -122,7 +122,7 @@
   <p class="small" id="buy-what"></p>
   <form>
     <input type="hidden" name="product" value="deployvet_scan_once">
-    <label for="b-email">Your email <span class="opt">(the report is sent here)</span></label><input id="b-email" name="email" type="email" required placeholder="you@email.com" autocomplete="email">
+    <label for="b-email">Your email <span class="opt" id="b-email-hint">(we email a link to the report here)</span></label><input id="b-email" name="email" type="email" required placeholder="you@email.com" autocomplete="email">
     <p class="b-for" id="b-for" hidden>For: <b id="b-host"></b> · <button type="button" class="linkbtn" id="b-change">change</button></p>
     <div id="b-domain-wrap"><label for="b-domain">Your site's address</label><input id="b-domain" name="domain" required placeholder="https://your-site.com"></div>
     <details class="b-more"><summary>Optional: platform, repository, database project</summary>

@@ -82,14 +82,21 @@ window.DeployVet = { call, esc, friendly , attrib };
   let lastFocus = null;
 
   // Paid step after a check. C/D/F: Scan $7 first, Fix it pack $10, Launch Pack $39 as a quiet third line. Every button opens the same
-  // email-first checkout dialog (domain prefilled), so there is no tiny inline form to fumble. A/B (75+): no pitch, just an opt-in recheck alert.
+  // email-first checkout dialog (domain prefilled), so there is no tiny inline form to fumble. A/B (75+): recheck alert.
+  // If that free check left findings out, one optional $7 button opens the same checkout. Nothing extra when none are locked.
   // Real counts only. With no findings it says so and does not claim problems. Copy follows the #pricing section of index.html.
   const isGood = (r) => { const g = band(r && r.grade, r && r.score); return g === "A" || g === "B"; };
   function offersBlock(c, total, where, top, r) {
     const n = Number(total) || 0, host = esc(c.host);
     if (r && isGood(r)) {
+      const lockedN = lockInfo(r).locked;
+      const optional = lockedN > 0 ? `<div class="fp-opt">
+          <p class="fp-note">This free check left ${esc(lockedN)} finding${lockedN === 1 ? "" : "s"} out of the list. You can buy a deeper report for $7 if you want those details. Optional. Your free result stays as it is.</p>
+          <p class="fp-act"><a class="btn btn-sm btn-line" href="#buy" data-buy="deployvet_scan_once" data-domain="${host}" data-track="${where}-scan-optional">Get the deeper report · $7</a></p>
+        </div>` : "";
       return `<div class="fixpack calm"${where === "popup" ? ' id="fixpack"' : ""}>
         <p class="fp-h">No serious issues found. Want an email if a re-check finds one?</p>
+        ${optional}
         <form class="ra-form" data-domain="${host}">
           <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
           <label for="ra-email-${where}" class="sr">Your email</label>
@@ -170,7 +177,7 @@ window.DeployVet = { call, esc, friendly , attrib };
     const li = lockInfo(r), lockedN = li.locked, left = li.left;
     const lockChips = li.chipsOk ? order.filter((k) => left[k]).map((k) => `<span class="sev ${k}">${esc(left[k])} ${esc(SEVNAME[k])}</span>`).join("") : "";
     // Locked rows hold NO finding text (the server sends only a count). Tapping one scrolls to the offers; the button goes to the $29/mo Pro checkout.
-    const rest = lockedN && good ? `<li><p class="small">${esc(lockedN)} smaller note${lockedN === 1 ? " is" : "s are"} not listed in the free check.</p></li>` : lockedN ? `<li class="locked-teaser" id="locked">
+    const rest = lockedN && good ? `<li><p class="small">${esc(lockedN)} more finding${lockedN === 1 ? " is" : "s are"} not listed in this free check.</p></li>` : lockedN ? `<li class="locked-teaser" id="locked">
       <p class="lk-h">${esc(lockedN)} more issue${lockedN === 1 ? "" : "s"} found, locked</p>
       <div class="r-counts">${lockChips}</div>
       <div class="ph-rows">${Array.from({ length: Math.min(lockedN, 3) }, () => '<button type="button" class="ph" data-track="locked-row" aria-label="Locked issue. Select to see how to get the full report."><i></i><i></i><i></i><b class="ph-lock" aria-hidden="true"><svg viewBox="0 0 16 16" width="12" height="12"><path fill="currentColor" d="M4 7V5a4 4 0 1 1 8 0v2h1v8H3V7h1zm2 0h4V5a2 2 0 1 0-4 0v2z"/></svg>Locked</b></button>').join("")}</div>
@@ -447,8 +454,8 @@ window.DeployVet = { call, esc, friendly , attrib };
   const dlg = document.getElementById("buy");
   const OFFER = {
     deployvet_pro_29: { name: "DeployVet Pro", price: "$29/mo", what: "Every issue with its fix for up to 5 sites, a check every week, and an email when something new shows up.", trust: "$29 a month. Cancel any time from your account." },
-    deployvet_scan_once: { name: "DeployVet Scan", price: "$7", what: "Every issue with evidence and a fix, fix prompts for your builder, and a PDF.", trust: "One-time $7. No subscription, nothing renews." },
-    deployvet_fix_pack: { name: "DeployVet Fix it pack", price: "$10", what: "The full report with copyable fix prompts, a PDF, and 30 days of re-checks.", trust: "One-time $10. No subscription, nothing renews." },
+    deployvet_scan_once: { name: "DeployVet Scan", price: "$7", what: "What the deeper check finds, with evidence and a fix, and fix prompts for your builder.", trust: "One-time $7. No subscription, nothing renews." },
+    deployvet_fix_pack: { name: "DeployVet Fix it pack", price: "$10", what: "The full report with copyable fix prompts and 30 days of re-checks.", trust: "One-time $10. No subscription, nothing renews." },
   };
   const hostShow = (u) => String(u || "").replace(/^https?:\/\//i, "").replace(/\/.*$/, "");
   const getEmail = () => { try { return localStorage.getItem("dv_email") || ""; } catch (_) { return ""; } };
@@ -459,7 +466,12 @@ window.DeployVet = { call, esc, friendly , attrib };
     dlg.querySelector("[name=product]").value = product;
     dlg.querySelector("#buy-title").textContent = `${o.name.replace("DeployVet ", "")} · ${o.price}${o.price.includes("/") ? "" : " once"}`;
     dlg.querySelector("#buy-what").textContent = "You get: " + o.what;
-    dlg.querySelector("#buy-trust").innerHTML = `${o.trust} We only take a read-only look at your public site. After you pay on Stripe, you confirm you own the site (one DNS record or meta tag), then ${product === "deployvet_pro_29" ? "Pro turns on" : "the scan runs"}.`;
+    const hint = dlg.querySelector("#b-email-hint");
+    if (hint) hint.textContent = product === "deployvet_pro_29" ? "(the report is sent here)" : "(we email a link to the report here)";
+    const afterPay = product === "deployvet_pro_29"
+      ? " After you pay on Stripe, you confirm you own the site (one DNS record or meta tag), then Pro turns on."
+      : " You pay on Stripe first. You prove you own the site (one DNS record or meta tag), unless we already verified it. Then an automated check runs. We email a link to the report when it is ready. You can print or save a PDF from that page.";
+    dlg.querySelector("#buy-trust").textContent = `${o.trust} We only take a read-only look at your public site.${afterPay}`;
     dlg.querySelector("#buy-pay").innerHTML = `Pay ${o.price} on Stripe <span aria-hidden="true">→</span>`;
     const u = a.dataset.domain || document.getElementById("url")?.value || "";
     const dom = dlg.querySelector("[name=domain]"); dom.value = u;

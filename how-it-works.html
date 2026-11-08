@@ -48,11 +48,12 @@
 <h2>2. Read the result</h2>
 <p>Each finding has a severity (critical, high, medium, low or info), a plain description, the address where it was seen and what to change. Findings that may be intentional, such as a table that looks like a public product list, are marked as such. A score of 90 or more is an A. <a href="/methodology.html#scoring">How scores work</a>.</p>
 <h2>3. Get the full report (optional)</h2>
-<p>If there is more than one finding, you can buy the <a href="/pricing.html">Scan ($7) or the Fix it pack ($10)</a>. Both are one-time payments made on Stripe. You pay before the scan runs, and we never see your card details.</p>
+<p>You can buy the <a href="/pricing.html">Scan ($7) or the Fix it pack ($10)</a>. Both are one-time payments on Stripe. You pay before the deeper check runs, and we never see your card details.</p>
 <ul>
-<li><b>Confirm you own the site.</b> After payment you add a DNS TXT record or a meta tag so we know the scan is authorised. Sites you do not control cannot be scanned in depth.</li>
+<li><b>Confirm you own the site.</b> After payment you add a DNS TXT record or a meta tag, unless we already verified this site. The deeper check does not start before that. Sites you do not control cannot be scanned in depth.</li>
 <li><b>Optional extras.</b> You may give us a public GitHub repository or a Supabase project address. We only read public information and never change anything. Never send a secret key.</li>
-<li><b>The report.</b> Every finding with evidence and a fix, fix prompts you can paste into your builder, and a PDF. It is emailed to you.</li>
+<li><b>The check.</b> It is automated. When it finishes, we email you a link to the report.</li>
+<li><b>The report.</b> The page lists what the check found, with evidence and a fix, and fix prompts you can paste into your builder. You can print or save a PDF from that page in your browser.</li>
 </ul>
 <h2>4. Fix and check again</h2>
 <p>Work through the findings, then run the check again to see the score change. The Fix it pack includes 30 days of one-click re-checks and score history. DeployVet does not change your site. You or your developer make the fixes.</p>
