@@ -62,6 +62,32 @@
 <p class="small">We use this only to write your pack and email you about it. Delivered within 48 hours by email, written with AI, one revision round included, no results promised. Questions: <a href="mailto:support@deployvet.com">support@deployvet.com</a></p>
 </form>
 </div>
+<div id="fix-box" hidden>
+<p class="eyebrow">We fix it for you</p>
+<h1>Paid. Now tell us how to get in.</h1>
+<p>Fixed within 48 hours of getting access, or your money back. You do not need a DNS record before we start.</p>
+<form class="box" id="fix-form">
+<input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+<label for="f-url">Site address</label><input id="f-url" name="url" required placeholder="https://your-app.vercel.app">
+<label for="f-built">What it's built with</label>
+<select id="f-built" name="builder" required>
+<option value="lovable">Lovable</option>
+<option value="bolt">Bolt</option>
+<option value="vercel">Vercel</option>
+<option value="netlify">Netlify</option>
+<option value="replit">Replit</option>
+<option value="other">Other</option>
+</select>
+<label for="f-email">Best email</label><input id="f-email" name="email" type="email" required autocomplete="email" placeholder="you@email.com">
+<label for="f-access">How should we get in?</label>
+<textarea id="f-access" name="access" required rows="3" maxlength="800" placeholder="GitHub repo invite, or a collaborator invite on Lovable, Vercel, Netlify, or Replit"></textarea>
+<label for="f-notes">Anything we should know <span class="opt">(optional)</span></label>
+<textarea id="f-notes" name="notes" rows="3" maxlength="800"></textarea>
+<div id="f-result" class="notice" hidden aria-live="polite"></div>
+<p><button type="submit" class="btn fix-now" id="f-btn">Send this so we can start</button></p>
+<p class="small">We use this only to do the fix and to reach you about it. Questions: <a href="mailto:support@deployvet.com">support@deployvet.com</a></p>
+</form>
+</div>
 <div id="scan-box">
 <p class="eyebrow">Payment received</p>
 <h1>Thanks! One more step.</h1>
@@ -91,8 +117,25 @@
 <script src="/app.js"></script>
 <script>
 (function(){
-  if (new URLSearchParams(location.search).get("p") === "pro") { document.getElementById("pro-box").hidden = false; const sb = document.getElementById("scan-box"); if (sb) sb.hidden = true; document.title = "Welcome to Pro – DeployVet"; return; }
   const o = JSON.parse(sessionStorage.getItem("dv_order") || "{}");
+  const qs0 = new URLSearchParams(location.search);
+  if (qs0.get("p") === "fix" || o.pack === "fix" || o.product === "deployvet_fix_for_you") {
+    document.getElementById("scan-box").hidden = true;
+    document.getElementById("fix-box").hidden = false;
+    document.title = "Tell us how to fix it – DeployVet";
+    const fm = document.getElementById("fix-form"), res = document.getElementById("f-result"), btn = document.getElementById("f-btn");
+    try { fm.url.value = qs0.get("url") || o.domain || ""; fm.email.value = localStorage.getItem("dv_email") || o.email || ""; } catch (_) {}
+    fm.addEventListener("submit", async (e) => {
+      e.preventDefault(); res.hidden = true; const old = btn.innerHTML; btn.disabled = true; btn.textContent = "Sending…";
+      try {
+        await DeployVet.saveFixIntake({ order_id: qs0.get("order") || o.order_id || "", session_id: qs0.get("session_id") || "", email: fm.email.value, url: fm.url.value, builder: fm.builder.value, access: fm.access.value, notes: fm.notes.value, website: fm.website.value || "" });
+        document.querySelector("#fix-box h1").textContent = "Got it. We're on it.";
+        fm.hidden = true;
+      } catch (err) { res.hidden = false; res.className = "notice err"; res.textContent = err.message || "Something went wrong."; btn.disabled = false; btn.innerHTML = old; }
+    });
+    return;
+  }
+  if (qs0.get("p") === "pro") { document.getElementById("pro-box").hidden = false; const sb = document.getElementById("scan-box"); if (sb) sb.hidden = true; document.title = "Welcome to Pro – DeployVet"; return; }
   const isLaunch = ["launch"].includes(new URLSearchParams(location.search).get("p")) || new URLSearchParams(location.search).get("pack") === "launch" || o.pack === "launch";
   if (isLaunch) {
     document.getElementById("scan-box").hidden = true; document.getElementById("lp-box").hidden = false; document.title = "Launch Pack details – DeployVet";

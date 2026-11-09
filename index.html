@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Website security and bug check | DeployVet</title>
-<meta name="description" content="Free outside-in website security and bug check. Get a score, your most important issue and how to fix it in under a minute. For freelancers, agencies and their clients.">
+<title>Is your AI-built app leaking? | DeployVet</title>
+<meta name="description" content="Paste your Lovable, Bolt, Vercel, or Netlify link. Free 10-second check. If something's wrong, we fix it for $60. Fixed within 48 hours or your money back.">
 <link rel="canonical" href="https://deployvet.com/">
-<meta property="og:description" content="Free outside-in website security and bug check. A score, your most important issue and how to fix it.">
+<meta property="og:description" content="Paste your link. Free 10-second check. If something's wrong, we fix it for $60.">
 <meta property="og:image" content="https://deployvet.com/assets/og.png">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="DeployVet: website security and bug check">
@@ -21,15 +21,15 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="DeployVet">
 <meta property="og:url" content="https://deployvet.com/">
-<meta property="og:title" content="DeployVet: website security and bug check">
+<meta property="og:title" content="Is your AI-built app leaking?">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&family=Source+Serif+4:opsz,wght@8..60,600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600;700&family=Permanent+Marker&display=swap">
 <link rel="stylesheet" href="/styles.css">
 <link rel="stylesheet" href="/home.css">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
 {"@type":"SoftwareApplication","name":"DeployVet","url":"https://deployvet.com/","applicationCategory":"SecurityApplication","operatingSystem":"Web","creator":{"@type":"Person","name":"Hayden Young"},
-"offers":[{"@type":"Offer","name":"DeployVet Free Check","price":"0","priceCurrency":"USD"},{"@type":"Offer","name":"DeployVet Scan","price":"7","priceCurrency":"USD"},{"@type":"Offer","name":"DeployVet Fix it pack","price":"10","priceCurrency":"USD"}]},
+"offers":[{"@type":"Offer","name":"DeployVet Free Check","price":"0","priceCurrency":"USD"},{"@type":"Offer","name":"We fix it for you","price":"60","priceCurrency":"USD"},{"@type":"Offer","name":"DeployVet Scan","price":"7","priceCurrency":"USD"}]},
 {"@type":"Organization","name":"DeployVet","url":"https://deployvet.com/","logo":"https://deployvet.com/assets/logo-520.png","email":"support@deployvet.com"}
 ]}
 </script>
@@ -52,26 +52,25 @@
 
 <main>
 <section class="in-hero">
-  <h1>Find the boring problems on your client sites before someone else does.</h1>
-  <p class="lead">DeployVet checks your client sites for the boring stuff that gets people hacked or embarrassed: leaked keys, open databases, missing HTTPS, broken pages. The first check is free. $29 a month watches up to 5 sites.</p>
+  <p class="kicker-hand">For your own Lovable, Bolt, Vercel, or Netlify app</p>
+  <h1>Is your AI-built app leaking?</h1>
+  <p class="lead">Paste your link. Free 10-second check.</p>
   <form id="check" class="url-form in-form" action="#" novalidate>
     <label for="url" class="sr">Site address</label>
-    <input id="url" type="url" placeholder="https://client-site.com" required>
+    <input id="url" type="url" placeholder="https://your-app.vercel.app" required>
     <button type="submit" class="btn">Check it free</button>
   </form>
   <div id="check-result" class="notice" hidden aria-live="polite"></div>
-  <p class="fine">No signup or card. Please only check sites you own or look after for a client. It is not a penetration test. So far it has checked more than 600 sites, and our first paying customer signed up this October.</p>
-  <figure class="shot" aria-label="Example report">
-    <div class="shot-bar"><span></span><span></span><span></span><em>deployvet.com/report</em></div>
-    <div class="shot-body">
-      <p class="shot-h"><b>shop.example-client.com</b> <span>62 / 100</span></p>
-      <ol>
-        <li><b>High:</b> the database answers to anyone with the public key. <i>Fix: turn on row level security for the orders table.</i></li>
-        <li><b>Medium:</b> JavaScript source maps are public.</li>
-        <li><b>Low:</b> no Content-Security-Policy header.</li>
-      </ol>
-    </div>
-    <figcaption>Example data, not a real customer. <a href="/sample-report.html">See a full sample report</a>.</figcaption>
+  <p class="fine">No signup. No card. Only check an app you made. This is not a break-in test.</p>
+  <p class="live-count" id="live-checks" hidden></p>
+  <figure class="shot" aria-label="Example of a result">
+    <p class="stamp" aria-hidden="true">C</p>
+    <p class="shot-h">Example, not a real app</p>
+    <ul class="stickies">
+      <li><b>High.</b> Strangers can read your database.</li>
+      <li><b>Medium.</b> Your source code is public.</li>
+      <li><b>Low.</b> Browsers are not told which code is allowed to run.</li>
+    </ul>
   </figure>
 </section>
 
@@ -88,24 +87,16 @@
 </section>
 
 <section class="in-sec" id="pricing">
-  <h2>Pricing</h2>
-  <p class="pline"><b>$7 once</b> for a deeper check of one site. You pay, prove you own the site unless we already verified it, then an automated check runs. We email a link to the report. You can print or save a PDF from that page. <a href="#buy" data-buy="deployvet_scan_once">Buy a scan</a></p>
-  <p class="pline"><b>$29 a month</b> for Pro, which checks up to 5 sites every week and emails you when something new turns up. <a href="#buy" data-buy="deployvet_pro_29" data-fallback="https://buy.stripe.com/14A4gz2vR4zU2qG2GLes001" data-track="home-pro-card">Start Pro</a></p>
-  <figure class="say">
-    <blockquote>
-      <p>I'm constantly making changes across my websites, and constantly introducing security issues without realizing it. DeployVet is one of those tools I can keep in my back pocket, looking over my shoulder while I keep moving forward on my projects.</p>
-      <p>I think people have gotten a little carried away with 'I'll use AI to build everything.' Before you know it, you're spending your day running infrastructure instead of solving problems for your customers. I'd rather pay for a service like this than spend my time trying to save $5 by building my own security checker.</p>
-    </blockquote>
-    <figcaption>&mdash; <a href="https://www.michaelfrew.com" rel="noopener">Michael Frew</a>, Frew Labs</figcaption>
-  </figure>
-  <p class="more"><a href="/pricing.html">Full pricing and plan details</a></p>
+  <h2>If something's wrong</h2>
+  <p class="pline"><b>$60 once.</b> We fix it for you. Fixed within 48 hours or your money back.</p>
+  <p class="more"><a href="/pricing.html">Other ways to buy</a></p>
 </section>
 
 <section class="in-sec" id="faq">
   <h2>Questions</h2>
   <details><summary>Is this a penetration test?</summary><p>No. DeployVet only looks at what anyone on the internet can already see. It finds common, real mistakes, but a clean result is not a guarantee that a site is safe.</p></details>
-  <details><summary>Can I check a site I don't own?</summary><p>Only if you look after it, for example for a client. Please don't check other people's sites.</p></details>
-  <details><summary>Will you charge me later?</summary><p>The free check never charges you. A scan is a one-time $7. Pro is $29 a month and you can cancel any time. Canceling stops the next renewal.</p></details>
+  <details><summary>Can I check a site I don't own?</summary><p>No. Only check an app you made or were asked to look after.</p></details>
+  <details><summary>Will you charge me later?</summary><p>The free check never charges you. The fix is $60 once. Nothing renews.</p></details>
   <p class="more"><a href="/pricing.html#more-faq">More questions</a></p>
 </section>
 </main>
