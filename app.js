@@ -67,6 +67,82 @@ window.DeployVet = { call, esc, friendly , attrib };
     return { total, locked: n, left, chipsOk: chipSum === n };   // chips are shown only when they add up to the headline
   }
   // </lockinfo>
+  // <findings>
+  // Plain consequence for the person who owns the app. High and critical keep the title only.
+  function consequence(f) {
+    const hay = `${(f && f.id) || ""} ${(f && f.title) || ""} ${(f && f.category) || ""}`;
+    if (/api key|secret|service_role|leaked|token|stripe key|private key/i.test(hay)) return "A key that should stay private is in the public page. Anyone can copy it and use your account.";
+    if (/content-security-policy|\bcsp\b|missing_csp/i.test(hay)) return "A browser can run extra code on your page. Someone could slip a fake login or steal what people type.";
+    if (/source map|sourcemap/i.test(hay)) return "Your original code is public. Someone can read how the app is built.";
+    if (/row level|\brls\b|database|supabase table|open table/i.test(hay)) return "People can read or change rows in your database without an account. That can include your users' info.";
+    if (/\.env|environment file|git_exposed|\.git\b|backup/i.test(hay)) return "Project files that should stay private are on the open web. They can hold passwords or show your whole project.";
+    if (/https|certificate|\bssl\b|mixed content|not secure/i.test(hay)) return "The browser may warn people the site is not private, and someone on the same network can read what they send.";
+    if (/hsts|strict-transport/i.test(hay)) return "A visitor can be sent to the unsafe version of your site before the lock kicks in.";
+    if (/x-frame|clickjack|framing/i.test(hay)) return "Another site can hide yours in a frame and trick someone into clicking the wrong thing.";
+    if (/cors|access-control/i.test(hay)) return "Other websites may be allowed to call your app and read the answer.";
+    if (/\badmin\b/i.test(hay)) return "An admin page answers without a login. A stranger might get in.";
+    if (/robots|sitemap|meta description|page title/i.test(hay)) return "Search engines may skip or misread the page. That costs you visitors.";
+    if (/broken|404|dead link/i.test(hay)) return "A page or link is dead. People hit a wall and leave.";
+    return "This is something a stranger can already see. It can cause trouble for you or the people using the app.";
+  }
+  function listFindings(r) {
+    const raw = Array.isArray(r && r.findings) && r.findings.length ? r.findings : [r && r.topIssue].concat((r && r.locked && r.locked.rows) || []);
+    const out = [], seen = new Set();
+    raw.forEach((f) => {
+      if (!f || !f.title || f.locked === true) return;
+      const severity = String(f.severity || "info").toLowerCase();
+      const key = severity + "|" + f.title;
+      if (seen.has(key)) return;
+      seen.add(key);
+      const hide = severity === "high" || severity === "critical";
+      out.push({ id: String(f.id || ""), title: String(f.title), severity, consequence: consequence(f), fix: hide ? "" : String(f.fix || ""), detail: "", location: "" });
+    });
+    return out;
+  }
+  // </findings>
+  // <intake>
+  function intakeEvent(b) {
+    const pack = {
+      order_id: String((b && b.order_id) || ""),
+      session_id: String((b && b.session_id) || ""),
+      email: String((b && b.email) || "").trim(),
+      url: String((b && b.url) || "").trim(),
+      builder: String((b && b.builder) || ""),
+      access: String((b && b.access) || "").trim(),
+      notes: String((b && b.notes) || "").trim(),
+    };
+    while (JSON.stringify(pack).length > 500 && (pack.access.length || pack.notes.length)) {
+      if (pack.access.length) pack.access = pack.access.slice(0, Math.max(0, pack.access.length - 40));
+      else pack.notes = pack.notes.slice(0, Math.max(0, pack.notes.length - 20));
+    }
+    return { event: "fix-intake", path: (pack.order_id || pack.session_id || "/thanks").slice(0, 300), referrer: JSON.stringify(pack), utm_source: "fix-intake", utm_campaign: pack.builder.slice(0, 80) };
+  }
+  // </intake>
+  async function saveFixIntake(b) {
+    if (b && b.website) return { ok: true, skipped: true };
+    const body = { order_id: b.order_id || "", session_id: b.session_id || "", email: String((b && b.email) || "").trim(), url: String((b && b.url) || "").trim(), builder: (b && b.builder) || "", access: String((b && b.access) || "").trim(), notes: String((b && b.notes) || "").trim() };
+    try { return await call("fix-intake", body); }
+    catch (e) {
+      if (e.status !== 404) throw e;
+      const res = await fetch(`${C.SUPABASE_URL}/rest/v1/page_events`, {
+        method: "POST",
+        headers: { apikey: C.SUPABASE_ANON_KEY, authorization: `Bearer ${C.SUPABASE_ANON_KEY}`, "content-type": "application/json", prefer: "return=minimal" },
+        body: JSON.stringify(intakeEvent(body)),
+      });
+      if (!res.ok) throw new Error("We could not save that. Email support@deployvet.com and include your site address.");
+      return { ok: true, stored: "page_events" };
+    }
+  }
+  window.DeployVet.saveFixIntake = saveFixIntake;
+  const liveEl = document.getElementById("live-checks");
+  if (liveEl && configured) {
+    call("leaderboard", null, "GET").then((d) => {
+      const n = d && d.totals ? Number(d.totals.roasts) : NaN;
+      if (!Number.isFinite(n) || n <= 0) return;
+      liveEl.hidden = false;
+      liveEl.textContent = n.toLocaleString("en-US") + " checks so far";
+    }).catch(() => {});
+  }
   function ctx(r) {
     const counts = r.counts || {}, t = r.topIssue || {}, host = hostOf(r.url || r.domain);
     const total = totalOf(r);
@@ -81,22 +157,18 @@ window.DeployVet = { call, esc, friendly , attrib };
   const dlgR = document.getElementById("roast");
   let lastFocus = null;
 
-  // Paid step after a check. C/D/F: Scan $7 first, Fix it pack $10, Launch Pack $39 as a quiet third line. Every button opens the same
-  // email-first checkout dialog (domain prefilled), so there is no tiny inline form to fumble. A/B (75+): recheck alert.
-  // If that free check left findings out, one optional $7 button opens the same checkout. Nothing extra when none are locked.
-  // Real counts only. With no findings it says so and does not claim problems. Copy follows the #pricing section of index.html.
+  // One paid offer on the result: $60 and we fix it. A/B (75+) stays calm, with a text link only.
+  // The $7 list is a quiet second link when something was found. Real counts only. No invented findings.
   const isGood = (r) => { const g = band(r && r.grade, r && r.score); return g === "A" || g === "B"; };
+  function scoreOffer(host, good, where) {
+    if (good) return `<p class="soft-fix"><a href="#buy" data-buy="deployvet_fix_for_you" data-domain="${host}" data-track="${where}-fix60-soft">Want us to harden it anyway? $60</a></p>`;
+    return `<a class="btn fix-now" href="#buy" data-buy="deployvet_fix_for_you" data-domain="${host}" data-track="${where}-fix60">$60. We fix it for you</a><p class="fix-promise">Fixed within 48 hours or your money back.</p><p class="quiet-list"><a href="#buy" data-buy="deployvet_scan_once" data-domain="${host}" data-track="${where}-list7">Just send me the full list · $7</a></p>`;
+  }
   function offersBlock(c, total, where, top, r) {
-    const n = Number(total) || 0, host = esc(c.host);
+    const host = esc(c.host);
     if (r && isGood(r)) {
-      const lockedN = lockInfo(r).locked;
-      const optional = lockedN > 0 ? `<div class="fp-opt">
-          <p class="fp-note">This free check left ${esc(lockedN)} finding${lockedN === 1 ? "" : "s"} out of the list. You can buy a deeper report for $7 if you want those details. Optional. Your free result stays as it is.</p>
-          <p class="fp-act"><a class="btn btn-sm btn-line" href="#buy" data-buy="deployvet_scan_once" data-domain="${host}" data-track="${where}-scan-optional">Get the deeper report · $7</a></p>
-        </div>` : "";
       return `<div class="fixpack calm"${where === "popup" ? ' id="fixpack"' : ""}>
-        <p class="fp-h">No serious issues found. Want an email if a re-check finds one?</p>
-        ${optional}
+        <p class="fp-h">All clear. Want an email if a later check finds something serious?</p>
         <form class="ra-form" data-domain="${host}">
           <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
           <label for="ra-email-${where}" class="sr">Your email</label>
@@ -106,30 +178,17 @@ window.DeployVet = { call, esc, friendly , attrib };
           <div class="ra-result notice" data-ra hidden aria-live="polite"></div>
         </form></div>`;
     }
-    const tt = top && top.title ? String(top.title).replace(/\.$/, "") : "";
-    const tshort = tt.length > 70 ? tt.slice(0, 67) + "…" : tt;
-    const head = n ? (n === 1 ? `1 issue found${tshort ? ": " + esc(tshort) : ""}. ${where === "popup" ? "It is shown in full below." : "It is shown in full in your result."}`
-        : tshort ? `${n} issues found. Most important: ${esc(tshort)}. The other ${n - 1} are in the full report.` : `${n} minor notes found. They are in the full report.`)
-      : "Nothing to fix from the outside check.";
-    const scanVal = n > 1 ? `Lists the other ${n - 1} issues, each with evidence and a fix. Adds a read-only check of your public repository or database project.`
-      : n ? "Adds a read-only check of your public repository or database project, plus fix prompts and a PDF."
-      : "Adds a read-only check of your public repository or database project, which the free check does not do. Fix prompts and a PDF included.";
-    const packVal = "Full report for one site with copyable fix prompts, a PDF, and 30 days of re-checks and score tracking.";
-    const locked = where === "popup" && n > 1;
-    return `<div class="fixpack${locked ? " quiet" : ""}"${where === "popup" ? ' id="fixpack"' : ""}>
-      ${locked ? "" : `<p class="fp-h">${head}</p>
-      <p class="fp-note">${n ? scanVal : "If you want a closer look, the $7 deep scan also checks your public repository or database project read-only. No pressure."} <a class="btn btn-sm${n ? " btn-y" : " btn-line"}" href="#buy" data-buy="deployvet_scan_once" data-domain="${host}" data-track="${where}-scan">${n ? "Get the full report · $7" : "Run the $7 deep scan"}</a></p>
-      <p class="lk-say"><i class="av" aria-hidden="true">MF</i><q>DeployVet is one of those tools I can keep in my back pocket…</q> <span>Michael Frew, Frew Labs</span></p>
-      <p class="fp-soft">Several sites? <a href="#buy" data-buy="deployvet_pro_29" data-domain="${host}" data-fallback="https://buy.stripe.com/14A4gz2vR4zU2qG2GLes001" data-track="${where}-pro">Pro is $29/mo</a> for up to 5, checked weekly. <a href="/sample-report.html" target="_blank" rel="noopener" data-track="sample-report">Sample report</a></p>`}
-      ${r && r.check_id && top ? `<div class="fu"><p class="fu-h">Email me my results <span>(optional)</span></p>
+    if (!(r && r.check_id)) return "";
+    return `<div class="fixpack quiet"${where === "popup" ? ' id="fixpack"' : ""}>
+      <div class="fu"><p class="fu-h">Email me this result <span>(optional)</span></p>
         <form class="fu-form" data-check="${esc(r.check_id)}">
           <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
           <label for="fu-email-${where}" class="sr">Your email</label>
           <input id="fu-email-${where}" class="fu-email" type="email" required placeholder="you@email.com" autocomplete="email">
-          <label class="ra-ok"><input type="checkbox" class="fu-consent" required><span>Send my ${host} result and the fix above to this address, plus one reminder in 3 days. We send a confirm link first. Nothing else, and no confirm means no emails. Unsubscribe any time. <a href="/privacy.html">Privacy</a></span></label>
-          <button type="submit" class="btn btn-sm btn-lime" data-track="${where}-followup">Email me my results</button>
+          <label class="ra-ok"><input type="checkbox" class="fu-consent" required><span>Send this ${host} result to this address, plus one reminder in 3 days. We send a confirm link first. Nothing else, and no confirm means no emails. Unsubscribe any time. <a href="/privacy.html">Privacy</a></span></label>
+          <button type="submit" class="btn btn-sm btn-lime" data-track="${where}-followup">Email me this result</button>
           <div class="fu-result notice" data-fu hidden aria-live="polite"></div>
-        </form></div>` : ""}</div>`;
+        </form></div></div>`;
   }
   // Re-check alert (A/B grades): same double opt-in newsletter flow, an unticked box, and a clear sentence of what the person is agreeing to.
   document.addEventListener("submit", async (e) => {
@@ -166,32 +225,26 @@ window.DeployVet = { call, esc, friendly , attrib };
     const g = band(r.grade, r.score), c = ctx(r), t = r.topIssue, total = totalOf(r), good = isGood(r);
     const counts = r.counts || {}, order = ["critical", "high", "medium", "low", "info"];
     const chips = order.filter((k) => counts[k]).map((k) => `<span class="sev ${k}">${esc(counts[k])} ${esc(SEVNAME[k])}</span>`).join("");
-    const head = !t && !total ? "No issues found in the free check" : HEADS[g];
-    const sub = !t ? `${c.host} scored ${r.score}/100. Our outside check found no serious issues. That is not a promise the site is safe. It means we did not find the issues we check for.`
-      : `${c.host} scored ${r.score}/100. We found ${S(total, "issue")}. Here is the most important one in full${total > 1 ? ". The rest are in the full report" : ""}.`;
-    let burns = "";
-    if (t) burns += `<li><span class="sev ${esc(t.severity)}">${esc(SEVNAME[t.severity] || t.severity)}</span> <span class="small">${esc(t.category)}</span><p class="burn-l">${esc(t.title)}</p>
-      ${t.detail ? `<p class="what">${esc(t.detail)}</p>` : ""}
-      <div class="fixbox"><b>Recommended fix</b><p>${esc(t.fix || "The full report lists step-by-step fix prompts.")}</p></div></li>`;
-    // Locked teaser: real counts only. Placeholder rows hold NO finding text.
-    const li = lockInfo(r), lockedN = li.locked, left = li.left;
-    const lockChips = li.chipsOk ? order.filter((k) => left[k]).map((k) => `<span class="sev ${k}">${esc(left[k])} ${esc(SEVNAME[k])}</span>`).join("") : "";
-    // Locked rows hold NO finding text (the server sends only a count). Tapping one scrolls to the offers; the button goes to the $29/mo Pro checkout.
-    const rest = lockedN && good ? `<li><p class="small">${esc(lockedN)} more finding${lockedN === 1 ? " is" : "s are"} not listed in this free check.</p></li>` : lockedN ? `<li class="locked-teaser" id="locked">
-      <p class="lk-h">${esc(lockedN)} more issue${lockedN === 1 ? "" : "s"} found, locked</p>
-      <div class="r-counts">${lockChips}</div>
-      <div class="ph-rows">${Array.from({ length: Math.min(lockedN, 3) }, () => '<button type="button" class="ph" data-track="locked-row" aria-label="Locked issue. Select to see how to get the full report."><i></i><i></i><i></i><b class="ph-lock" aria-hidden="true"><svg viewBox="0 0 16 16" width="12" height="12"><path fill="currentColor" d="M4 7V5a4 4 0 1 1 8 0v2h1v8H3V7h1zm2 0h4V5a2 2 0 1 0-4 0v2z"/></svg>Locked</b></button>').join("")}</div>
-      <p class="lk-what">The full report has the exact fix for each one, with the evidence we saw, fix prompts for your builder, and a PDF.</p>
-      <a class="btn btn-y lk-unlock" href="#buy" data-buy="deployvet_scan_once" data-domain="${esc(c.host)}" data-track="locked-scan7">Get the full report · $7</a>
-      <p class="lk-say"><i class="av" aria-hidden="true">MF</i><q>DeployVet is one of those tools I can keep in my back pocket…</q> <span>Michael Frew, Frew Labs</span></p>
-      <p class="small">One-time, nothing renews. Want weekly checks on up to 5 sites instead? <a href="#buy" data-buy="deployvet_pro_29" data-domain="${esc(c.host)}" data-fallback="https://buy.stripe.com/14A4gz2vR4zU2qG2GLes001" data-track="locked-unlock">Pro is $29/mo</a>.</p>
-      </li>` : "";
-    burns += rest;
+    const named = listFindings(r);
+    const extra = Math.max(0, total - named.length);
+    const head = good || (!named.length && !total) ? "All clear" : HEADS[g];
+    const sub = good || (!named.length && !total)
+      ? `${c.host} scored ${r.score}/100. Nothing serious showed up. That is not a promise the app is safe. It means this check did not find a serious problem.`
+      : `${c.host} scored ${r.score}/100. ${S(total, "issue")} showed up.`;
+    let burns = named.map((f) => `<li class="note">
+      <span class="sev ${esc(f.severity)}">${esc(SEVNAME[f.severity] || f.severity)}</span>
+      <p class="burn-l">${esc(f.title)}</p>
+      <p class="what">${esc(f.consequence)}</p>
+      ${f.fix ? `<div class="fixbox"><b>What to change</b><p>${esc(f.fix)}</p></div>` : (f.severity === "high" || f.severity === "critical" ? `<p class="lockline">The exact change is part of the $60 fix.</p>` : "")}
+    </li>`).join("");
+    if (extra) burns += `<li class="note unnamed"><p class="burn-l">${esc(extra)} more ${extra === 1 ? "issue" : "issues"} showed up</p><p class="what">This free check did not include ${extra === 1 ? "its name" : "their names"}.</p></li>`;
+    const site = esc(r.url || c.host);
     dlgR.className = "roast g-" + g;
     document.getElementById("roast-body").innerHTML = `
       <div class="r-card">
-        <p class="r-label">Free check · ${esc(r.url || c.host)}</p>
+        <p class="r-label">Free check · ${site}</p>
         <div class="r-top"><div class="r-ring" style="--p:${Math.max(0, Math.min(100, Number(r.score) || 0))}"><span class="r-score">${esc(r.score)}<small>/100</small></span></div><span class="r-grade" aria-label="Grade ${esc(g)}">${esc(g)}</span></div>
+        ${scoreOffer(site, good, "popup")}
         <h2 class="r-head" id="roast-head">${esc(head)}</h2>
         <p class="r-sub">${esc(sub)}</p>
         <div class="r-counts">${chips || '<span class="sev low">0 issues</span>'}</div>
@@ -413,9 +466,11 @@ window.DeployVet = { call, esc, friendly , attrib };
       openRoast(r);
       // Same two offers inline under the form, so they are still there when the popup closes.
       const cc = ctx(r), tot = totalOf(r);
-      out.hidden = false; out.className = "result-offers"; out.innerHTML = `<p class="ro-h">Free check done for ${esc(cc.host)}: ${esc(r.score)}/100.</p>`
-        + (r.cached && r.rescan_in_hours ? `<p class="small">This is your latest free check. A new free check is available in about ${esc(r.rescan_in_hours)} hour${r.rescan_in_hours === 1 ? "" : "s"}. Fixed something already? DeployVet Pro ($29/mo) re-checks every week and you can re-check any time, so you can confirm the fix right away.</p>` : "")
+      const good = isGood(r);
+      out.hidden = false; out.className = "result-offers"; out.innerHTML = `<p class="ro-h">${good ? "All clear" : "Free check done"} for ${esc(cc.host)}: ${esc(r.score)}/100.</p>`
+        + (r.cached && r.rescan_in_hours ? `<p class="small">This is your latest free check. A new free check is available in about ${esc(r.rescan_in_hours)} hour${r.rescan_in_hours === 1 ? "" : "s"}.</p>` : "")
         + (r.incomplete ? `<p class="small">${esc(r.incompleteNote || "Part of your site sits behind a firewall, so this score may be incomplete.")}</p>` : "")
+        + scoreOffer(esc(r.url || cc.host), good, "result")
         + offersBlock(cc, tot, "result", r.topIssue, r);
     } catch (err) { msg(out, esc(err.message), "err"); }
     busy(btn, false);
@@ -452,7 +507,10 @@ window.DeployVet = { call, esc, friendly , attrib };
 
   // ---- Checkout (Scan / Fix it pack): email first, domain prefilled, price on the button, short trust line ----
   const dlg = document.getElementById("buy");
+  // create-checkout must accept deployvet_fix_for_you. Use inline price_data and do not change existing prices:
+  // { currency: "usd", unit_amount: 6000, product_data: { name: "We fix it for you" } }
   const OFFER = {
+    deployvet_fix_for_you: { name: "We fix it for you", price: "$60", what: "We fix the problems this check found. Fixed within 48 hours of getting access, or your money back.", trust: "One-time $60. Nothing renews." },
     deployvet_pro_29: { name: "DeployVet Pro", price: "$29/mo", what: "Every issue with its fix for up to 5 sites, a check every week, and an email when something new shows up.", trust: "$29 a month. Cancel any time from your account." },
     deployvet_scan_once: { name: "DeployVet Scan", price: "$7", what: "What the deeper check finds, with evidence and a fix, and fix prompts for your builder.", trust: "One-time $7. No subscription, nothing renews." },
     deployvet_fix_pack: { name: "DeployVet Fix it pack", price: "$10", what: "The full report with copyable fix prompts and 30 days of re-checks.", trust: "One-time $10. No subscription, nothing renews." },
@@ -467,11 +525,13 @@ window.DeployVet = { call, esc, friendly , attrib };
     dlg.querySelector("#buy-title").textContent = `${o.name.replace("DeployVet ", "")} · ${o.price}${o.price.includes("/") ? "" : " once"}`;
     dlg.querySelector("#buy-what").textContent = "You get: " + o.what;
     const hint = dlg.querySelector("#b-email-hint");
-    if (hint) hint.textContent = product === "deployvet_pro_29" ? "(the report is sent here)" : "(we email a link to the report here)";
-    const afterPay = product === "deployvet_pro_29"
+    if (hint) hint.textContent = product === "deployvet_fix_for_you" ? "(so we can reach you about the fix)" : product === "deployvet_pro_29" ? "(the report is sent here)" : "(we email a link to the report here)";
+    const afterPay = product === "deployvet_fix_for_you"
+      ? " After you pay, a short form asks how we get in (a GitHub invite or a collaborator invite). You do not have to add a DNS record before we start."
+      : product === "deployvet_pro_29"
       ? " After you pay on Stripe, you confirm you own the site (one DNS record or meta tag), then Pro turns on."
       : " You pay on Stripe first. You prove you own the site (one DNS record or meta tag), unless we already verified it. Then an automated check runs. We email a link to the report when it is ready. You can print or save a PDF from that page.";
-    dlg.querySelector("#buy-trust").textContent = `${o.trust} We only take a read-only look at your public site.${afterPay}`;
+    dlg.querySelector("#buy-trust").textContent = product === "deployvet_fix_for_you" ? `${o.trust}${afterPay}` : `${o.trust} We only take a read-only look at your public site.${afterPay}`;
     dlg.querySelector("#buy-pay").innerHTML = `Pay ${o.price} on Stripe <span aria-hidden="true">→</span>`;
     const u = a.dataset.domain || document.getElementById("url")?.value || "";
     const dom = dlg.querySelector("[name=domain]"); dom.value = u;
@@ -496,11 +556,14 @@ window.DeployVet = { call, esc, friendly , attrib };
       try {
         const r = await call("create-checkout", body);
         try { localStorage.setItem("dv_email", String(body.email || "").trim()); } catch (_) {}
-        sessionStorage.setItem("dv_order", JSON.stringify({ order_id: r.order_id, site_id: r.site_id, verify_token: r.verify_token, domain: body.domain }));
-        location.href = r.url; // Stripe Checkout. The scan runs only after payment and domain proof.
+        const order = { order_id: r.order_id, site_id: r.site_id, verify_token: r.verify_token, domain: body.domain, email: body.email, product: body.product };
+        if (body.product === "deployvet_fix_for_you") order.pack = "fix";
+        sessionStorage.setItem("dv_order", JSON.stringify(order));
+        location.href = r.url; // Stripe Checkout. The $60 fix collects access on the thanks page. Scans still wait for domain proof.
       } catch (err) {
         if (body.product === "deployvet_pro_29" && !(err.status >= 400 && err.status < 500)) { location.href = "https://buy.stripe.com/14A4gz2vR4zU2qG2GLes001"; return; } // backend down: fall back to the Stripe Payment Link
-        msg(document.getElementById("buy-result"), esc(err.message), "err"); busy(btn, false); }
+        const unknown = body.product === "deployvet_fix_for_you" && /unknown product/i.test(err.message || "");
+        msg(document.getElementById("buy-result"), esc(unknown ? "The $60 card form is not switched on yet. Email support@deployvet.com with your site address and we will send a pay link. Nothing was charged." : err.message), "err"); busy(btn, false); }
     });
   }
   // Back from Stripe without paying: say so plainly.
