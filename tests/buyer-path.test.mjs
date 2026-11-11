@@ -233,3 +233,24 @@ test("pricing still lists the older products and how-it-works leads with the $60
   assert.match(read("thanks.html"), /Netlify/);
   assert.match(read("thanks.html"), /Replit/);
 });
+
+test("homepage, sitemap, and llms.txt list every published guide", () => {
+  const guidePage = read("guides/index.html");
+  const hrefs = [...new Set([...guidePage.matchAll(/href="(\/guides\/[^"]+\.html)"/g)].map((m) => m[1]))];
+  assert.ok(hrefs.length >= 13, "expected the guide index to link each guide");
+  const home = read("index.html");
+  const sitemap = read("sitemap.xml");
+  const llms = read("llms.txt");
+  assert.match(llms, /^# DeployVet\n\n> /);
+  assert.match(llms, /\$60/);
+  assert.match(llms, /48 hours/);
+  assert.match(llms, /Check it free/);
+  for (const name of ["Lovable", "Bolt", "Replit", "Cursor"]) assert.match(llms, new RegExp(name));
+  for (const href of hrefs) {
+    const abs = "https://deployvet.com" + href;
+    assert.ok(home.includes(href), "homepage missing " + href);
+    assert.ok(sitemap.includes(abs), "sitemap missing " + abs);
+    assert.ok(llms.includes(abs), "llms.txt missing " + abs);
+  }
+  assert.equal(sitemap.includes("cursor-vibe-coded-app-security.html"), false);
+});

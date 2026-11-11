@@ -1,46 +1,80 @@
 # DeployVet
 
-> DeployVet runs outside-in website security and bug checks for freelancers, agencies and the clients they build for. It looks at a live site the way a visitor would and reports common, externally visible problems with a score, a grade, severities and fixes. Run by Hayden Young. It is not a penetration test, an audit or a certification.
+> DeployVet gives a free outside-in security and bug check for an app you built, including apps made with Lovable, Bolt, Replit, Cursor, and other AI or no-code tools. The main paid offer is a one-time $60 "We fix it for you" service: fixed within 48 hours of getting access, or your money back. Run by Hayden Young. It is not a penetration test, an audit, or a certification.
 
-## What it checks
-- Exposed keys and secrets in public JavaScript and files
-- Open database tables (public Supabase key with anonymous reads)
-- Exposed files and routes (environment files, .git folders, backups, source maps, open admin or API routes)
-- Security headers, HTTPS and mixed content
-- Broken links and basic search-visibility items
-- Findings and scores are rule-based. Fix prompts are templates. Details: https://deployvet.com/methodology.html
+DeployVet looks at a live site the way a visitor would and reports common problems anyone can already see. You get a score out of 100, a grade, and a plain description. Findings and scores are rule-based. A clean result means those checks found nothing; it is not a guarantee the app is safe. Only check a site you own or were asked to look after.
 
-## Pricing (USD)
-- Free check: $0. One outside check per site each month. Score, grade, summary and the most important finding in full with its fix.
-- Scan: $7 one-time. Paid first, then the scan runs. Every finding with evidence and a fix, fix prompts, PDF, read-only check of a public repository or database project.
-- Fix it pack: $10 one-time, one site. The Scan plus 30 days of one-click re-checks and score history. No subscription.
-- DeployVet Pro: $29/month for teams and agencies, up to 5 sites, weekly checks with email alerts. Start by emailing hello@deployvet.com. Cancel any time.
-- Launch Pack: $39 one-time. Launch copy (landing-page rewrite, 5 X posts, 2 LinkedIn posts, a launch email) written with AI and delivered in 48 hours. Marketing copy, not security.
-- Paid reports need proof of site ownership (DNS TXT record or meta tag). Only check sites you own or have permission to check.
+## Free check
+
+Start at [https://deployvet.com/](https://deployvet.com/), paste the app address, and press "Check it free". No signup and no card. The homepage calls it a free 10-second check. The pricing page says it is one outside check per site each month, with a score, a grade, a summary, and the most important finding in full with its fix.
+
+What it looks at, from the homepage and the methodology page:
+
+- API keys and secrets left in public page code
+- Supabase or Firebase databases that anyone can read, including a public Supabase key that allows anonymous reads
+- HTTPS, HTTP redirects, mixed content, and certificate problems
+- Missing security headers, and exposed files and routes such as environment files, `.git`, backups, source maps, and admin or API routes that answer without a login
+- Broken links, missing pages, and basic search-visibility items such as titles, descriptions, robots.txt, and sitemaps
+
+The how-it-works page says the exact change for a high or critical problem stays with the paid fix. It does not log in, test business logic, or try to break in. Details: [Methodology](https://deployvet.com/methodology.html) and [How we grade](https://deployvet.com/how-we-grade.html).
+
+## We fix it for you ($60)
+
+One-time payment in US dollars. Nothing renews. You pay on Stripe, and DeployVet does not see the card.
+
+- Run the free check first
+- DeployVet fixes what that check found, in your project
+- After you pay, you say how to get in (a GitHub invite or a collaborator invite). A DNS record is not required before work starts
+- Fixed within 48 hours of getting access, or your money back. Access means a working GitHub invite or collaborator invite. The 48 hours start then, not when you pay
+- If that deadline is missed, email support@deployvet.com and the $60 is refunded. Refunds are not automatic. Policy: [Refunds](https://deployvet.com/refunds.html)
 
 ## Who it is for
-- Freelancers and agencies checking client sites before handoff
-- Site owners who want a quick outside check
+
+- People checking an app they made, including apps built with Lovable, Bolt, Replit, Cursor, Vercel, Netlify, and other AI or no-code tools. The checkout form also lists v0 and Bubble
+- Any public website, hand-coded or built with an AI or no-code tool, that you own or were asked to look after. Sites that use Supabase get extra database checks
+- The about page also describes the same check for freelancers, agencies, and the clients they build for. The how-it-works page says the check itself is built for one person looking at their own app
 
 ## Who it is not for
-- Anyone who needs a formal penetration test, compliance attestation or legal security sign-off
+
+- Anyone who needs a penetration test, a security audit, a compliance certification, or a legal sign-off
+- Checking a site you do not own and were not asked to look after
+
+## Other prices still on the site
+
+The pricing page still sells these in addition to the free check and the $60 fix. The how-it-works page says the $7 Scan is still there. It is a written report, not a fix.
+
+- Scan: $7 one-time. You pay first, prove you own the site unless it was already verified, then an automated check runs. Every finding with evidence and a fix, fix prompts, and a link to a report you can print or save as a PDF. It can also read a public repository or database project you share. Read-only
+- Fix it pack: $10 one-time, for one site. The Scan plus 30 days of one-click re-checks and score history. Nothing renews
+- DeployVet Pro: $29 per month, for up to 5 sites, with a weekly check and an email when something new shows up. Cancel any time
+- Launch Pack: $39 one-time. Marketing copy for one site (a landing-page rewrite, five posts for X, two for LinkedIn, and a launch email), written with AI and delivered within 48 hours. Not a security service, and it does not promise traffic or sales
+
+The [fixes page](https://deployvet.com/fixes.html) says the usual offer on the check is still the $60 fix. It also lists larger jobs agreed before any work starts: a $150 quick fix, a $300 standard fix, and a full cleanup quoted from $400.
 
 ## Links
-- Home: https://deployvet.com/
-- How it works: https://deployvet.com/how-it-works.html
-- Methodology: https://deployvet.com/methodology.html
-- How we grade: https://deployvet.com/how-we-grade.html
-- Badge for A and B results (outside-in check, not a certification): https://deployvet.com/badge.html
-- Pricing: https://deployvet.com/pricing.html
-- About: https://deployvet.com/about.html
-- Contact: https://deployvet.com/contact.html (support@deployvet.com)
+
+- [Home and free check](https://deployvet.com/): paste a link and run the free check
+- [Pricing](https://deployvet.com/pricing.html): the $60 fix, the free check, and the other prices
+- [How it works](https://deployvet.com/how-it-works.html): from the free check to the $60 fix
+- [Methodology](https://deployvet.com/methodology.html): what is checked, what is not, and how scoring works
+- [How we grade](https://deployvet.com/how-we-grade.html)
+- [Sample report](https://deployvet.com/sample-report.html)
+- [About](https://deployvet.com/about.html): run by Hayden Young
+- [Contact](https://deployvet.com/contact.html): support@deployvet.com
+- [Refunds](https://deployvet.com/refunds.html): the $60 48-hour promise and other refund rules
+- [All guides](https://deployvet.com/guides/)
 
 ## Guides
-- https://deployvet.com/guides/ (all guides)
-- Supabase service_role key exposed: what to do: https://deployvet.com/guides/supabase-service-role-key-exposed.html
-- Stripe success page is not proof of payment: https://deployvet.com/guides/stripe-success-page-is-not-proof-of-payment.html
-- Why does my website say "Not secure"?: https://deployvet.com/guides/why-does-my-website-say-not-secure.html
-- How do I know if my website was hacked?: https://deployvet.com/guides/how-do-i-know-if-my-website-was-hacked.html
-- Is my website secure? A 15-minute check: https://deployvet.com/guides/is-my-website-secure.html
-- My SSL certificate expired: what to do: https://deployvet.com/guides/ssl-certificate-expired-what-to-do.html
-- Exposed JavaScript source maps: how to check and fix: https://deployvet.com/guides/exposed-javascript-source-maps.html
+
+- [Is my Lovable app secure?](https://deployvet.com/guides/is-my-lovable-app-secure.html): Supabase Row Level Security, leaked keys, and open pages before a Lovable launch
+- [Bolt.new app security checklist](https://deployvet.com/guides/bolt-new-app-security-checklist.html): keys, database rules, open routes, and headers
+- [Security for apps built with Cursor](https://deployvet.com/guides/cursor-app-security.html): keys, auth, database rules, and dependencies before you ship
+- [Replit app security before launch](https://deployvet.com/guides/replit-app-security-before-launch.html): Secrets, database access, open routes, and public code
+- [Supabase RLS check for AI-built apps](https://deployvet.com/guides/supabase-rls-check-for-ai-apps.html): open tables and weak policies in Lovable, Bolt, Cursor, or Replit apps
+- [Leaked API keys in your frontend](https://deployvet.com/guides/leaked-api-keys-in-frontend.html): how to find secret keys in the JavaScript of an AI-built app
+- [Supabase service_role key exposed: what to do](https://deployvet.com/guides/supabase-service-role-key-exposed.html): fix the cause, then rotate, then check for misuse
+- [Stripe success page is not proof of payment](https://deployvet.com/guides/stripe-success-page-is-not-proof-of-payment.html): do not unlock paid features just because someone opened /success
+- [Why does my website say "Not secure"?](https://deployvet.com/guides/why-does-my-website-say-not-secure.html): four usual causes of a "Not secure" warning
+- [How do I know if my website was hacked?](https://deployvet.com/guides/how-do-i-know-if-my-website-was-hacked.html): signs a site owner can check, and what to do next
+- [Is my website secure? A 15-minute check](https://deployvet.com/guides/is-my-website-secure.html): six checks a site owner can do, and what an outside check adds
+- [My SSL certificate expired: what to do](https://deployvet.com/guides/ssl-certificate-expired-what-to-do.html): find who handles the certificate, renew it, and check every version of the address
+- [Exposed JavaScript source maps: how to check and fix](https://deployvet.com/guides/exposed-javascript-source-maps.html): how a public source map shows your original code, and how to turn maps off
